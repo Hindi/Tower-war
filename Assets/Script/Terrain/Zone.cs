@@ -7,6 +7,10 @@ public class Zone : MonoBehaviour {
     [SerializeField]
     private GameObject hexagonPrefab;
 
+    [SerializeField]
+    private float timeBeforeFadeAway;
+    private float mouseLeaveTime;
+
     private Dictionary<int, Hexagon> hexagonDict;
 
 	// Use this for initialization
@@ -28,11 +32,13 @@ public class Zone : MonoBehaviour {
             {
                 currentHexa = (GameObject)Instantiate(hexagonPrefab);
                 currHexaScript = currentHexa.GetComponent<Hexagon>();
-                width = currHexaScript.spriteRect().width / 100;
-                height = currHexaScript.spriteRect().height / 100;
+                Rect rect = currentHexa.GetComponent<SpriteSwitcher>().CurrentSprite.rect;
+
+                width = rect.width / 100;
+                height = rect.height / 84;
                 offestW = width / 2;
-                currentHexa.transform.position = new Vector3(offsetL + i * (width + offestW), 0, j * height / 2.4f);
-                currentHexa.transform.parent = this.transform;
+                currentHexa.transform.position = new Vector3(offsetL + i * (width + offestW), j * height / 2.4f, 0);
+                currHexaScript.Zone = this;
                 currHexaScript.calcId();
 
                 hexagonDict.Add(currHexaScript.Id, currHexaScript);
@@ -48,4 +54,20 @@ public class Zone : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void notifyMouseOver()
+    {
+        foreach (Transform g in transform)
+        {
+            g.GetComponent<Fader>().setRendererVisible(true);
+        }
+    }
+
+    public void notifyMouseExit()
+    {
+        foreach(Transform g in transform)
+        {
+            g.GetComponent<Fader>().setRendererVisible(false);
+        }
+    }
 }
