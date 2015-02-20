@@ -7,7 +7,8 @@ public delegate void Callback<T, U>(T arg1, U arg2);
 
 public enum EnumEvent
 {
-    LOADLEVEL
+    LOADLEVEL,      //Load Unity level
+    TILEMAPUPDATE   //Notify the map updated (for pathfinding)
 }
 
 /// <summary>

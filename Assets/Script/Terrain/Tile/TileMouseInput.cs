@@ -1,47 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
-public class Hexagon : InterractableTerrainElement
+public class TileMouseInput : InterractableTerrainElement
 {
-    private Zone zone;
-    public Zone Zone
-    {
-        get { return zone; }
-        set 
-        { 
-            zone = value;
-            transform.parent = value.transform;
-        }
-    }
 
-    private int id;
-    public int Id
-    {
-        get { return id; }
-    }
-
-    private List<int> neighboursIds;
-    public List<int> NeighboursIds
-    {
-        get { return neighboursIds; }
-    }
+    [SerializeField]
+    private OccupentHolder occupentHolder;
 
     private bool clicked = false;
 
     public Rect spriteRect()
     {
         return GetComponent<SpriteSwitcher>().CurrentSprite.rect;
-    }
-
-    void addNeighBourId(int id)
-    {
-        neighboursIds.Add(id);
-    }
-
-    public void calcId()
-    {
-        id = (int)(transform.position.x * 1000 + transform.position.y * 10);
     }
 
     public void setVisible(bool b)
@@ -51,20 +21,29 @@ public class Hexagon : InterractableTerrainElement
 
     public override void onMouseOver()
     {
-        if(!clicked)
+        if (!clicked)
             GetComponent<SpriteSwitcher>().setMouseOverSprite();
-        zone.notifyMouseOver();
+        GetComponent<Tile>().Zone.notifyMouseOver();
     }
 
     public override void onMouseExit()
     {
         resetToIdle();
-        zone.notifyMouseExit();
+        GetComponent<Tile>().Zone.notifyMouseExit();
     }
 
     public override void onMouseDown()
     {
         GetComponent<SpriteSwitcher>().setMouseClickSprite();
+        //TODO : Use UI to build and destroy the tower
+        if (!occupentHolder.IsOccupied)
+            occupentHolder.Occupent = GameObject.FindGameObjectWithTag("TowerBuilder").GetComponent<TowerBuilder>().buildTower(transform.position);
+        else
+        {
+            GameObject.FindGameObjectWithTag("TowerBuilder").GetComponent<TowerBuilder>().destroyTower(occupentHolder.Occupent);
+            occupentHolder.Occupent = null;
+        }
+
         clicked = true;
     }
 
@@ -78,4 +57,5 @@ public class Hexagon : InterractableTerrainElement
         GetComponent<SpriteSwitcher>().setIdleSprite();
         clicked = false;
     }
+
 }

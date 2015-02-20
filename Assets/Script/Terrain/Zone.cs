@@ -5,17 +5,29 @@ using System.Collections.Generic;
 public class Zone : MonoBehaviour {
 
     [SerializeField]
-    private GameObject hexagonPrefab;
+    private GameObject tilePrefab;
 
-    [SerializeField]
-    private float timeBeforeFadeAway;
-    private float mouseLeaveTime;
+    private GameObject startTile;
+    public GameObject StartTile
+    {
+        get { return startTile; }
+    }
 
-    private Dictionary<int, Hexagon> hexagonDict;
+    private GameObject endTile;
+    public GameObject EndTile
+    {
+        get { return endTile; }
+    }
+
+    private Dictionary<int, Tile> tileDict;
+    public Dictionary<int, Tile> TileDict
+    {
+        get { return tileDict; }
+    }
 
 	// Use this for initialization
 	void Start () {
-        hexagonDict = new Dictionary<int, Hexagon>();
+        tileDict = new Dictionary<int, Tile>();
 
         //Calculate the dimension that we'll use
         float width = 0;
@@ -23,31 +35,39 @@ public class Zone : MonoBehaviour {
         float offestW;
         float offsetL = 0;
 
-        GameObject currentHexa;
-        Hexagon currHexaScript;
+        GameObject currentTile = null;
+        Tile currTileScript;
 
         for (int j = 0; j < 20; ++j)
         {
             for (int i = 0; i < 10; ++i)
             {
-                currentHexa = (GameObject)Instantiate(hexagonPrefab);
-                currHexaScript = currentHexa.GetComponent<Hexagon>();
-                Rect rect = currentHexa.GetComponent<SpriteSwitcher>().CurrentSprite.rect;
+                currentTile = (GameObject)Instantiate(tilePrefab);
+                currTileScript = currentTile.GetComponent<Tile>();
+                Rect rect = currentTile.GetComponent<SpriteSwitcher>().CurrentSprite.rect;
 
                 width = rect.width / 100;
                 height = rect.height / 84;
                 offestW = width / 2;
-                currentHexa.transform.position = new Vector3(offsetL + i * (width + offestW), j * height / 2.4f, 0);
-                currHexaScript.Zone = this;
-                currHexaScript.calcId();
+                currentTile.transform.position = new Vector3(offsetL + i * (width + offestW), j * height / 2.4f, 0);
+                currTileScript.Zone = this;
+                currTileScript.calcId();
 
-                hexagonDict.Add(currHexaScript.Id, currHexaScript);
+                tileDict.Add(currTileScript.Id, currTileScript);
+                if (i == 0 && j == 0)
+                    startTile = currentTile;
             }
             if (offsetL == 0)
                 offsetL = width * 2 / 2.69f;
             else
                 offsetL = 0;
         }
+        endTile = currentTile;
+
+        foreach (KeyValuePair<int, Tile> p in tileDict)
+            p.Value.catchNeighboursIds();
+
+        GetComponent<Pathfinder>().findPath();
 	}
 	
 	// Update is called once per frame

@@ -7,6 +7,9 @@ public class SpriteSwitcher : MonoBehaviour {
     private Sprite idle;
 
     [SerializeField]
+    private Sprite path;
+
+    [SerializeField]
     private Sprite mouseOver;
 
     [SerializeField]
@@ -14,6 +17,12 @@ public class SpriteSwitcher : MonoBehaviour {
 
     [SerializeField]
     private GameObject spriteHolder;
+    public GameObject SpriteHolder
+    {
+        get { return spriteHolder; }
+    }
+
+
     [SerializeField]
     private SpriteRenderer spriteRenderer;
 
@@ -32,6 +41,7 @@ public class SpriteSwitcher : MonoBehaviour {
     {
         spriteRenderer = spriteHolder.GetComponent<SpriteRenderer>();
         currentSprite = spriteRenderer.sprite;
+        //setOpacitiy(0);
     }
 
     public void setRendererVisible(bool b)
@@ -47,6 +57,11 @@ public class SpriteSwitcher : MonoBehaviour {
     public void setIdleSprite()
     {
         setActiveSprite(idle);
+    }
+
+    public void setPathSprite()
+    {
+        setActiveSprite(path);
     }
 
     public void setMouseClickSprite()
@@ -74,6 +89,13 @@ public class SpriteSwitcher : MonoBehaviour {
         if (spriteRenderer.color.a - value < 0)
             return;
         spriteRenderer.color = new Color(curColor.r, curColor.g, curColor.b, curColor.a - value);
+    }
+
+    public void setOpacitiy(float value)
+    {
+        value = Mathf.Min(Mathf.Max(value, 0), 1);
+        Color curColor = spriteRenderer.color;
+        spriteRenderer.color = new Color(curColor.r, curColor.g, curColor.b, value);
     }
 
     public bool isTransparent()
