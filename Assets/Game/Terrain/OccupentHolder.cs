@@ -14,22 +14,21 @@ public class OccupentHolder : MonoBehaviour {
 
     private GameObject occupent;
 
-    public void addOccupen(GameObject occ)
+    public void addOccupent(GameObject occ)
     {
         occupent = occ;
         IsOccupied = true;
         EventManager.Raise(EnumEvent.TILEMAPUPDATE);
     }
 
-
-    public bool canBuild()
+    public bool hasCreepOnIt()
     {
-        return (!isOccupied && creepCounter == 0);
+        return (creepCounter > 0);
     }
 
     public void destroyOccupent()
     {
-        Destroy(occupent);
+        occupent.GetComponent<Activity>().Active = false;
         IsOccupied = false;
         EventManager.Raise(EnumEvent.TILEMAPUPDATE);
     }

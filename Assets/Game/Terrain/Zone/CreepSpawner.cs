@@ -21,7 +21,7 @@ public class CreepSpawner : MonoBehaviour {
     }
 
     [SerializeField]
-    private CreepFactory creepFactory;
+    private Factory factory;
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +34,7 @@ public class CreepSpawner : MonoBehaviour {
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject creep = creepFactory.spawnCreep(EnumCreep.BASIC, startTile.transform.position);
+            GameObject creep = factory.spawn(EnumSpawn.BASIC, startTile.transform.position);
             creep.GetComponent<CreepMovement>().Path = pathfinder.Result;
             creep.GetComponent<CreepMovement>().Pathfinder = pathfinder;
         }

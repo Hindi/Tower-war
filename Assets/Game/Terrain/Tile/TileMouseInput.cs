@@ -33,12 +33,15 @@ public class TileMouseInput : InterractableTerrainElement
     public override void onMouseDown()
     {
         //TODO : Use UI to build and destroy the tower
-        if (occupentHolder.canBuild() && GetComponent<Tile>().Zone.canBuildHere(GetComponent<Tile>()))
-            occupentHolder.addOccupen(GameObject.FindGameObjectWithTag("TowerBuilder").GetComponent<TowerBuilder>().buildTower(gameObject));
-        else
+        if (!occupentHolder.hasCreepOnIt())
         {
-            //GameObject.FindGameObjectWithTag("TowerBuilder").GetComponent<TowerBuilder>().destroyTower(occupentHolder.Occupent);
-            occupentHolder.destroyOccupent();
+            if (!occupentHolder.IsOccupied && GetComponent<Tile>().Zone.canBuildHere(GetComponent<Tile>()))
+                occupentHolder.addOccupent(Factory.Instance.spawn(EnumSpawn.TOWER, transform.position));
+            else
+            {
+                //GameObject.FindGameObjectWithTag("TowerBuilder").GetComponent<TowerBuilder>().destroyTower(occupentHolder.Occupent);
+                occupentHolder.destroyOccupent();
+            }
         }
     }
 

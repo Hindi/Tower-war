@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(CreepActivity))]
 public class CreepMovement : MonoBehaviour
 {
     private List<Vector3> path;
@@ -36,6 +37,11 @@ public class CreepMovement : MonoBehaviour
     {
         EventManager.AddListener(EnumEvent.TILEMAPUPDATE, onMapUpdate);
     }
+    
+    public void spawn()
+    {
+        path = pathfinder.Result;
+    }
 
     void onMapUpdate()
     {
@@ -66,7 +72,7 @@ public class CreepMovement : MonoBehaviour
         {
             if (path.Count == 0 || nextPosition == path[path.Count - 1])
             {
-                Destroy(gameObject);
+                GetComponent<CreepActivity>().Active = false;
             }
             else
                 setNextPosition(currentPositionId++);
@@ -75,15 +81,12 @@ public class CreepMovement : MonoBehaviour
 
     void OnDestroy()
     {
-        getCurrentTile().GetComponent<OccupentHolder>().notifyCreepDestruction();
         EventManager.RemoveListener(EnumEvent.TILEMAPUPDATE, onMapUpdate);
     }
 
     void refreshPath(int tileId)
     {
-        path = pathfinder.findPathFromPosition(tileId);
-        currentPositionId = 0;
-        setNextPosition(currentPositionId);
+        Path = pathfinder.findPathFromPosition(tileId);
     }
 
     void setNextPosition(int posId)
@@ -94,5 +97,10 @@ public class CreepMovement : MonoBehaviour
             nextPosition = path[posId];
         transform.LookAt(nextPosition);
         direction = Vector3.Normalize(nextPosition);
+    }
+
+    public void notifyDesactivation()
+    {
+        getCurrentTile().GetComponent<OccupentHolder>().notifyCreepDestruction();
     }
 }

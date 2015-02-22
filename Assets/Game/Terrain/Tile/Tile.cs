@@ -75,6 +75,7 @@ public class Tile : MonoBehaviour
 
     public void calcId()
     {
+        //TODO CHANGE THIS
         id = (int)(transform.position.x * 1000 + transform.position.y * 10);
     }
 
