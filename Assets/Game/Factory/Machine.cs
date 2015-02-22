@@ -59,7 +59,7 @@ public class Machine : MonoBehaviour
                 GameObject.Destroy(obj);
                 break;
             }
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(30);
         }
     }
 }

@@ -33,6 +33,11 @@ public class OccupentHolder : MonoBehaviour {
         EventManager.Raise(EnumEvent.TILEMAPUPDATE);
     }
 
+    public bool canBuild()
+    {
+        return (!hasCreepOnIt() && GetComponent<Tile>().Zone.canBuildHere(GetComponent<Tile>()) && !IsOccupied);
+    }
+
     public void notifyCreepEnter()
     {
         creepCounter++;
