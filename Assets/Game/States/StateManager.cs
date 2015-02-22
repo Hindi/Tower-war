@@ -23,7 +23,7 @@ public class StateManager : MonoBehaviour
     void Awake()
     {
         stateList = new Dictionary<EnumState, State>();
-        currentState = new InitState(this);
+        currentState = new GameState(this);
 
         stateList.Add(EnumState.GAME, new GameState(this));
     }

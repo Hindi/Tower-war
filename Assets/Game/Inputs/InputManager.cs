@@ -34,11 +34,11 @@ public enum EnumInput
 /// <summary>Class that check for the inputs and notify the StateManager that relay the info to the current state.</summary>
 public class InputManager : MonoBehaviour {
 
+    [SerializeField]
     private StateManager stateManager;
 
 	// Use this for initialization
 	void Start () {
-        stateManager = GameObject.FindGameObjectWithTag("StateManager").GetComponent<StateManager>();
 	}
 
 

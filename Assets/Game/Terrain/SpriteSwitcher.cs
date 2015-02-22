@@ -15,13 +15,14 @@ public class SpriteSwitcher : MonoBehaviour {
     [SerializeField]
     private Sprite mouseClic;
 
+    private Sprite previousSprite;
+
     [SerializeField]
     private GameObject spriteHolder;
     public GameObject SpriteHolder
     {
         get { return spriteHolder; }
     }
-
 
     [SerializeField]
     private SpriteRenderer spriteRenderer;
@@ -51,7 +52,8 @@ public class SpriteSwitcher : MonoBehaviour {
 
     public void setMouseOverSprite()
     {
-        setActiveSprite(mouseOver);
+        if(currentSprite != mouseOver)
+            setActiveSprite(mouseOver);
     }
 
     public void setIdleSprite()
@@ -71,7 +73,13 @@ public class SpriteSwitcher : MonoBehaviour {
 
     void setActiveSprite(Sprite s)
     {
+        previousSprite = CurrentSprite;
         CurrentSprite = s;
+    }
+
+    public void setPreviousSprite()
+    {
+        CurrentSprite = previousSprite;
     }
 
     public void reduceOpacity(float value)

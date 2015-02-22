@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Tile))]
 public class TileMouseInput : InterractableTerrainElement
 {
 
     [SerializeField]
     private OccupentHolder occupentHolder;
-
-    private bool clicked = false;
 
     public Rect spriteRect()
     {
@@ -21,8 +20,7 @@ public class TileMouseInput : InterractableTerrainElement
 
     public override void onMouseOver()
     {
-        if (!clicked)
-            GetComponent<SpriteSwitcher>().setMouseOverSprite();
+        GetComponent<SpriteSwitcher>().setMouseOverSprite();
         GetComponent<Tile>().Zone.notifyMouseOver();
     }
 
@@ -34,17 +32,14 @@ public class TileMouseInput : InterractableTerrainElement
 
     public override void onMouseDown()
     {
-        GetComponent<SpriteSwitcher>().setMouseClickSprite();
         //TODO : Use UI to build and destroy the tower
-        if (!occupentHolder.IsOccupied)
-            occupentHolder.Occupent = GameObject.FindGameObjectWithTag("TowerBuilder").GetComponent<TowerBuilder>().buildTower(transform.position);
+        if (occupentHolder.canBuild() && GetComponent<Tile>().Zone.canBuildHere(GetComponent<Tile>()))
+            occupentHolder.addOccupen(GameObject.FindGameObjectWithTag("TowerBuilder").GetComponent<TowerBuilder>().buildTower(gameObject));
         else
         {
-            GameObject.FindGameObjectWithTag("TowerBuilder").GetComponent<TowerBuilder>().destroyTower(occupentHolder.Occupent);
-            occupentHolder.Occupent = null;
+            //GameObject.FindGameObjectWithTag("TowerBuilder").GetComponent<TowerBuilder>().destroyTower(occupentHolder.Occupent);
+            occupentHolder.destroyOccupent();
         }
-
-        clicked = true;
     }
 
     public override void onMouseUp()
@@ -54,8 +49,7 @@ public class TileMouseInput : InterractableTerrainElement
 
     void resetToIdle()
     {
-        GetComponent<SpriteSwitcher>().setIdleSprite();
-        clicked = false;
+        GetComponent<SpriteSwitcher>().setPreviousSprite();
     }
 
 }

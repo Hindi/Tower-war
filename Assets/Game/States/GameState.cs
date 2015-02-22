@@ -42,7 +42,8 @@ public class GameState : State {
     /// <returns>void</returns>
     public override void noticeInput(EnumInput key)
     {
-
+        if (key == EnumInput.RETURN)
+            EventManager.Raise(EnumEvent.START);
     }
 
     /// <summary>Recieves all the necessary inputs (touchscreen & mobile phone buttons).</summary>

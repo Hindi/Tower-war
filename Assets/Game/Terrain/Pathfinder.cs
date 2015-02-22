@@ -3,27 +3,54 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(Zone))]
 public class Pathfinder : MonoBehaviour {
 
-    [SerializeField]
     private Zone zone;
 
     private Dictionary<int, Tile> tileDict;
     private List<int> openList;
     private List<int> closedList;
-    private List<int> result;
+    private List<Vector3> result;
+    public List<Vector3> Result
+    {
+        get { return result; }
+    }
 
     private int startId;
+    public int StartId
+    {
+        get { return startId; }
+        set { startId = value; }
+    }
+
     private int goalId;
+    public int GoalId
+    {
+        get { return goalId; }
+        set { goalId = value; }
+    }
+
     private int currentId;
 
-    void Start()
+    void Awake()
     {
-        result = new List<int>();
+        zone = GetComponent<Zone>();
+        result = new List<Vector3>();
         closedList = new List<int>();
         openList = new List<int>();
 
         EventManager.AddListener(EnumEvent.TILEMAPUPDATE, onMapUpdate);
+    }
+
+    void OnDestroy()
+    {
+        EventManager.RemoveListener(EnumEvent.TILEMAPUPDATE, onMapUpdate);
+    }
+
+    void Start()
+    {
+
     }
 
     public void onMapUpdate()
@@ -31,30 +58,49 @@ public class Pathfinder : MonoBehaviour {
         findPath();
     }
 
-    public void findPath()
+    private void initialiseZone(List<Vector3> path)
     {
-
-        startId = zone.StartTile.GetComponent<Tile>().Id;
-        goalId = zone.EndTile.GetComponent<Tile>().Id;
-
-        //Don't look for a path if goal = start
-        if (startId == goalId)
-        {
-            result.Add(startId);
-            return;
-        }
-
         tileDict = zone.TileDict;
         openList.Clear();
         closedList.Clear();
-        result.Clear();
+        path.Clear();
 
         currentId = startId;
         closedList.Add(startId);
-        checkNeighbourNodes();
     }
 
-    private void checkNeighbourNodes()
+    public bool canAddObstacle(Tile tile)
+    {
+        initialiseZone(result);
+        tileDict[tile.Id].GetComponent<OccupentHolder>().IsOccupied = true;
+        return checkNeighbourNodes(result);
+    }
+
+    public List<Vector3> findPathFromPosition(int tileId)
+    {
+        List<Vector3> path = new List<Vector3>();
+		int saveStartId = startId;
+        var saveresult = result;
+
+        startId = tileId;
+        initialiseZone(path);
+
+        if (!checkNeighbourNodes(path))
+            path.Add(tileDict[goalId].transform.position);
+
+        startId = saveStartId;
+        result = saveresult;
+
+        return path;
+    }
+
+    public void findPath()
+    {
+        initialiseZone(result);
+        checkNeighbourNodes(result);
+    }
+
+    private bool checkNeighbourNodes(List<Vector3> path)
     {
         if(currentId == goalId)
         {
@@ -64,11 +110,15 @@ public class Pathfinder : MonoBehaviour {
                 p.Value.GetComponent<SpriteSwitcher>().setIdleSprite();
             }
             //Fill the result list
-            for(int i = tileDict[currentId].ParentId; i != startId; i = tileDict[i].ParentId)
+            for(int i = tileDict[currentId].Id; i != startId; i = tileDict[i].ParentId)
             {
+                //TODO DEBUG, DELETE THIS
                 tileDict[i].GetComponent<SpriteSwitcher>().setPathSprite();
-                result.Add(i);
+                path.Add(tileDict[i].transform.position);
             }
+
+            path.Reverse();
+            return true;
         }
         else
         {
@@ -77,10 +127,10 @@ public class Pathfinder : MonoBehaviour {
 
             //There is no solution
             if (openList.Count == 0)
-                return;
+                return false;
             else
             {
-                int min = 999;
+                int min = 999999;
                 int minId = 0;
                 foreach(int id in openList)
                     if(tileDict[id].F < min)
@@ -91,7 +141,7 @@ public class Pathfinder : MonoBehaviour {
                 currentId = minId;
                 closedList.Add(currentId);
                 openList.Remove(currentId);
-                checkNeighbourNodes();
+                return checkNeighbourNodes(path);
             }
         }
     }

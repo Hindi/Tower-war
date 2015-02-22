@@ -7,18 +7,6 @@ public class Zone : MonoBehaviour {
     [SerializeField]
     private GameObject tilePrefab;
 
-    private GameObject startTile;
-    public GameObject StartTile
-    {
-        get { return startTile; }
-    }
-
-    private GameObject endTile;
-    public GameObject EndTile
-    {
-        get { return endTile; }
-    }
-
     private Dictionary<int, Tile> tileDict;
     public Dictionary<int, Tile> TileDict
     {
@@ -37,7 +25,6 @@ public class Zone : MonoBehaviour {
 
         GameObject currentTile = null;
         Tile currTileScript;
-
         for (int j = 0; j < 20; ++j)
         {
             for (int i = 0; i < 10; ++i)
@@ -55,19 +42,17 @@ public class Zone : MonoBehaviour {
 
                 tileDict.Add(currTileScript.Id, currTileScript);
                 if (i == 0 && j == 0)
-                    startTile = currentTile;
+                    GetComponent<CreepSpawner>().StartTile = currentTile;
             }
             if (offsetL == 0)
                 offsetL = width * 2 / 2.69f;
             else
                 offsetL = 0;
         }
-        endTile = currentTile;
+        GetComponent<CreepSpawner>().EndTile = currentTile;
 
         foreach (KeyValuePair<int, Tile> p in tileDict)
             p.Value.catchNeighboursIds();
-
-        GetComponent<Pathfinder>().findPath();
 	}
 	
 	// Update is called once per frame
@@ -89,5 +74,10 @@ public class Zone : MonoBehaviour {
         {
             g.GetComponent<Fader>().setRendererVisible(false);
         }
+    }
+
+    public bool canBuildHere(Tile tile)
+    {
+        return GetComponent<Pathfinder>().canAddObstacle(tile);
     }
 }

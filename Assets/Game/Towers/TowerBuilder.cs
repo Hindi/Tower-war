@@ -6,9 +6,11 @@ public class TowerBuilder : MonoBehaviour {
     [SerializeField]
     private GameObject tower;
 
-    public GameObject buildTower(Vector3 position)
+    public GameObject buildTower(GameObject tile)
     {
-        return (GameObject)Instantiate(tower, position, Quaternion.identity);
+        GameObject newTower =  (GameObject)Instantiate(tower, tile.transform.position, Quaternion.identity);
+        newTower.transform.parent = transform;
+        return newTower;
     }
 
     public void destroyTower(GameObject tower)
