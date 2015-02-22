@@ -21,6 +21,7 @@ public class OccupentHolder : MonoBehaviour {
         EventManager.Raise(EnumEvent.TILEMAPUPDATE);
     }
 
+
     public bool canBuild()
     {
         return (!isOccupied && creepCounter == 0);
