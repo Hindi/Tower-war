@@ -15,7 +15,6 @@ public class Tower : MonoBehaviour {
 
     public void spawn()
     {
-
     }
 
     public void notifyDesactivation()

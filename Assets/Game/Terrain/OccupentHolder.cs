@@ -18,6 +18,9 @@ public class OccupentHolder : MonoBehaviour {
     {
         occupent = occ;
         IsOccupied = true;
+        occupent.GetComponent<OccupentTileInfos>().Tile = GetComponent<Tile>();
+        occupent.GetComponent<OccupentTileInfos>().Zone = GetComponent<Tile>().Zone;
+
         EventManager.Raise(EnumEvent.TILEMAPUPDATE);
     }
 

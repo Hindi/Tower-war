@@ -13,6 +13,20 @@ public class Zone : MonoBehaviour {
         get { return tileDict; }
     }
 
+    private GameObject startTile;
+    public GameObject StartTile
+    {
+        get { return startTile; }
+        set { startTile = value; }
+    }
+
+    private GameObject endTile;
+    public GameObject EndTile
+    {
+        get { return endTile; }
+        set { endTile = value; }
+    }
+
 	// Use this for initialization
 	void Start () {
         tileDict = new Dictionary<int, Tile>();
@@ -42,7 +56,10 @@ public class Zone : MonoBehaviour {
 
                 tileDict.Add(currTileScript.Id, currTileScript);
                 if (i == 0 && j == 0)
+                {
                     GetComponent<CreepSpawner>().StartTile = currentTile;
+                    StartTile = currentTile;
+                }
             }
             if (offsetL == 0)
                 offsetL = width * 2 / 2.69f;
@@ -50,6 +67,7 @@ public class Zone : MonoBehaviour {
                 offsetL = 0;
         }
         GetComponent<CreepSpawner>().EndTile = currentTile;
+        EndTile = currentTile;
 
         foreach (KeyValuePair<int, Tile> p in tileDict)
             p.Value.catchNeighboursIds();
