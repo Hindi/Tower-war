@@ -13,7 +13,7 @@ public class SpriteSwitcher : MonoBehaviour {
     private Sprite mouseOver;
 
     [SerializeField]
-    private Sprite mouseClic;
+    private Sprite selected;
 
     private Sprite previousSprite;
 
@@ -61,14 +61,14 @@ public class SpriteSwitcher : MonoBehaviour {
         setActiveSprite(idle);
     }
 
+    public void setSelected()
+    {
+        setActiveSprite(selected);
+    }
+
     public void setPathSprite()
     {
         setActiveSprite(path);
-    }
-
-    public void setMouseClickSprite()
-    {
-        setActiveSprite(mouseClic);
     }
 
     void setActiveSprite(Sprite s)

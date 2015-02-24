@@ -13,6 +13,11 @@ public class TileMouseInput : InterractableTerrainElement
         return GetComponent<SpriteSwitcher>().CurrentSprite.rect;
     }
 
+    private bool hoveringUI()
+    {
+        return UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+    }
+
     public void setVisible(bool b)
     {
         renderer.enabled = b;
@@ -20,32 +25,45 @@ public class TileMouseInput : InterractableTerrainElement
 
     public override void onMouseOver()
     {
-        GetComponent<SpriteSwitcher>().setMouseOverSprite();
-        GetComponent<Tile>().Zone.notifyMouseOver();
+        if (!hoveringUI())
+        {
+            GetComponent<SpriteSwitcher>().setMouseOverSprite();
+            GetComponent<Tile>().Zone.notifyMouseOver();
+        }
     }
 
     public override void onMouseExit()
     {
-        resetToIdle();
-        GetComponent<Tile>().Zone.notifyMouseExit();
+        if (!hoveringUI())
+        {
+            resetToIdle();
+            GetComponent<Tile>().Zone.notifyMouseExit();
+        }
     }
 
     public override void onMouseDown()
     {
-        //TODO : Use UI to build and destroy the tower
-        if (occupentHolder.IsOccupied)
+        if (!hoveringUI())
         {
-            occupentHolder.destroyOccupent();
-        }
-        else if(occupentHolder.canBuild())
-        {
-            occupentHolder.addOccupent(Factory.Instance.spawn(EnumSpawn.TOWER, transform.position));
+            GetComponent<SpriteSwitcher>().setSelected();
+            //TODO : Use UI to build and destroy the tower
+            if (occupentHolder.IsOccupied)
+            {
+                occupentHolder.destroyOccupent();
+            }
+            else if (occupentHolder.canBuild())
+            {
+                UI.Instance.showBuildPopup(GetComponent<Tile>());
+            }
         }
     }
 
     public override void onMouseUp()
     {
-        resetToIdle();
+        if (!hoveringUI())
+        {
+            resetToIdle();
+        }
     }
 
     void resetToIdle()
