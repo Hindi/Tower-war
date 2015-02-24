@@ -2,62 +2,50 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TowerAttack : MonoBehaviour {
-
-    [SerializeField]
-    private int damage;
+public class TowerFocus : MonoBehaviour {
 
     [SerializeField]
     private int radius;
-
-    [SerializeField]
-    private float fireCooldown;
-    private float lastShotTime;
+    public int Radius
+    {
+        get { return radius; }
+    }
 
     List<GameObject> targets;
 
     private GameObject currentTarget;
-    private GameObject endTile;
-
-	// Use this for initialization
-	void Start () {
-        lastShotTime = Time.time;
-        targets = new List<GameObject>();
-        GetComponent<SphereCollider>().radius = radius;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (currentTarget != null)
-        {
-            if(currentTarget.activeSelf == false)
-            {
-                currentTarget = null;
-                return;
-            }
-            if (canFire())
-                fire();
-        }
-	}
-
-    bool canFire()
+    public GameObject CurrentTarget
     {
-        return (Time.time - lastShotTime > fireCooldown);
+        get { return currentTarget; }
     }
 
-    void fire()
+    private GameObject endTile;
+
+    // Use this for initialization
+    void Start()
     {
-        var heading = currentTarget.transform.position - transform.position;
-        float dist = heading.magnitude;
-        Debug.DrawRay(transform.position, heading / dist);
-        if (currentTarget.GetComponent<CreepMortality>().takeDamage(damage))
-            excludeTarget(currentTarget);
-        lastShotTime = Time.time;
+        targets = new List<GameObject>();
+        GetComponent<SphereCollider>().radius = radius;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (currentTarget != null)
+        {
+            GetComponent<TowerHead>().lookAt(currentTarget.transform.position);
+            if (currentTarget.activeSelf == false)
+            {
+                currentTarget = null;
+            }
+        }
+        else
+            pickTarget();
     }
 
     void pickTarget()
     {
-        if(targets.Count > 0)
+        if (targets.Count > 0)
         {
             float min = 999999;
             int minId = 0;
@@ -97,7 +85,7 @@ public class TowerAttack : MonoBehaviour {
         pickTarget();
     }
 
-    void excludeTarget(GameObject obj)
+    public void excludeTarget(GameObject obj)
     {
         if (targets.Exists(t => t.GetComponent<FactoryModel>().Id == obj.GetComponent<FactoryModel>().Id))
         {
