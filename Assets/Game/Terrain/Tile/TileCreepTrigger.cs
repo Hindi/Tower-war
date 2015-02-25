@@ -9,7 +9,7 @@ public class TileCreepTrigger : MonoBehaviour {
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer != LayerMask.NameToLayer("Tile"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Creep"))
         {
             occupentHolder.notifyCreepLeave();
         }
@@ -17,7 +17,7 @@ public class TileCreepTrigger : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer != LayerMask.NameToLayer("Tile"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Creep"))
         {
             occupentHolder.notifyCreepEnter();
         }

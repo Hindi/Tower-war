@@ -13,6 +13,7 @@ public class TowerFocus : MonoBehaviour {
 
     List<GameObject> targets;
 
+    [SerializeField]
     private GameObject currentTarget;
     public GameObject CurrentTarget
     {
@@ -40,15 +41,26 @@ public class TowerFocus : MonoBehaviour {
             }
         }
         else
+        {
+            GetComponent<TowerHead>().lookAt(transform.forward);
             pickTarget();
+        }
     }
 
     void pickTarget()
     {
+        for (int i = 0; i < targets.Count; )
+        {
+            if (!targets[i].activeSelf)
+                targets.Remove(targets[i]);
+            else
+                i++;
+        }
         if (targets.Count > 0)
         {
             float min = 999999;
             int minId = 0;
+
             for (int i = 0; i < targets.Count; ++i)
             {
                 float distance = Vector3.Distance(targets[i].transform.position, GetComponent<OccupentTileInfos>().Zone.EndTile.transform.position);
@@ -72,8 +84,8 @@ public class TowerFocus : MonoBehaviour {
         if (col.gameObject.layer == LayerMask.NameToLayer("Creep"))
         {
             targets.Add(col.gameObject);
+            col.GetComponent<CreepTargetKeeper>().notifyTarget(this);
         }
-        pickTarget();
     }
 
     void OnTriggerExit(Collider col)
@@ -82,12 +94,11 @@ public class TowerFocus : MonoBehaviour {
         {
             excludeTarget(col.gameObject);
         }
-        pickTarget();
     }
 
     public void excludeTarget(GameObject obj)
     {
-        if (targets.Exists(t => t.GetComponent<FactoryModel>().Id == obj.GetComponent<FactoryModel>().Id))
+        if (targets.Contains(obj))
         {
             targets.Remove(obj);
             if (currentTarget != null)

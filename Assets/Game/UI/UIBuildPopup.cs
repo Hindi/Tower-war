@@ -4,31 +4,40 @@ using System.Collections;
 public class UIBuildPopup : UIElement {
 
     [SerializeField]
+    private TowerBuilder towerBuilder;
+
+    [SerializeField]
     private GameObject menu;
 
     private Tile currentTile;
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     public void popUp(Tile tile)
     {
         setActive(true);
         Vector2 pos = Camera.main.WorldToScreenPoint(tile.transform.position);
-        menu.transform.position = new Vector3(pos.x + 25, pos.y + 25);
+        menu.transform.position = new Vector3(pos.x, pos.y);
         currentTile = tile;
     }
 
-    public void build()
+    public void build(int i)
     {
-        currentTile.GetComponent<OccupentHolder>().addOccupent(Factory.Instance.spawn(EnumSpawn.TOWER, currentTile.transform.position));
+        EnumSpawn spawn;
+        switch(i)
+        {
+            case 0:
+                spawn = EnumSpawn.TOWER;
+                break;
+            case 1:
+                spawn = EnumSpawn.TOWER2;
+                break;
+            default:
+                spawn = EnumSpawn.TOWER;
+                break;
+        }
+
+        if(currentTile != null && towerBuilder.canBuild())
+            towerBuilder.build(spawn, currentTile);
+
         hide();
     }
 

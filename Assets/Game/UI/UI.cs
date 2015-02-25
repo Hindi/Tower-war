@@ -17,14 +17,16 @@ public class UI : MonoBehaviour {
 
     [SerializeField]
     private UIBuildPopup buildPopup;
+    [SerializeField]
+    private UIUpgradePopup upgradePopup;
 
     public void showBuildPopup(Tile tile)
     {
         buildPopup.popUp(tile);
     }
 
-    public void hideBuildPopup()
+    public void showUpgradePopupp(Tile tile)
     {
-        buildPopup.hide();
+        upgradePopup.popUp(tile);
     }
 }

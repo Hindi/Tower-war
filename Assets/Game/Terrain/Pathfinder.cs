@@ -72,10 +72,11 @@ public class Pathfinder : MonoBehaviour {
     public bool canAddObstacle(Tile tile)
     {
         initialiseZone(result);
+        bool wasOccupied = tileDict[tile.Id].GetComponent<OccupentHolder>().IsOccupied;
         tileDict[tile.Id].GetComponent<OccupentHolder>().IsOccupied = true;
         bool res = checkNeighbourNodes(result);
 
-        tileDict[tile.Id].GetComponent<OccupentHolder>().IsOccupied = false;
+        tileDict[tile.Id].GetComponent<OccupentHolder>().IsOccupied = wasOccupied;
         return res;
     }
 

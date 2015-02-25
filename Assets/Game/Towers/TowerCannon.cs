@@ -38,8 +38,7 @@ public class TowerCannon : MonoBehaviour
         var heading = towerFocus.CurrentTarget.transform.position - transform.position;
         float dist = heading.magnitude;
         Debug.DrawRay(transform.position, heading / dist);
-        if (target.GetComponent<CreepMortality>().takeDamage(damage))
-            towerFocus.excludeTarget(target);
+        target.GetComponent<CreepMortality>().takeDamage(damage);
         lastShotTime = Time.time;
     }
 

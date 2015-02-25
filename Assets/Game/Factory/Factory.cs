@@ -4,22 +4,12 @@ using System.Collections.Generic;
 public enum EnumSpawn
 {
     BASIC,
-    TOWER
+    TOWER,
+    TOWER2
 }
 
 public class Factory : MonoBehaviour
 {
-    private static Factory instance;
-
-    public static Factory Instance
-    {
-        get
-        {
-            if (instance == null)
-                instance = GameObject.FindObjectOfType<Factory>();
-            return instance;
-        }
-    }
 
     Dictionary<EnumSpawn, Machine> machinesDict;
 
@@ -27,6 +17,8 @@ public class Factory : MonoBehaviour
     private Machine basicPrefab;
     [SerializeField]
     private Machine towerPrefab;
+    [SerializeField]
+    private Machine tower2Prefab;
 
     private int nextId;
 
@@ -36,6 +28,7 @@ public class Factory : MonoBehaviour
         machinesDict = new Dictionary<EnumSpawn, Machine>();
         machinesDict.Add(EnumSpawn.BASIC, basicPrefab);
         machinesDict.Add(EnumSpawn.TOWER, towerPrefab);
+        machinesDict.Add(EnumSpawn.TOWER2, tower2Prefab);
     }
 
     public GameObject spawn(EnumSpawn type, Vector3 position)

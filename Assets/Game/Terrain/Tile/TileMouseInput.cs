@@ -8,6 +8,13 @@ public class TileMouseInput : InterractableTerrainElement
     [SerializeField]
     private OccupentHolder occupentHolder;
 
+    Tile tile;
+
+    void Start()
+    {
+        tile = GetComponent<Tile>();
+    }
+
     public Rect spriteRect()
     {
         return GetComponent<SpriteSwitcher>().CurrentSprite.rect;
@@ -28,7 +35,7 @@ public class TileMouseInput : InterractableTerrainElement
         if (!hoveringUI())
         {
             GetComponent<SpriteSwitcher>().setMouseOverSprite();
-            GetComponent<Tile>().Zone.notifyMouseOver();
+            tile.Zone.notifyMouseOver();
         }
     }
 
@@ -37,23 +44,30 @@ public class TileMouseInput : InterractableTerrainElement
         if (!hoveringUI())
         {
             resetToIdle();
-            GetComponent<Tile>().Zone.notifyMouseExit();
+            tile.Zone.notifyMouseExit();
         }
     }
 
     public override void onMouseDown()
     {
-        if (!hoveringUI())
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            GetComponent<SpriteSwitcher>().setSelected();
-            //TODO : Use UI to build and destroy the tower
+            if (occupentHolder.canBuild())
+            {
+                TowerBuilder.Instance.buildLast(tile);
+            }
+        }
+        else if (!hoveringUI())
+        {
             if (occupentHolder.IsOccupied)
             {
-                occupentHolder.destroyOccupent();
+                GetComponent<SpriteSwitcher>().setSelected();
+                UI.Instance.showUpgradePopupp(tile);
             }
             else if (occupentHolder.canBuild())
             {
-                UI.Instance.showBuildPopup(GetComponent<Tile>());
+                GetComponent<SpriteSwitcher>().setSelected();
+                UI.Instance.showBuildPopup(tile);
             }
         }
     }
