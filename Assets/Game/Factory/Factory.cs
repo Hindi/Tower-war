@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public enum EnumSpawn
@@ -10,25 +11,31 @@ public enum EnumSpawn
 
 public class Factory : MonoBehaviour
 {
+    //Fill dictionnay from inspector
+    [Serializable]
+    public struct entry
+    {
+        public EnumSpawn spawn;
+        public Machine machine;
+    }
+
+    [SerializeField]
+    public List<entry> machines;
 
     Dictionary<EnumSpawn, Machine> machinesDict;
 
-    [SerializeField]
-    private Machine basicPrefab;
-    [SerializeField]
-    private Machine towerPrefab;
-    [SerializeField]
-    private Machine tower2Prefab;
-
     private int nextId;
 
-    void Start()
+    void Awake()
     {
         nextId = 0;
         machinesDict = new Dictionary<EnumSpawn, Machine>();
-        machinesDict.Add(EnumSpawn.BASIC, basicPrefab);
-        machinesDict.Add(EnumSpawn.TOWER, towerPrefab);
-        machinesDict.Add(EnumSpawn.TOWER2, tower2Prefab);
+        foreach (entry e in machines)
+            machinesDict.Add(e.spawn, e.machine);
+    }
+
+    void Start()
+    {
     }
 
     public GameObject spawn(EnumSpawn type, Vector3 position)

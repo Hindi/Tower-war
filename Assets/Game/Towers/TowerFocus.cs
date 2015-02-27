@@ -21,12 +21,15 @@ public class TowerFocus : MonoBehaviour {
     }
 
     private GameObject endTile;
+    private Vector3 idleDirection;
 
     // Use this for initialization
     void Start()
     {
         targets = new List<GameObject>();
         GetComponent<SphereCollider>().radius = radius;
+        idleDirection = GetComponent<OccupentTileInfos>().Zone.StartTile.transform.position;
+        idleDirection.z -= 0.1f;
     }
 
     // Update is called once per frame
@@ -42,7 +45,7 @@ public class TowerFocus : MonoBehaviour {
         }
         else
         {
-            GetComponent<TowerHead>().lookAt(transform.forward);
+            GetComponent<TowerHead>().lookAt(idleDirection);
             pickTarget();
         }
     }

@@ -28,6 +28,7 @@ public class CreepSpawner : MonoBehaviour {
         pathfinder = GetComponent<Pathfinder>();
 
         EventManager.AddListener(EnumEvent.START, onGameStart);
+        onGameStart();
 	}
 
     void Update()

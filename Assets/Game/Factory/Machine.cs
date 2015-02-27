@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Machine : MonoBehaviour
 {
     [SerializeField]
-    private GameObject modelPrefab;
+    private string modelName;
 
     List<GameObject> inUse;
     List<GameObject> waiting;
@@ -31,7 +31,7 @@ public class Machine : MonoBehaviour
         }
         else
         {
-            model = (GameObject)GameObject.Instantiate(modelPrefab);
+            model = PhotonNetwork.Instantiate(modelName, Vector3.zero, Quaternion.identity, 0);
             model.GetComponent<FactoryModel>().Id = id;
             model.GetComponent<Activity>().Machine = this;
         }

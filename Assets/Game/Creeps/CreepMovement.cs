@@ -32,10 +32,15 @@ public class CreepMovement : MonoBehaviour
     [SerializeField]
     private float speed;
 
+    PhotonView photonView;
+
+    private Vector3 networkPosition;
+    private Quaternion networkRotation;
 
     void Start()
     {
         EventManager.AddListener(EnumEvent.TILEMAPUPDATE, onMapUpdate);
+        photonView = GetComponent<PhotonView>();
     }
     
     public void spawn()
@@ -67,15 +72,37 @@ public class CreepMovement : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, nextPosition, speed * Time.deltaTime);
-        if (Vector3.Distance(transform.position, nextPosition) < 0.1f)
+        if(photonView.isMine)
         {
-            if (path.Count == 0 || nextPosition == path[path.Count - 1])
+            transform.position = Vector3.MoveTowards(transform.position, nextPosition, speed * Time.deltaTime);
+            if (Vector3.Distance(transform.position, nextPosition) < 0.1f)
             {
-                GetComponent<CreepActivity>().Active = false;
+                if (path.Count == 0 || nextPosition == path[path.Count - 1])
+                {
+                    GetComponent<CreepActivity>().Active = false;
+                }
+                else
+                    setNextPosition(currentPositionId++);
             }
-            else
-                setNextPosition(currentPositionId++);
+        }
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 10);
+            transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation, Time.deltaTime * 5);
+        }
+    }
+
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            this.networkPosition = (Vector3)stream.ReceiveNext();
+            this.networkRotation = (Quaternion)stream.ReceiveNext();
         }
     }
 

@@ -48,11 +48,6 @@ public class Pathfinder : MonoBehaviour {
         EventManager.RemoveListener(EnumEvent.TILEMAPUPDATE, onMapUpdate);
     }
 
-    void Start()
-    {
-
-    }
-
     public void onMapUpdate()
     {
         findPath();
@@ -71,10 +66,14 @@ public class Pathfinder : MonoBehaviour {
 
     public bool canAddObstacle(Tile tile)
     {
-        initialiseZone(result);
+        if (tile.Id == startId || tile.Id == goalId)
+            return false;
+        List<Vector3> path = new List<Vector3>();
+
+        initialiseZone(path);
         bool wasOccupied = tileDict[tile.Id].GetComponent<OccupentHolder>().IsOccupied;
         tileDict[tile.Id].GetComponent<OccupentHolder>().IsOccupied = true;
-        bool res = checkNeighbourNodes(result);
+        bool res = checkNeighbourNodes(path);
 
         tileDict[tile.Id].GetComponent<OccupentHolder>().IsOccupied = wasOccupied;
         return res;
