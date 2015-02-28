@@ -19,6 +19,8 @@ public class UI : MonoBehaviour {
     private UIBuildPopup buildPopup;
     [SerializeField]
     private UIUpgradePopup upgradePopup;
+    [SerializeField]
+    private UIBuyCreepsPopup buyCreepsPopup;
 
     public void showBuildPopup(Tile tile)
     {
@@ -28,5 +30,10 @@ public class UI : MonoBehaviour {
     public void showUpgradePopupp(Tile tile)
     {
         upgradePopup.popUp(tile);
+    }
+
+    public void showBuyCreepsPopup(Vector3 pos)
+    {
+        buyCreepsPopup.popUp(pos);
     }
 }

@@ -6,16 +6,11 @@ public class UIBuildPopup : UIElement {
     [SerializeField]
     private TowerBuilder towerBuilder;
 
-    [SerializeField]
-    private GameObject menu;
-
     private Tile currentTile;
 
     public void popUp(Tile tile)
     {
-        setActive(true);
-        Vector2 pos = Camera.main.WorldToScreenPoint(tile.transform.position);
-        menu.transform.position = new Vector3(pos.x, pos.y);
+        popUp(tile.transform.position);
         currentTile = tile;
     }
 
@@ -43,7 +38,8 @@ public class UIBuildPopup : UIElement {
 
     public void hide()
     {
-        currentTile.GetComponent<SpriteSwitcher>().setIdleSprite();
+        if (currentTile != null)
+            currentTile.GetComponent<SpriteSwitcher>().setIdleSprite();
         setActive(false);
     }
 }

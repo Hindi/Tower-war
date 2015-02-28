@@ -53,6 +53,11 @@ public class Pathfinder : MonoBehaviour {
         findPath();
     }
 
+    public Tile getStartTile()
+    {
+        return tileDict[StartId];
+    }
+
     private void initialiseZone(List<Vector3> path)
     {
         tileDict = zone.TileDict;

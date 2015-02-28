@@ -3,26 +3,12 @@ using System.Collections;
 
 public class UIUpgradePopup : UIElement
 {
-    [SerializeField]
-    private GameObject menu;
-
     private Tile currentTile;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-    }
 
     public void popUp(Tile tile)
     {
-        setActive(true);
-        Vector2 pos = Camera.main.WorldToScreenPoint(tile.transform.position);
-        menu.transform.position = new Vector3(pos.x, pos.y);
+        popUp(tile.transform.position);
         currentTile = tile;
     }
 

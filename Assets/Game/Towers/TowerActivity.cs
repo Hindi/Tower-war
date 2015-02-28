@@ -12,5 +12,6 @@ public class TowerActivity : Activity
             machine.putAway(gameObject);
             GetComponent<Tower>().notifyDesactivation();
         }
+        hide(b);
     }
 }

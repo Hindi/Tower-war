@@ -26,6 +26,7 @@ public class CreepMovement : MonoBehaviour
     }
 
     private Vector3 nextPosition;
+    private Quaternion goalRotation;
     private Vector3 direction;
     private int currentPositionId;
 
@@ -35,12 +36,12 @@ public class CreepMovement : MonoBehaviour
     PhotonView photonView;
 
     private Vector3 networkPosition;
-    private Quaternion networkRotation;
 
     void Start()
     {
-        EventManager.AddListener(EnumEvent.TILEMAPUPDATE, onMapUpdate);
         photonView = GetComponent<PhotonView>();
+        if (photonView.isMine)
+            EventManager.AddListener(EnumEvent.TILEMAPUPDATE, onMapUpdate);
     }
     
     public void spawn()
@@ -52,7 +53,8 @@ public class CreepMovement : MonoBehaviour
     {
         try
         {
-            refreshPath(getCurrentTile().Id);
+            if(gameObject.activeSelf)
+                refreshPath(getCurrentTile().Id);
         }
         catch
         {
@@ -67,7 +69,7 @@ public class CreepMovement : MonoBehaviour
         foreach (RaycastHit2D hit in hits)
             if (hit.collider.tag == "Tile")
                 return hit.collider.GetComponent<Tile>();
-        return null;
+        return pathfinder.getStartTile();
     }
 
     void Update()
@@ -87,9 +89,12 @@ public class CreepMovement : MonoBehaviour
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 10);
-            transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation, Time.deltaTime * 5);
+            if (Vector3.Distance(transform.position, networkPosition) > 1)
+                transform.position = networkPosition;
+            else
+                transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 10);
         }
+        transform.rotation = Quaternion.Slerp(transform.rotation, goalRotation, Time.deltaTime * 10);
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -102,7 +107,7 @@ public class CreepMovement : MonoBehaviour
         else
         {
             this.networkPosition = (Vector3)stream.ReceiveNext();
-            this.networkRotation = (Quaternion)stream.ReceiveNext();
+            this.goalRotation = (Quaternion)stream.ReceiveNext();
         }
     }
 
@@ -122,8 +127,7 @@ public class CreepMovement : MonoBehaviour
             nextPosition = transform.position;
         else
             nextPosition = path[posId];
-        transform.LookAt(nextPosition);
-        direction = Vector3.Normalize(nextPosition);
+        goalRotation = Quaternion.LookRotation(Vector3.Normalize(transform.position - nextPosition));
     }
 
     public void notifyDesactivation()

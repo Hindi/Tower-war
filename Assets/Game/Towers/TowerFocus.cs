@@ -22,31 +22,43 @@ public class TowerFocus : MonoBehaviour {
 
     private GameObject endTile;
     private Vector3 idleDirection;
+    private Vector3 lookAtPosition;
+    PhotonView photonView;
 
     // Use this for initialization
     void Start()
     {
+        photonView = GetComponent<PhotonView>();
         targets = new List<GameObject>();
         GetComponent<SphereCollider>().radius = radius;
-        idleDirection = GetComponent<OccupentTileInfos>().Zone.StartTile.transform.position;
+        if (photonView.isMine)
+            idleDirection = GetComponent<OccupentTileInfos>().Zone.StartTile.transform.position;
         idleDirection.z -= 0.1f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentTarget != null)
+        if (photonView.isMine)
         {
-            GetComponent<TowerHead>().lookAt(currentTarget.transform.position);
-            if (currentTarget.activeSelf == false)
+            if (currentTarget != null)
             {
-                currentTarget = null;
+                lookAtPosition = currentTarget.transform.position;
+                if (currentTarget.activeSelf == false)
+                {
+                    currentTarget = null;
+                }
             }
+            else
+            {
+                lookAtPosition = idleDirection;
+                pickTarget();
+            }
+            GetComponent<TowerHead>().lookAt(lookAtPosition);
         }
         else
         {
-            GetComponent<TowerHead>().lookAt(idleDirection);
-            pickTarget();
+            GetComponent<TowerHead>().networkLookAt();
         }
     }
 

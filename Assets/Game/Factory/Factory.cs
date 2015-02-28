@@ -40,8 +40,7 @@ public class Factory : MonoBehaviour
 
     public GameObject spawn(EnumSpawn type, Vector3 position)
     {
-        GameObject currentObj = machinesDict[type].createModel(nextId);
-        currentObj.transform.position = position;
+        GameObject currentObj = machinesDict[type].createModel(nextId, position);
         currentObj.transform.parent = transform;
         nextId++;
         return currentObj;

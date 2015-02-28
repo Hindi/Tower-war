@@ -13,6 +13,7 @@ public class OccupentHolder : MonoBehaviour {
     }
 
     private GameObject occupent;
+    PhotonView photonView;
 
     public void addOccupent(GameObject occ)
     {
@@ -22,6 +23,11 @@ public class OccupentHolder : MonoBehaviour {
         occupent.GetComponent<OccupentTileInfos>().Zone = GetComponent<Tile>().Zone;
 
         EventManager.Raise(EnumEvent.TILEMAPUPDATE);
+    }
+
+    void Start()
+    {
+        photonView = GetComponent<PhotonView>();
     }
 
     public bool hasCreepOnIt()

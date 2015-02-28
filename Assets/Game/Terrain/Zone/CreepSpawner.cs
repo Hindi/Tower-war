@@ -22,23 +22,38 @@ public class CreepSpawner : MonoBehaviour {
 
     [SerializeField]
     private Factory factory;
+    public Factory Factory
+    { set { factory = value; } }
+
+    PhotonView photonView;
 
 	// Use this for initialization
 	void Start () {
         pathfinder = GetComponent<Pathfinder>();
+        photonView = GetComponent<PhotonView>();
 
         EventManager.AddListener(EnumEvent.START, onGameStart);
-        onGameStart();
 	}
 
-    void Update()
+    [RPC]
+    public void spawnRPC(int unit)
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            GameObject creep = factory.spawn(EnumSpawn.BASIC, startTile.transform.position);
-            creep.GetComponent<CreepMovement>().Path = pathfinder.Result;
-            creep.GetComponent<CreepMovement>().Pathfinder = pathfinder;
-        }
+        spawn((EnumSpawn)unit);
+    }
+
+    private void spawn(EnumSpawn unit)
+    {
+        GameObject creep = factory.spawn(unit, startTile.transform.position);
+        creep.GetComponent<CreepMovement>().Path = pathfinder.Result;
+        creep.GetComponent<CreepMovement>().Pathfinder = pathfinder;
+    }
+
+    public void requestSpawn(EnumSpawn unit)
+    {
+        if (PhotonNetwork.offlineMode)
+            spawn(unit);
+        else
+            photonView.RPC("spawnRPC", PhotonTargets.Others, (int)unit);
     }
 
     void onGameStart()

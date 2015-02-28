@@ -20,11 +20,6 @@ public class TileMouseInput : InterractableTerrainElement
         return GetComponent<SpriteSwitcher>().CurrentSprite.rect;
     }
 
-    private bool hoveringUI()
-    {
-        return UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
-    }
-
     public void setVisible(bool b)
     {
         renderer.enabled = b;
@@ -32,7 +27,7 @@ public class TileMouseInput : InterractableTerrainElement
 
     public override void onMouseOver()
     {
-        if (!hoveringUI())
+        if (canInterract())
         {
             GetComponent<SpriteSwitcher>().setMouseOverSprite();
             tile.Zone.notifyMouseOver();
@@ -41,7 +36,7 @@ public class TileMouseInput : InterractableTerrainElement
 
     public override void onMouseExit()
     {
-        if (!hoveringUI())
+        if (canInterract())
         {
             resetToIdle();
             tile.Zone.notifyMouseExit();
@@ -50,31 +45,34 @@ public class TileMouseInput : InterractableTerrainElement
 
     public override void onMouseDown()
     {
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        if (canInterract())
         {
-            if (occupentHolder.canBuild())
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             {
-                TowerBuilder.Instance.buildLast(tile);
+                if (occupentHolder.canBuild())
+                {
+                    TowerBuilder.Instance.buildLast(tile);
+                }
             }
-        }
-        else if (!hoveringUI())
-        {
-            if (occupentHolder.IsOccupied)
+            else
             {
-                GetComponent<SpriteSwitcher>().setSelected();
-                UI.Instance.showUpgradePopupp(tile);
-            }
-            else if (occupentHolder.canBuild())
-            {
-                GetComponent<SpriteSwitcher>().setSelected();
-                UI.Instance.showBuildPopup(tile);
+                if (occupentHolder.IsOccupied)
+                {
+                    GetComponent<SpriteSwitcher>().setSelected();
+                    UI.Instance.showUpgradePopupp(tile);
+                }
+                else if (occupentHolder.canBuild())
+                {
+                    GetComponent<SpriteSwitcher>().setSelected();
+                    UI.Instance.showBuildPopup(tile);
+                }
             }
         }
     }
 
     public override void onMouseUp()
     {
-        if (!hoveringUI())
+        if (canInterract())
         {
             resetToIdle();
         }

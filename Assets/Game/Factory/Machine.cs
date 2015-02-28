@@ -4,22 +4,22 @@ using System.Collections.Generic;
 
 public class Machine : MonoBehaviour
 {
+    PhotonView photonView;
+
     [SerializeField]
     private string modelName;
 
     List<GameObject> inUse;
     List<GameObject> waiting;
 
-    [SerializeField]
-    private float inactivityTimeBeforeDestroy;
-
     void Start()
     {
         inUse = new List<GameObject>();
         waiting = new List<GameObject>();
+        photonView = GetComponent<PhotonView>();
     }
 
-    public GameObject createModel(int id)
+    public GameObject createModel(int id, Vector3 position)
     {
         GameObject model;
         if(waiting.Count > 0)
@@ -27,11 +27,12 @@ public class Machine : MonoBehaviour
             model = waiting[0];
             waiting.Remove(model);
             model.SetActive(true);
+            model.transform.position = position;
             model.GetComponent<Activity>().Active = true;
         }
         else
         {
-            model = PhotonNetwork.Instantiate(modelName, Vector3.zero, Quaternion.identity, 0);
+            model = PhotonNetwork.Instantiate(modelName, position, Quaternion.identity, 0);
             model.GetComponent<FactoryModel>().Id = id;
             model.GetComponent<Activity>().Machine = this;
         }
@@ -44,22 +45,14 @@ public class Machine : MonoBehaviour
         var creepInList = inUse.Find(c => c.GetComponent<FactoryModel>().Id == obj.GetComponent<FactoryModel>().Id);
         inUse.Remove(creepInList);
         waiting.Add(creepInList);
-        creepInList.SetActive(false);
-        StartCoroutine(destroyCoroutine(creepInList));
     }
 
-    IEnumerator destroyCoroutine(GameObject obj)
+    public void remove(GameObject obj)
     {
-        float coroutineStartTime = Time.time;
-        while (!obj.activeSelf)
-        {
-            if (Time.time - coroutineStartTime > inactivityTimeBeforeDestroy)
-            {
-                waiting.Remove(obj);
-                GameObject.Destroy(obj);
-                break;
-            }
-            yield return new WaitForSeconds(30);
-        }
+        if (waiting.Contains(obj))
+            waiting.Remove(obj);
+        if (inUse.Contains(obj))
+            inUse.Remove(obj);
+        PhotonNetwork.Destroy(obj);
     }
 }

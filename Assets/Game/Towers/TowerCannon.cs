@@ -15,17 +15,19 @@ public class TowerCannon : MonoBehaviour
     [SerializeField]
     private TowerFocus towerFocus;
 
+    private PhotonView photonView;
+
     void Start()
     {
+        photonView = GetComponent<PhotonView>();    
         lastShotTime = Time.time;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (towerFocus.CurrentTarget != null)
-        {
-            rayCast();
-        }
+        //if (photonView.isMine)
+            if (towerFocus.CurrentTarget != null )
+                rayCast();
     }
 
     bool canFire()

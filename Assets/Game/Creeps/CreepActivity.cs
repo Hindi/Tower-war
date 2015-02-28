@@ -2,7 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(CreepMovement), typeof(CreepMortality))]
-public class CreepActivity : Activity 
+public class CreepActivity : Activity
 {
     
     protected override void activate(bool b)
@@ -14,9 +14,13 @@ public class CreepActivity : Activity
         }
         else
         {
-            machine.putAway(gameObject);
+            if(machine)
+                machine.putAway(gameObject);
             GetComponent<CreepMovement>().notifyDesactivation();
             GetComponent<CreepTargetKeeper>().notifyExit();
         }
+        GetComponent<CreepMovement>().enabled = b;
+        GetComponent<CapsuleCollider>().enabled = b;
+        hide(b);
     }
 }

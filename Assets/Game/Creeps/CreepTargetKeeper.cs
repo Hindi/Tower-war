@@ -20,7 +20,8 @@ public class CreepTargetKeeper : MonoBehaviour {
     public void notifyExit()
     {
         foreach (TowerFocus t in towers)
-            t.excludeTarget(gameObject);
+            if(t != null)
+                t.excludeTarget(gameObject);
         towers.Clear();
     }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Zone : MonoBehaviour {
 
     [SerializeField]
-    private GameObject tilePrefab;
+    private GameObject tileReference;
 
     private Dictionary<int, Tile> tileDict;
     public Dictionary<int, Tile> TileDict
@@ -28,9 +28,12 @@ public class Zone : MonoBehaviour {
     }
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         tileDict = new Dictionary<int, Tile>();
+	}
 
+    public void spawnTile(Vector3 position)
+    {
         //Calculate the dimension that we'll use
         float width = 0;
         float height = 0;
@@ -43,14 +46,13 @@ public class Zone : MonoBehaviour {
         {
             for (int i = 0; i < 10; ++i)
             {
-                currentTile = (GameObject)Instantiate(tilePrefab);
-                currTileScript = currentTile.GetComponent<Tile>();
-                Rect rect = currentTile.GetComponent<SpriteSwitcher>().CurrentSprite.rect;
-
+                Rect rect = tileReference.GetComponent<SpriteSwitcher>().CurrentSprite.rect;
                 width = rect.width / 100;
                 height = rect.height / 84;
                 offestW = width / 2;
-                currentTile.transform.position = new Vector3(offsetL + i * (width + offestW), j * height / 2.4f, 0);
+                currentTile = PhotonNetwork.Instantiate("Tile", new Vector3(position.x + offsetL + i * (width + offestW), position.y + j * height / 2.4f, 0), Quaternion.identity, 0);
+                currTileScript = currentTile.GetComponent<Tile>();
+
                 currTileScript.Zone = this;
                 currTileScript.calcId();
 
@@ -71,7 +73,10 @@ public class Zone : MonoBehaviour {
 
         foreach (KeyValuePair<int, Tile> p in tileDict)
             p.Value.catchNeighboursIds();
-	}
+        
+        PhotonNetwork.Instantiate("Barracks", new Vector3(position.x - 1, position.y, 0), Quaternion.identity, 0);
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {
