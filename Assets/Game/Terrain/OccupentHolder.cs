@@ -19,9 +19,11 @@ public class OccupentHolder : MonoBehaviour {
     public void addOccupent(GameObject occ)
     {
         if (!IsOccupied)
+        {
+            IsOccupied = true;
             EventManager.Raise(EnumEvent.TILEMAPUPDATE);
+        }
         occupent = occ;
-        IsOccupied = true;
 
         occupent.GetComponent<OccupentTileInfos>().Tile = tile;
         occupent.GetComponent<OccupentTileInfos>().Zone = tile.Zone;

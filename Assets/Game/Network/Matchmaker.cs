@@ -7,7 +7,7 @@ public class Matchmaker : MonoBehaviour
     [SerializeField]
     bool connect;
     [SerializeField]
-    Zone zone;
+    bool gameDebug;
 
     // Use this for initialization
     void Start()
@@ -28,16 +28,10 @@ public class Matchmaker : MonoBehaviour
 
     void OnJoinedLobby()
     {
-        PhotonNetwork.JoinRandomRoom();
-    }
-
-    void OnJoinedRoom()
-    {
-        if (PhotonNetwork.playerList.Length == 1)
-            zone.spawnTile(Vector3.zero);
+        if (gameDebug)
+            PhotonNetwork.JoinRandomRoom();
         else
-            zone.spawnTile(new Vector3(0, 7, 0));
-        EventManager.Raise(EnumEvent.START);
+            UI.Instance.showServerList();
     }
 
     void OnPhotonRandomJoinFailed()

@@ -21,6 +21,8 @@ public class UI : MonoBehaviour {
     private UIUpgradePopup upgradePopup;
     [SerializeField]
     private UIBuyCreepsPopup buyCreepsPopup;
+    [SerializeField]
+    private UIServerList serverList;
 
     public void showBuildPopup(Tile tile)
     {
@@ -35,5 +37,11 @@ public class UI : MonoBehaviour {
     public void showBuyCreepsPopup(Vector3 pos)
     {
         buyCreepsPopup.popUp(pos);
+    }
+
+    public void showServerList()
+    {
+        serverList.setActive(true);
+        serverList.generateServerList();
     }
 }

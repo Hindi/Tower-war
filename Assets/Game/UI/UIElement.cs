@@ -8,7 +8,7 @@ public class UIElement : MonoBehaviour {
     [SerializeField]
     protected GameObject menu;
 
-    protected void setActive(bool b)
+    public void setActive(bool b)
     {
         canvas.gameObject.SetActive(b);
     }
