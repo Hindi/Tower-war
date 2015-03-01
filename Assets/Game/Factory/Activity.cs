@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class Activity : MonoBehaviour
+public class Activity : MonoBehaviour
 {
     PhotonView photonView;
 
@@ -11,15 +11,15 @@ public abstract class Activity : MonoBehaviour
     [SerializeField]
     protected GameObject model;
 
-    protected bool active;
+    protected bool isActive;
     public bool Active
     {
-        get { return active; }
+        get { return isActive; }
         set
         {
-            active = value;
-            activate(active);
-            if (!active)
+            isActive = value;
+            activate(isActive);
+            if (!isActive)
                 StartCoroutine(destroyCoroutine());
         }
     }
@@ -30,7 +30,10 @@ public abstract class Activity : MonoBehaviour
         set { machine = value; }
     }
 
-    protected abstract void activate(bool b);
+    protected virtual void activate(bool b)
+    {
+        hide(b);
+    }
 
     void Start()
     {
@@ -40,7 +43,7 @@ public abstract class Activity : MonoBehaviour
     IEnumerator destroyCoroutine()
     {
         float coroutineStartTime = Time.time;
-        while (!active)
+        while (!isActive)
         {
             if (Time.time - coroutineStartTime > inactivityTimeBeforeDestroy)
             {

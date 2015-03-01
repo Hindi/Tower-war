@@ -29,7 +29,6 @@ public class UIBuildPopup : UIElement {
                 spawn = EnumSpawn.TOWER;
                 break;
         }
-
         if(currentTile != null && towerBuilder.canBuild())
             towerBuilder.build(spawn, currentTile);
 

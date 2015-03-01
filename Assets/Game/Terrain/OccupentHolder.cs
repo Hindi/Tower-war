@@ -12,22 +12,24 @@ public class OccupentHolder : MonoBehaviour {
         set { isOccupied = value; }
     }
 
-    private GameObject occupent;
-    PhotonView photonView;
+    public GameObject occupent;
+
+    Tile tile;
 
     public void addOccupent(GameObject occ)
     {
+        if (!IsOccupied)
+            EventManager.Raise(EnumEvent.TILEMAPUPDATE);
         occupent = occ;
         IsOccupied = true;
-        occupent.GetComponent<OccupentTileInfos>().Tile = GetComponent<Tile>();
-        occupent.GetComponent<OccupentTileInfos>().Zone = GetComponent<Tile>().Zone;
 
-        EventManager.Raise(EnumEvent.TILEMAPUPDATE);
+        occupent.GetComponent<OccupentTileInfos>().Tile = tile;
+        occupent.GetComponent<OccupentTileInfos>().Zone = tile.Zone;
     }
 
     void Start()
     {
-        photonView = GetComponent<PhotonView>();
+        tile = GetComponent<Tile>();
     }
 
     public bool hasCreepOnIt()

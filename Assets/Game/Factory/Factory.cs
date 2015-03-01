@@ -4,13 +4,28 @@ using System.Collections.Generic;
 
 public enum EnumSpawn
 {
+    DEFAULT,            //Value when not initialized
+    NOTHING,            //No possible upgrade, for exemple
     BASIC,
     TOWER,
-    TOWER2
+    TOWER2,
+    EFFECTEXPLOSION
 }
 
 public class Factory : MonoBehaviour
 {
+    private static Factory instance;
+
+    public static Factory Instance
+    {
+        get
+        {
+            if (instance == null)
+                instance = GameObject.FindObjectOfType<Factory>();
+            return instance;
+        }
+    }
+
     //Fill dictionnay from inspector
     [Serializable]
     public struct entry

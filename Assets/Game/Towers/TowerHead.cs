@@ -13,7 +13,6 @@ public class TowerHead : MonoBehaviour
 
     public void lookAt(Vector3 pos)
     {
-        var rot = computeRotation(pos);
         headObject.transform.rotation = Quaternion.Slerp(headObject.transform.rotation, computeRotation(pos), Time.deltaTime * speed);
     }
 

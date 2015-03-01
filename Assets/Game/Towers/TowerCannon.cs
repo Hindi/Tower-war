@@ -15,11 +15,8 @@ public class TowerCannon : MonoBehaviour
     [SerializeField]
     private TowerFocus towerFocus;
 
-    private PhotonView photonView;
-
     void Start()
     {
-        photonView = GetComponent<PhotonView>();    
         lastShotTime = Time.time;
     }
 	

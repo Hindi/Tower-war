@@ -32,6 +32,11 @@ public class TowerBuilder : MonoBehaviour {
             tile.GetComponent<OccupentHolder>().addOccupent(factory.spawn(spawn, tile.transform.position));
     }
 
+    public void upgrade(Tile tile, TowerUpgrade towerUp)
+    {
+        tile.GetComponent<OccupentHolder>().addOccupent(towerUp.upgradeNow());
+    }
+
     public bool canBuild()
     {
         return true;

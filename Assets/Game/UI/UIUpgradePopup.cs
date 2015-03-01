@@ -19,6 +19,11 @@ public class UIUpgradePopup : UIElement
         hide();
     }
 
+    public void upgrade()
+    {
+        TowerBuilder.Instance.upgrade(currentTile, currentTile.GetComponent<OccupentHolder>().occupent.GetComponent<TowerUpgrade>());
+    }
+
     public void hide()
     {
         if (currentTile != null)

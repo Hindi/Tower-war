@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class Machine : MonoBehaviour
 {
-    PhotonView photonView;
-
     [SerializeField]
     private string modelName;
 
@@ -16,7 +14,6 @@ public class Machine : MonoBehaviour
     {
         inUse = new List<GameObject>();
         waiting = new List<GameObject>();
-        photonView = GetComponent<PhotonView>();
     }
 
     public GameObject createModel(int id, Vector3 position)

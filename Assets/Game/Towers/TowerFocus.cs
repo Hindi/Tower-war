@@ -29,8 +29,10 @@ public class TowerFocus : MonoBehaviour {
     void Start()
     {
         photonView = GetComponent<PhotonView>();
+
         targets = new List<GameObject>();
         GetComponent<SphereCollider>().radius = radius;
+
         if (photonView.isMine)
             idleDirection = GetComponent<OccupentTileInfos>().Zone.StartTile.transform.position;
         idleDirection.z -= 0.1f;
