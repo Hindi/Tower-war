@@ -71,11 +71,16 @@ public class Zone : MonoBehaviour {
         GetComponent<CreepSpawner>().EndTile = currentTile;
         EndTile = currentTile;
 
+        StartCoroutine(catchNeighbourCoroutine());
+        PhotonNetwork.Instantiate("Barracks", new Vector3(position.x - 1, position.y, 0), Quaternion.identity, 0);
+    }
+
+    IEnumerator catchNeighbourCoroutine()
+    {
+        yield return null;
         foreach (KeyValuePair<int, Tile> p in tileDict)
             p.Value.catchNeighboursIds();
-        
-        PhotonNetwork.Instantiate("Barracks", new Vector3(position.x - 1, position.y, 0), Quaternion.identity, 0);
-        
+        EventManager.Raise(EnumEvent.START);
     }
 	
 	// Update is called once per frame

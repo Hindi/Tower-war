@@ -18,6 +18,8 @@ public class UIServerList : UIElement {
     private Color notSelectedColor;
     [SerializeField]
     private Color selectedColor;
+    [SerializeField]
+    private Button joinButton;
 
 	// Use this for initialization
 	void Start () {
@@ -43,24 +45,6 @@ public class UIServerList : UIElement {
                 si.ServerList = this;
                 serverList.Add(si.gameObject);
             }
-            if (r.visible && r.open)
-            {
-                ServerInfo si = ((GameObject)Instantiate(serverInfoPrefab)).GetComponent<ServerInfo>();
-                si.ServerName = r.name;
-                si.Count = r.playerCount.ToString();
-                si.Max = r.maxPlayers.ToString();
-                si.ServerList = this;
-                serverList.Add(si.gameObject);
-            }
-            if (r.visible && r.open)
-            {
-                ServerInfo si = ((GameObject)Instantiate(serverInfoPrefab)).GetComponent<ServerInfo>();
-                si.ServerName = r.name;
-                si.Count = r.playerCount.ToString();
-                si.Max = r.maxPlayers.ToString();
-                si.ServerList = this;
-                serverList.Add(si.gameObject);
-            }
         }
 
         showServerList();
@@ -74,10 +58,19 @@ public class UIServerList : UIElement {
 
     public void select(ServerInfo selected)
     {
-        if (selectedServer != null)
+        if (selected == selectedServer)
+        {
             selectedServer.gameObject.GetComponent<Image>().color = notSelectedColor;
-        selectedServer = selected;
-        selectedServer.gameObject.GetComponent<Image>().color = selectedColor;
+            selectedServer = null;
+        }
+        else
+        {
+            if (selectedServer != null)
+                selectedServer.gameObject.GetComponent<Image>().color = notSelectedColor;
+            selectedServer = selected;
+            selectedServer.gameObject.GetComponent<Image>().color = selectedColor;
+        }
+        joinButton.interactable = (selectedServer != null);
     }
 
     public void join()

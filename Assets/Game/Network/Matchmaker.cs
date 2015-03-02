@@ -36,6 +36,8 @@ public class Matchmaker : MonoBehaviour
 
     void OnPhotonRandomJoinFailed()
     {
-        PhotonNetwork.CreateRoom("Boite");
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.maxPlayers = 2;
+        PhotonNetwork.JoinOrCreateRoom("Boite", roomOptions, TypedLobby.Default);
     }
 }

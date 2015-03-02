@@ -60,6 +60,18 @@ public class Tile : MonoBehaviour
     {
         get { return neighboursIds; }
     }
+
+    private PhotonView photonView;
+
+    void Start()
+    {
+        photonView = GetComponent<PhotonView>();
+    }
+
+    public bool isMine()
+    {
+        return photonView.isMine;
+    }
     
     public void manHattanDistance(Tile endTile)
     {
@@ -104,10 +116,10 @@ public class Tile : MonoBehaviour
         RaycastHit2D hitUp = Physics2D.Raycast(transform.position, direction, 1);
         enableTileCollider(true);
 
-        if (hitUp.transform != null)// && hitUp.collider.tag == "Tile")
+        if (hitUp.transform != null && hitUp.collider.tag == "Tile")
         {
             int id = hitUp.collider.gameObject.GetComponent<Tile>().Id;
-            if (!neighboursIds.Contains(id))
+            if (!neighboursIds.Contains(id) && hitUp.collider.gameObject.GetComponent<Tile>().isMine())
             {
                 neighboursIds.Add(id);
             }
