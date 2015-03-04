@@ -31,6 +31,7 @@ CREATE TABLE tw_relationships
 DROP TABLE tw_relationships_request;
 CREATE TABLE tw_relationships_request
 (
+	id INT(6) PRIMARY KEY,
 	askerId INT(6),
 	targetId INT(6)
 );

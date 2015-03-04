@@ -27,7 +27,7 @@ public class Database : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("id", id);
         form.AddField("action", "get");
-        WWW w = new WWW("http://www.vstuder.com/towerWar/getLevel.php", form);
+        WWW w = new WWW("http://www.vstuder.com/towerWar/level.php", form);
         StartCoroutine(levelCoroutine(w, levelSuccessfull, levelFail));
     }
 
@@ -37,13 +37,94 @@ public class Database : MonoBehaviour
         form.AddField("id", id);
         form.AddField("action", "set");
         form.AddField("level", level);
-        WWW w = new WWW("http://www.vstuder.com/towerWar/getLevel.php", form);
+        WWW w = new WWW("http://www.vstuder.com/towerWar/level.php", form);
         StartCoroutine(levelCoroutine(w, levelSuccessfull, levelFail));
+    }
+
+    public void requestFriendship(int id1, int id2, Callback<string> levelSuccessfull = null, Callback<string> levelFail = null)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", id1);
+        form.AddField("action", "request");
+        form.AddField("friendId", id2);
+        WWW w = new WWW("http://www.vstuder.com/towerWar/relationship.php", form);
+        StartCoroutine(friendshipCoroutine(w, levelSuccessfull, levelFail));
+    }
+
+    //id of the player that refuses
+    public void refuseFriendship(int id, Callback<string> levelSuccessfull = null, Callback<string> levelFail = null)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", id);
+        form.AddField("action", " refuse");
+        WWW w = new WWW("http://www.vstuder.com/towerWar/relationship.php", form);
+        StartCoroutine(friendshipCoroutine(w, levelSuccessfull, levelFail));
+    }
+
+    public void confirmFriendship(int id1, int id2, Callback<string> levelSuccessfull = null, Callback<string> levelFail = null)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", id1);
+        form.AddField("action", "confirm");
+        form.AddField("friendId", id2);
+        WWW w = new WWW("http://www.vstuder.com/towerWar/relationship.php", form);
+        StartCoroutine(friendshipCoroutine(w, levelSuccessfull, levelFail));
+    }
+
+    public void listFriendship(int id, Callback<string> levelSuccessfull = null, Callback<string> levelFail = null)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", id);
+        form.AddField("action", "list");
+        WWW w = new WWW("http://www.vstuder.com/towerWar/relationship.php", form);
+        StartCoroutine(friendshipCoroutine(w, levelSuccessfull, levelFail));
+    }
+
+    public void deleteFriendship(int id, Callback<string> levelSuccessfull = null, Callback<string> levelFail = null)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", id);
+        form.AddField("action", "delete");
+        WWW w = new WWW("http://www.vstuder.com/towerWar/relationship.php", form);
+        StartCoroutine(friendshipCoroutine(w, levelSuccessfull, levelFail));
     }
 
     void Start()
     {
-        setLevel(0, 4);
+        listFriendship(1, success, error);
+    }
+
+    public void success(string e)
+    {
+        Debug.Log(e);
+        //confirmFriendship(2,1, success2, error);
+    }
+
+    public void success2(string e)
+    {
+        Debug.Log(e);
+    }
+
+    public void error(string e)
+    {
+        Debug.Log(e);
+    }
+
+    IEnumerator friendshipCoroutine(WWW w, Callback<string> friendSuccessfull, Callback<string> friendFail)
+    {
+        yield return w;
+        string message = "";
+        if (w.error == null)
+        {
+            if (friendSuccessfull != null)
+                friendSuccessfull(w.text);
+        }
+        else
+        {
+            message += "ERROR: " + w.error + "\n";
+            if (friendFail != null)
+                friendFail(message);
+        }
     }
 
     IEnumerator levelCoroutine(WWW w, Callback<string> levelSuccessfull, Callback<string> levelFail)

@@ -22,7 +22,7 @@ public class TileMouseInput : InterractableTerrainElement
 
     public void setVisible(bool b)
     {
-        renderer.enabled = b;
+        GetComponent<Renderer>().enabled = b;
     }
 
     public override void onMouseOver()

@@ -1,30 +1,42 @@
 <?PHP
 
-$id = $_POST['id'];	//Either the relationship's or the asking user's id
+$id = $_POST['id'];	
 $action = $_POST['action'];
 $friendId = $_POST['friendId'];
 
 $con = mysql_connect("mysql51-140.perso","vstudermod1","n2aHZEKG27zR") or ("Cannot connect!"  . mysql_error());
 if (!$con)
 	die('Could not connect: ' . mysql_error());
-	
+  
 mysql_select_db("vstudermod1" , $con) or die ("could not load the database" . mysql_error());
 
-if($action == "confirm")
+
+function confirm($arg_1, $arg_2)
 {
-  //Here id must be the relationship's id
-  $ins = mysql_query("REPLACE INTO  `tw_relationships` (  `id` , `date` ) VALUES ('.$curId.' ,  '') ; ");	//Add an entry in the relationship table
-  $curId = mysql_insert_id()
-  $ins = mysql_query("REPLACE INTO  `tw_user_relationships` (  `id` , `userId` ) VALUES ('.$curId.' ,  '".$friendId."') ; ");	//Add the relation between the relationship and the two users
-  $ins = mysql_query("REPLACE INTO  `tw_user_relationships` (  `id` , `userId` ) VALUES ('.$curId.' ,  '".$id."') ; ");
+  $ins = mysql_query("REPLACE INTO  `tw_relationships` (  `id` , `date` ) VALUES ('.$curId.' ,  '') ; ");
+  $curId = mysql_insert_id();
+  $ins = mysql_query("REPLACE INTO  `tw_user_relationships` (  `id` , `userId` ) VALUES ('.$curId.' ,  '".$arg_2."') ; ");
+  $ins = mysql_query("REPLACE INTO  `tw_user_relationships` (  `id` , `userId` ) VALUES ('.$curId.' ,  '".$arg_1."') ; ");
+  $ins = mysql_query("DELETE FROM  tw_relationships_request WHERE targetId = '".$arg_2."' AND askerId = '".$arg_1."'; ");
 	if ($ins)
 		die ("0");
 	else
 		die ("Error: " . mysql_error());
 }
-if($action == "refuse")
+
+if($action == "confirm")
+{ 
+  $res2 = mysql_query("SELECT id FROM `tw_relationships_request` WHERE targetId ='".$friendId."' AND askerId = '".$id."'; ");  //The future friend requested for a relationship
+  if(mysql_num_rows($res2) > 0)
+  {
+    confirm($id, $friendId);
+  }
+	else
+		die ("Error: There is no existing request to confirm.");
+}
+else if($action == "refuse")
 {
-  $ins = mysql_query("DELETE FROM  tw_relationships_request WHERE targetId = '$id';");	//Delete the request
+  $ins = mysql_query("DELETE FROM  tw_relationships_request WHERE targetId = '$id';");
 	if ($ins)
 		die ("0");
 	else
@@ -32,44 +44,59 @@ if($action == "refuse")
 }
 else if($action == "delete")
 {
-  //Here id must be the relationship's id
-  $ins = mysql_query("DELETE FROM  tw_relationships WHERE id = '".$id."';");		//Delete the relationship
-  $ins = mysql_query("DELETE FROM  tw_user_relationships WHERE id = '".$id."';");	//Delete the relationship
+  $ins = mysql_query("DELETE FROM  tw_relationships WHERE id = '".$id."';");
+  $ins = mysql_query("DELETE FROM  tw_user_relationships WHERE id = '".$id."';");
 	if ($ins)
 		die ("0");
 	else
 		die ("Error: " . mysql_error());
 }
-else if($action == "ask")
+else if($action == "request")
 {
-  //Here id must be the asker's id
-  $ins = mysql_query("REPLACE INTO  `tw_relationships_request` (  `askerId` , `targetId` ) VALUES ('.$id.' ,  '.$friendId.') ; ");	//Add an entry in the relationship request table
-	if ($ins)
-		die ("0");
-	else
-		die ("Error: " . mysql_error());
-}
-else if($action == "list")
-{
-  //Here id must be the asker's id
-  $check = mysql_query("SELECT a.userId, b.userId AS userId
-						FROM tw_user_relationships a 
-						INNER JOIN tw_user_relationships b
-						ON a.id = b.id
-						WHERE a.userId != '.$id.'
-						AND b.userId = '.$id.'");
-  $numrows = mysql_num_rows($check);
-  if ($numrows == 0)
+  $res = mysql_query("SELECT id FROM `tw_relationships_request` WHERE `targetId`='".$id."' AND `askerId`='".$friendId."' ; ");
+  if(mysql_num_rows($res) == 0)
   {
-	  die ("id does not exists \n");
+    $rqId = $id * $friendId;
+    $ins = mysql_query("REPLACE INTO  `tw_relationships_request` ( `id` , `askerId` , `targetId` ) VALUES ('.$rqId.', '.$id.' ,  '.$friendId.') ; ");
+	  if ($ins)
+		  die ("0");
+	  else
+		  die ("Error: " . mysql_error());
   }
   else
   {
-    $row = mysql_fetch_assoc($check);
-	  die($row['level']);
+    confirm($id, $friendId);
   }
 }
-
-
-
+else if($action == "list")
+{
+  $result = mysql_query("
+    WITH
+    x AS
+    (
+        SELECT id
+        FROM tw_relationships
+        WHERE userId = '.$userId.'
+    )
+    SELECT userId
+    FROM tw_relationships
+    WHERE x.id = id
+    AND x.userId != '.$userId.';"
+  );
+  $numrows = mysql_num_rows($result);
+  if ($numrows == 0)
+  {
+	  die ("1");
+  }
+  else
+  {
+    $answer = "";
+    for($i = 0; $i < $numrows; $i++)
+    {
+        $row = mysql_fetch_array($result);
+        $answer = $answer . $row['userId'] . ",";
+    }
+    die($answer);
+  }
+}
 ?>
