@@ -22,23 +22,23 @@ public class Database : MonoBehaviour
         StartCoroutine(registerCoroutine(w, registerSuccessfull, registerFail));
     }
 
-    public void getLevel(int id, Callback<string> levelSuccessfull, Callback<string> levelFail)
+    public void getLevel(int id, Callback<int, string> levelSuccessfull, Callback<string> levelFail)
     {
         WWWForm form = new WWWForm();
         form.AddField("id", id);
         form.AddField("action", "get");
         WWW w = new WWW("http://www.vstuder.com/towerWar/level.php", form);
-        StartCoroutine(levelCoroutine(w, levelSuccessfull, levelFail));
+        StartCoroutine(levelCoroutine(w, id, levelSuccessfull, levelFail));
     }
 
-    public void setLevel(int id, int level, Callback<string> levelSuccessfull = null, Callback<string> levelFail = null)
+    public void setLevel(int id, int level, Callback<int, string> levelSuccessfull = null, Callback<string> levelFail = null)
     {
         WWWForm form = new WWWForm();
         form.AddField("id", id);
         form.AddField("action", "set");
         form.AddField("level", level);
         WWW w = new WWW("http://www.vstuder.com/towerWar/level.php", form);
-        StartCoroutine(levelCoroutine(w, levelSuccessfull, levelFail));
+        StartCoroutine(levelCoroutine(w, id, levelSuccessfull, levelFail));
     }
 
     public void requestFriendship(int id1, int id2, Callback<string> levelSuccessfull = null, Callback<string> levelFail = null)
@@ -89,27 +89,6 @@ public class Database : MonoBehaviour
         StartCoroutine(friendshipCoroutine(w, levelSuccessfull, levelFail));
     }
 
-    void Start()
-    {
-        listFriendship(1, success, error);
-    }
-
-    public void success(string e)
-    {
-        Debug.Log(e);
-        //confirmFriendship(2,1, success2, error);
-    }
-
-    public void success2(string e)
-    {
-        Debug.Log(e);
-    }
-
-    public void error(string e)
-    {
-        Debug.Log(e);
-    }
-
     IEnumerator friendshipCoroutine(WWW w, Callback<string> friendSuccessfull, Callback<string> friendFail)
     {
         yield return w;
@@ -127,14 +106,14 @@ public class Database : MonoBehaviour
         }
     }
 
-    IEnumerator levelCoroutine(WWW w, Callback<string> levelSuccessfull, Callback<string> levelFail)
+    IEnumerator levelCoroutine(WWW w, int id, Callback<int, string> levelSuccessfull, Callback<string> levelFail)
     {
         yield return w;
         string message = "";
         if (w.error == null)
         {
             if (levelSuccessfull != null)
-                levelSuccessfull(w.text);
+                levelSuccessfull(id, w.text);
         }
         else
         {

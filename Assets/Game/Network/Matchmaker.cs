@@ -9,6 +9,9 @@ public class Matchmaker : MonoBehaviour
     [SerializeField]
     bool gameDebug;
 
+    [SerializeField]
+    private FriendList friendList;
+
     // Use this for initialization
     void Start()
     {
@@ -31,7 +34,11 @@ public class Matchmaker : MonoBehaviour
         if (gameDebug)
             PhotonNetwork.JoinRandomRoom();
         else
+        {
             UI.Instance.showServerList();
+            UI.Instance.showFriendList();
+            friendList.loadFriendList(1);
+        }
     }
 
     void OnPhotonRandomJoinFailed()

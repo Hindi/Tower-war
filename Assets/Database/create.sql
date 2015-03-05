@@ -18,7 +18,8 @@ DROP TABLE tw_user_relationships;
 CREATE TABLE tw_user_relationships
 (
 	id INT(6) NOT NULL,
-	userId INT(6) NOT NULL
+	userId1 INT(6) NOT NULL,
+	userId2 INT(6) NOT NULL
 );
 
 DROP TABLE tw_relationships;

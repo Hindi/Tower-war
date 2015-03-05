@@ -23,6 +23,8 @@ public class UI : MonoBehaviour {
     private UIBuyCreepsPopup buyCreepsPopup;
     [SerializeField]
     private UIServerList serverList;
+    [SerializeField]
+    private UIFriendList friendList;
 
     public void showBuildPopup(Tile tile)
     {
@@ -43,5 +45,10 @@ public class UI : MonoBehaviour {
     {
         serverList.setActive(true);
         serverList.generateServerList();
+    }
+
+    public void showFriendList()
+    {
+        friendList.setActive(true);
     }
 }

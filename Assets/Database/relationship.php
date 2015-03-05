@@ -15,8 +15,7 @@ function confirm($arg_1, $arg_2)
 {
   $ins = mysql_query("REPLACE INTO  `tw_relationships` (  `id` , `date` ) VALUES ('.$curId.' ,  '') ; ");
   $curId = mysql_insert_id();
-  $ins = mysql_query("REPLACE INTO  `tw_user_relationships` (  `id` , `userId` ) VALUES ('.$curId.' ,  '".$arg_2."') ; ");
-  $ins = mysql_query("REPLACE INTO  `tw_user_relationships` (  `id` , `userId` ) VALUES ('.$curId.' ,  '".$arg_1."') ; ");
+  $ins = mysql_query("REPLACE INTO  `tw_user_relationships` (  `id` , `userId1`, `userId2` ) VALUES ('.$curId.' ,  '".$arg_1."',  '".$arg_2."') ; ");
   $ins = mysql_query("DELETE FROM  tw_relationships_request WHERE targetId = '".$arg_2."' AND askerId = '".$arg_1."'; ");
 	if ($ins)
 		die ("0");
@@ -70,33 +69,16 @@ else if($action == "request")
 }
 else if($action == "list")
 {
-  $result = mysql_query("
-    WITH
-    x AS
-    (
-        SELECT id
-        FROM tw_relationships
-        WHERE userId = '.$userId.'
-    )
-    SELECT userId
-    FROM tw_relationships
-    WHERE x.id = id
-    AND x.userId != '.$userId.';"
-  );
-  $numrows = mysql_num_rows($result);
-  if ($numrows == 0)
-  {
-	  die ("1");
-  }
-  else
-  {
-    $answer = "";
-    for($i = 0; $i < $numrows; $i++)
-    {
-        $row = mysql_fetch_array($result);
-        $answer = $answer . $row['userId'] . ",";
-    }
-    die($answer);
-  }
+  $result1 = mysql_query(" SELECT userId1 FROM `tw_user_relationships` WHERE `userId2` = '".$id."'");
+  $result2 = mysql_query(" SELECT userId2 FROM `tw_user_relationships` WHERE `userId1` = '".$id."'");
+  
+  $answer = "";
+  while ($row = mysql_fetch_array($result1, MYSQL_NUM)) {
+    $answer = $answer . $row[0] . ",";
+  } 
+  while ($row = mysql_fetch_array($result2, MYSQL_NUM)) {
+    $answer = $answer . $row[0] . ",";
+  } 
+  die($answer);
 }
 ?>
