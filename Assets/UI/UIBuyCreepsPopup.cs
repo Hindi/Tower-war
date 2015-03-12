@@ -8,7 +8,7 @@ public class UIBuyCreepsPopup : UIElement
 
     public void buyCreep(int spawn)
     {
-        creepSpawner.requestSpawn((EnumSpawn)spawn);
+        creepSpawner.requestSpawn((BuySpawn)spawn);
     }
 
     public void hide()

@@ -2,16 +2,6 @@
 using System;
 using System.Collections.Generic;
 
-public enum EnumSpawn
-{
-    DEFAULT,            //Value when not initialized
-    NOTHING,            //No possible upgrade, for exemple
-    BASIC,
-    TOWER,
-    TOWER2,
-    EFFECTEXPLOSION
-}
-
 public class Factory : MonoBehaviour
 {
     private static Factory instance;
@@ -26,34 +16,26 @@ public class Factory : MonoBehaviour
         }
     }
 
-    //Fill dictionnay from inspector
-    [Serializable]
-    public struct entry
-    {
-        public EnumSpawn spawn;
-        public Machine machine;
-    }
-
     [SerializeField]
-    public List<entry> machines;
+    Catalog catalog;
 
-    Dictionary<EnumSpawn, Machine> machinesDict;
+    Dictionary<BuySpawn, Machine> machinesDict;
 
     private int nextId;
 
-    void Awake()
-    {
-        nextId = 0;
-        machinesDict = new Dictionary<EnumSpawn, Machine>();
-        foreach (entry e in machines)
-            machinesDict.Add(e.spawn, e.machine);
-    }
-
     void Start()
     {
+        nextId = 0;
+        machinesDict = new Dictionary<BuySpawn, Machine>();
+        foreach (KeyValuePair<BuySpawn,GameObject> p in catalog.SpawnDict)
+        {
+            Machine machine = new Machine();
+            machine.ModelName = p.Value.name;
+            machinesDict.Add(p.Key, machine);
+        }
     }
 
-    public GameObject spawn(EnumSpawn type, Vector3 position)
+    public GameObject spawn(BuySpawn type, Vector3 position)
     {
         GameObject currentObj = machinesDict[type].createModel(nextId, position);
         currentObj.transform.parent = transform;

@@ -25,6 +25,12 @@ public class CreepSpawner : MonoBehaviour {
     public Factory Factory
     { set { factory = value; } }
 
+    [SerializeField]
+    private Purse purse;
+
+    [SerializeField]
+    private Catalog catalog;
+
     PhotonView photonView;
 
 	// Use this for initialization
@@ -38,22 +44,31 @@ public class CreepSpawner : MonoBehaviour {
     [RPC]
     public void spawnRPC(int unit)
     {
-        spawn((EnumSpawn)unit);
+        spawn((BuySpawn)unit);
     }
 
-    private void spawn(EnumSpawn unit)
+    private void spawn(BuySpawn unit)
     {
         GameObject creep = factory.spawn(unit, startTile.transform.position);
         creep.GetComponent<CreepMovement>().Path = pathfinder.Result;
         creep.GetComponent<CreepMovement>().Pathfinder = pathfinder;
     }
 
-    public void requestSpawn(EnumSpawn unit)
+    public void requestSpawn(BuySpawn unit)
     {
-        if (PhotonNetwork.offlineMode)
-            spawn(unit);
-        else
-            photonView.RPC("spawnRPC", PhotonTargets.Others, (int)unit);
+        if(catalog.containsCreep(unit))
+        {
+            int price = catalog.getPrefab(unit).GetComponent<CreepMoney>().Price;
+
+            if (purse.canAfford(price))
+            {
+                purse.substract(price);
+                if (PhotonNetwork.offlineMode)
+                    spawn(unit);
+                else
+                    photonView.RPC("spawnRPC", PhotonTargets.Others, (int)unit);
+            }
+        }
     }
 
     void onGameStart()

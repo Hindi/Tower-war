@@ -16,20 +16,20 @@ public class UIBuildPopup : UIElement {
 
     public void build(int i)
     {
-        EnumSpawn spawn;
+        BuySpawn spawn;
         switch(i)
         {
             case 0:
-                spawn = EnumSpawn.TOWER;
+                spawn = BuySpawn.TOWER;
                 break;
             case 1:
-                spawn = EnumSpawn.TOWER2;
+                spawn = BuySpawn.TOWER2;
                 break;
             default:
-                spawn = EnumSpawn.TOWER;
+                spawn = BuySpawn.TOWER;
                 break;
         }
-        if(currentTile != null && towerBuilder.canBuild())
+        if (currentTile != null && towerBuilder.canBuild(spawn))
             towerBuilder.build(spawn, currentTile);
 
         hide();

@@ -32,7 +32,10 @@ public class Matchmaker : MonoBehaviour
     void OnJoinedLobby()
     {
         if (gameDebug)
+        {
             PhotonNetwork.JoinRandomRoom();
+            UI.Instance.showGameUI();
+        }
         else
         {
             UI.Instance.showServerList();

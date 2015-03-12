@@ -9,21 +9,33 @@ public class Income : MonoBehaviour {
     [SerializeField]
     private float incomeCooldown;
 
+    private UIIncome incomeCanvas;
+
     private Purse purse;
 
 	// Use this for initialization
 	void Start () {
+        incomeCanvas = UI.Instance.IncomeCanvas;
         purse = GetComponent<Purse>();
         currentIncome = startIncome;
+        incomeCanvas.IncomeTime = incomeCooldown.ToString();
+        incomeCanvas.IncomeAmount = currentIncome.ToString();
 
         StartCoroutine(incomeCoroutine());
 	}
 	
     IEnumerator incomeCoroutine()
     {
+        int secondCounter;
         while(true)
         {
-            yield return new WaitForSeconds(incomeCooldown);
+            secondCounter = 0;
+            while (secondCounter < incomeCooldown)
+            {
+                secondCounter++;
+                incomeCanvas.IncomeTime = (incomeCooldown - secondCounter).ToString();
+                yield return new WaitForSeconds(1);
+            }
             purse.add(currentIncome);
         }
     }
@@ -31,5 +43,6 @@ public class Income : MonoBehaviour {
     public void increaseIncome(int amount)
     {
         currentIncome += amount;
+        incomeCanvas.IncomeAmount = currentIncome.ToString();
     }
 }

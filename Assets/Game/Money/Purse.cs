@@ -8,24 +8,34 @@ public class Purse : MonoBehaviour {
     [SerializeField]
     private int startAmount;
 
+    private UIIncome incomeCanvas;
+
     void Start()
     {
+        incomeCanvas = UI.Instance.IncomeCanvas;
         currentAmount = startAmount;
+        updateUI();
+    }
+
+    private void updateUI()
+    {
+        incomeCanvas.MoneyAmount = currentAmount.ToString();
     }
 
     public void add(int amount)
     {
         currentAmount += amount;
+        updateUI();
     }
 
     public bool canAfford(int amount)
     {
-        return amount < currentAmount;
+        return amount <= currentAmount;
     }
 
     public void substract(int amount)
     {
-        if (canAfford(amount))
-            currentAmount -= amount;
+        currentAmount -= amount;
+        updateUI();
     }
 }

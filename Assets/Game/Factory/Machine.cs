@@ -2,15 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Machine : MonoBehaviour
+public class Machine
 {
-    [SerializeField]
     private string modelName;
+    public string ModelName
+    {
+        get { return modelName; }
+        set { modelName = value; }
+    }
 
     List<GameObject> inUse;
     List<GameObject> waiting;
 
-    void Start()
+    public Machine()
     {
         inUse = new List<GameObject>();
         waiting = new List<GameObject>();

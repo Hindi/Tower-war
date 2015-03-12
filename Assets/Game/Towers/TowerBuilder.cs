@@ -18,17 +18,17 @@ public class TowerBuilder : MonoBehaviour {
     [SerializeField]
     Factory factory;
 
-    private EnumSpawn lastBuilt;
+    private BuySpawn lastBuilt;
 
     void Start()
     {
-        lastBuilt = (EnumSpawn)(-1);
+        lastBuilt = (BuySpawn)(-1);
     }
 
-    public void build(EnumSpawn spawn, Tile tile)
+    public void build(BuySpawn spawn, Tile tile)
     {
         lastBuilt = spawn;
-        if (canBuild())
+        if (canBuild(spawn))
             tile.GetComponent<OccupentHolder>().addOccupent(factory.spawn(spawn, tile.transform.position));
     }
 
@@ -37,14 +37,14 @@ public class TowerBuilder : MonoBehaviour {
         tile.GetComponent<OccupentHolder>().addOccupent(towerUp.upgradeNow());
     }
 
-    public bool canBuild()
+    public bool canBuild(BuySpawn spawn)
     {
         return true;
     }
 
     public void buildLast(Tile tile)
     {
-        if ((int)(lastBuilt) != -1 && canBuild())
-            tile.GetComponent<OccupentHolder>().addOccupent(factory.spawn(lastBuilt, tile.transform.position));
+        if ((int)(lastBuilt) != -1)
+            build(lastBuilt, tile);
     }
 }

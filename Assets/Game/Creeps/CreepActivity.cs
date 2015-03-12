@@ -14,7 +14,7 @@ public class CreepActivity : Activity
         }
         else
         {
-            if(machine)
+            if(machine != null)
                 machine.putAway(gameObject);
             GetComponent<CreepMovement>().notifyDesactivation();
             GetComponent<CreepTargetKeeper>().notifyExit();

@@ -4,7 +4,7 @@ using System.Collections;
 public class TowerUpgrade : MonoBehaviour {
 
     [SerializeField]
-    private EnumSpawn nextVersion = EnumSpawn.DEFAULT; 
+    private BuySpawn nextVersion = BuySpawn.DEFAULT; 
 
     private TowerActivity activity;
 
@@ -15,7 +15,7 @@ public class TowerUpgrade : MonoBehaviour {
 
     public bool asAnUpgrade()
     {
-        return (nextVersion != EnumSpawn.NOTHING);
+        return (nextVersion != BuySpawn.NOTHING);
     }
 
     public GameObject upgradeNow()
