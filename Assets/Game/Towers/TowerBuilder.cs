@@ -18,6 +18,12 @@ public class TowerBuilder : MonoBehaviour {
     [SerializeField]
     Factory factory;
 
+    [SerializeField]
+    private Purse purse;
+
+    [SerializeField]
+    private Catalog catalog;
+
     private BuySpawn lastBuilt;
 
     void Start()
@@ -28,8 +34,12 @@ public class TowerBuilder : MonoBehaviour {
     public void build(BuySpawn spawn, Tile tile)
     {
         lastBuilt = spawn;
-        if (canBuild(spawn))
+        int price = catalog.getPrefab(spawn).GetComponent<TowerMoney>().Price;
+        if (canBuild(spawn, price))
+        {
+            purse.substract(price);
             tile.GetComponent<OccupentHolder>().addOccupent(factory.spawn(spawn, tile.transform.position));
+        }
     }
 
     public void upgrade(Tile tile, TowerUpgrade towerUp)
@@ -37,9 +47,9 @@ public class TowerBuilder : MonoBehaviour {
         tile.GetComponent<OccupentHolder>().addOccupent(towerUp.upgradeNow());
     }
 
-    public bool canBuild(BuySpawn spawn)
+    public bool canBuild(BuySpawn spawn, int price)
     {
-        return true;
+        return (purse.canAfford(price));
     }
 
     public void buildLast(Tile tile)

@@ -29,7 +29,7 @@ public class UIBuildPopup : UIElement {
                 spawn = BuySpawn.TOWER;
                 break;
         }
-        if (currentTile != null && towerBuilder.canBuild(spawn))
+        if (currentTile != null)
             towerBuilder.build(spawn, currentTile);
 
         hide();

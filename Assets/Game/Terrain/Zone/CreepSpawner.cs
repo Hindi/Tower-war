@@ -31,6 +31,9 @@ public class CreepSpawner : MonoBehaviour {
     [SerializeField]
     private Catalog catalog;
 
+    [SerializeField]
+    private Income income;
+
     PhotonView photonView;
 
 	// Use this for initialization
@@ -63,6 +66,7 @@ public class CreepSpawner : MonoBehaviour {
             if (purse.canAfford(price))
             {
                 purse.substract(price);
+                income.increaseIncome(catalog.getPrefab(unit).GetComponent<CreepMoney>().IncomeIncrease);
                 if (PhotonNetwork.offlineMode)
                     spawn(unit);
                 else
