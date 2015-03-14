@@ -11,13 +11,11 @@ public class TowerMoney : MonoBehaviour {
         set { price = value; }
     }
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    [SerializeField]
+    private int upgradePrice;
+    public int UpgradePrice
+    {
+        get { return upgradePrice; }
+        set { upgradePrice = value; }
+    }
 }

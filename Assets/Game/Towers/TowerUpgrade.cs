@@ -13,7 +13,7 @@ public class TowerUpgrade : MonoBehaviour {
         activity = GetComponent<TowerActivity>();
     }
 
-    public bool asAnUpgrade()
+    public bool hasAnUpgrade()
     {
         return (nextVersion != BuySpawn.NOTHING);
     }

@@ -27,6 +27,12 @@ public class Zone : MonoBehaviour {
         set { endTile = value; }
     }
 
+    [SerializeField]
+    private int lineCount;
+
+    [SerializeField]
+    private int columnCount;
+
 	// Use this for initialization
 	void Awake () {
         tileDict = new Dictionary<int, Tile>();
@@ -35,44 +41,63 @@ public class Zone : MonoBehaviour {
     public void spawnTile(Vector3 position)
     {
         //Calculate the dimension that we'll use
-        float width = 0;
-        float height = 0;
-        float offestW;
+        Rect rect = tileReference.GetComponent<SpriteSwitcher>().CurrentSprite.rect;
         float offsetL = 0;
+        float width = rect.width / 100;
+        float height = rect.height / 84;
+        float heightBetweenLines = height / 2.4f;
+        float widthBetweenColumn = (width / 2.69f) + width;
+        float offestW = width / 2;
 
-        GameObject currentTile = null;
-        Tile currTileScript;
-        for (int j = 0; j < 20; ++j)
+        StartTile = instantiateTile("StartTile", new Vector3(position.x - 1, position.y + heightBetweenLines * lineCount / 2, 0));
+        EndTile = instantiateTile("EndTile", new Vector3(position.x + widthBetweenColumn * (columnCount + 2), position.y + heightBetweenLines * lineCount / 2, 0));
+        int startId = StartTile.GetComponent<Tile>().Id;
+        int endId = EndTile.GetComponent<Tile>().Id;
+        GetComponent<CreepSpawner>().EndTile = EndTile;
+        GetComponent<CreepSpawner>().StartTile = StartTile;
+        GameObject lastInstantiatedTile = null;
+
+        for (int j = 0; j < lineCount; ++j)
         {
-            for (int i = 0; i < 10; ++i)
-            {
-                Rect rect = tileReference.GetComponent<SpriteSwitcher>().CurrentSprite.rect;
-                width = rect.width / 100;
-                height = rect.height / 84;
-                offestW = width / 2;
-                currentTile = PhotonNetwork.Instantiate("Tile", new Vector3(position.x + offsetL + i * (width + offestW), position.y + j * height / 2.4f, 0), Quaternion.identity, 0);
-                currTileScript = currentTile.GetComponent<Tile>();
+            int i;
+            for (i = 0; i < columnCount; ++i)
+                lastInstantiatedTile = instantiateTile("Tile", new Vector3(position.x + offsetL + i * (width + offestW), position.y + j * heightBetweenLines, 0));
 
-                currTileScript.Zone = this;
-                currTileScript.calcId();
-
-                tileDict.Add(currTileScript.Id, currTileScript);
-                if (i == 0 && j == 0)
-                {
-                    GetComponent<CreepSpawner>().StartTile = currentTile;
-                    StartTile = currentTile;
-                }
-            }
+            //Update the offset to obtain a nice hexagonal tile
+            //Add the neighbours ids to the start and end tile
             if (offsetL == 0)
+            {
+                addNeighbours(startId, Tile.CalcId(new Vector3(position.x + offsetL, position.y + j * heightBetweenLines, 0)));
                 offsetL = width * 2 / 2.69f;
+            }
             else
+            {
+                addNeighbours(endId, lastInstantiatedTile.GetComponent<Tile>().Id);
                 offsetL = 0;
+            }
         }
-        GetComponent<CreepSpawner>().EndTile = currentTile;
-        EndTile = currentTile;
 
         StartCoroutine(catchNeighbourCoroutine());
         PhotonNetwork.Instantiate("Barracks", new Vector3(position.x - 1, position.y, 0), Quaternion.identity, 0);
+    }
+
+    private void addNeighbours(int id1, int id2)
+    {
+        tileDict[id1].addNeighBourId(id2);
+        tileDict[id2].addNeighBourId(id1);
+    }
+
+    GameObject instantiateTile(string tileType, Vector3 position)
+    {
+        GameObject currentTile = null;
+        currentTile = PhotonNetwork.Instantiate(tileType, position, Quaternion.identity, 0);
+
+        Tile currTileScript;
+        currTileScript = currentTile.GetComponent<Tile>();
+        currTileScript.Zone = this;
+        currTileScript.calcId();
+        tileDict.Add(currTileScript.Id, currTileScript);
+        return currentTile;
     }
 
     IEnumerator catchNeighbourCoroutine()
@@ -82,11 +107,6 @@ public class Zone : MonoBehaviour {
             p.Value.catchNeighboursIds();
         EventManager.Raise(EnumEvent.START);
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     public void notifyMouseOver()
     {

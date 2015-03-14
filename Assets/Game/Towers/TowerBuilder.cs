@@ -35,7 +35,7 @@ public class TowerBuilder : MonoBehaviour {
     {
         lastBuilt = spawn;
         int price = catalog.getPrefab(spawn).GetComponent<TowerMoney>().Price;
-        if (canBuild(spawn, price))
+        if (canBuild(price))
         {
             purse.substract(price);
             tile.GetComponent<OccupentHolder>().addOccupent(factory.spawn(spawn, tile.transform.position));
@@ -44,10 +44,16 @@ public class TowerBuilder : MonoBehaviour {
 
     public void upgrade(Tile tile, TowerUpgrade towerUp)
     {
-        tile.GetComponent<OccupentHolder>().addOccupent(towerUp.upgradeNow());
+        int price = towerUp.GetComponent<TowerMoney>().UpgradePrice;
+        if(canBuild(price) && towerUp.hasAnUpgrade())
+        {
+            tile.GetComponent<OccupentHolder>().destroyOccupent();
+            tile.GetComponent<OccupentHolder>().addOccupent(towerUp.upgradeNow());
+            purse.substract(price);
+        }
     }
 
-    public bool canBuild(BuySpawn spawn, int price)
+    public bool canBuild(int price)
     {
         return (purse.canAfford(price));
     }

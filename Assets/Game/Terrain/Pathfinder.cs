@@ -105,7 +105,8 @@ public class Pathfinder : MonoBehaviour {
     public void findPath()
     {
         initialiseZone(result);
-        checkNeighbourNodes(result);
+        if(!checkNeighbourNodes(result))
+            Debug.LogError("There was a problem when looking for the path.");
     }
 
     private bool checkNeighbourNodes(List<Vector3> path)

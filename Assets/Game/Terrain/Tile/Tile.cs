@@ -55,7 +55,8 @@ public class Tile : MonoBehaviour
         set { walkable = value; }
     }
 
-    private List<int> neighboursIds;
+    [SerializeField]
+    private List<int> neighboursIds = new List<int>();
     public List<int> NeighboursIds
     {
         get { return neighboursIds; }
@@ -80,7 +81,7 @@ public class Tile : MonoBehaviour
 	    h = x + y;
     }
 
-    void addNeighBourId(int id)
+    public void addNeighBourId(int id)
     {
         neighboursIds.Add(id);
     }
@@ -91,10 +92,13 @@ public class Tile : MonoBehaviour
         id = (int)(transform.position.x * 1000 + transform.position.y * 10);
     }
 
+    public static int CalcId(Vector3 position)
+    {
+        return (int)(position.x * 1000 + position.y * 10);
+    }
     
     public void catchNeighboursIds()
     {
-        neighboursIds = new List<int>();
         rayCast(Vector2.up);
         rayCast(-Vector2.up);
         rayCast(Vector2.right);
