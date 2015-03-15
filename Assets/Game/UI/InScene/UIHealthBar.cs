@@ -26,14 +26,7 @@ public class UIHealthBar : MonoBehaviour {
     PhotonView photonView;
 
     private Vector3 offset;
-
-    public void Start()
-    {
-        originalWidth = bar.rectTransform.sizeDelta.x;
-        offset = new Vector3(0, 0.5f, 0);
-        reset();
-    }
-
+    
     public void setHealthPercentage(float percentage)
     {
         currentPercentage = percentage;
@@ -52,6 +45,8 @@ public class UIHealthBar : MonoBehaviour {
 
     public void init(GameObject obj)
     {
+        originalWidth = bar.rectTransform.sizeDelta.x;
+        offset = new Vector3(0, 0.5f, 0);
         photonView = GetComponent<PhotonView>();
         creep = obj;
         int id = obj.GetComponent<PhotonView>().viewID;
