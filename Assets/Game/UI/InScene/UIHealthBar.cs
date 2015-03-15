@@ -58,6 +58,7 @@ public class UIHealthBar : MonoBehaviour {
     [RPC]
     public void resetRPC()
     {
+        Debug.Log("pouet");
         reset();
     }
 

@@ -27,6 +27,8 @@ public class CreepMortality : MonoBehaviour {
     public void reset()
     {
         currentHp = maxHp;
+        if (photonView.isMine)
+            healthBar.reset();
     }
 
     public bool takeDamage(int dmg)
