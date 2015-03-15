@@ -20,9 +20,13 @@ public class Income : MonoBehaviour {
         currentIncome = startIncome;
         incomeCanvas.IncomeTime = incomeCooldown.ToString();
         incomeCanvas.IncomeAmount = currentIncome.ToString();
-
-        StartCoroutine(incomeCoroutine());
+        EventManager.AddListener(EnumEvent.START, onGameStart);
 	}
+
+    public void onGameStart()
+    {
+        StartCoroutine(incomeCoroutine());
+    }
 	
     IEnumerator incomeCoroutine()
     {
@@ -44,5 +48,10 @@ public class Income : MonoBehaviour {
     {
         currentIncome += amount;
         incomeCanvas.IncomeAmount = currentIncome.ToString();
+    }
+
+    void OnDestroy()
+    {
+        EventManager.RemoveListener(EnumEvent.START, onGameStart);
     }
 }
