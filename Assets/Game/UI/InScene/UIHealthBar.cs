@@ -29,7 +29,6 @@ public class UIHealthBar : MonoBehaviour {
 
     public void Start()
     {
-        photonView = GetComponent<PhotonView>();
         originalWidth = bar.rectTransform.sizeDelta.x;
         offset = new Vector3(0, 0.5f, 0);
         reset();
@@ -53,6 +52,7 @@ public class UIHealthBar : MonoBehaviour {
 
     public void init(GameObject obj)
     {
+        photonView = GetComponent<PhotonView>();
         creep = obj;
         int id = obj.GetComponent<PhotonView>().viewID;
         photonView.RPC("initRPC", PhotonTargets.Others, id);
