@@ -28,7 +28,11 @@ public class LifeCount : MonoBehaviour {
 
     void onGameStart()
     {
-        if (counter != null)
+        updateUI(counter.CurrentAmount);
+    }
+
+    void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+    {
         updateUI(counter.CurrentAmount);
     }
 
