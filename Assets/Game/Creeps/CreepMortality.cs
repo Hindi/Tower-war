@@ -15,7 +15,7 @@ public class CreepMortality : MonoBehaviour {
     {
         reset();
         healthBar = (PhotonNetwork.Instantiate("HealthBar", transform.position, Quaternion.identity, 0)).GetComponent<UIHealthBar>();
-        healthBar.Creep = gameObject;
+        healthBar.init(gameObject);
     }
 
     public void reset()

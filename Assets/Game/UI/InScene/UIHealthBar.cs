@@ -22,16 +22,14 @@ public class UIHealthBar : MonoBehaviour {
     private float currentPercentage;
 
     private GameObject creep;
-    public GameObject Creep
-    {
-        get { return creep; }
-        set { creep = value; }
-    }
+
+    PhotonView photonView;
 
     private Vector3 offset;
 
     public void Start()
     {
+        photonView = GetComponent<PhotonView>();
         originalWidth = bar.rectTransform.sizeDelta.x;
         offset = new Vector3(0, 0.5f, 0);
         reset();
@@ -51,6 +49,19 @@ public class UIHealthBar : MonoBehaviour {
     {
         mask.rectTransform.sizeDelta = new Vector2(originalWidth, bar.rectTransform.sizeDelta.y);
         bar.color = Color.green;
+    }
+
+    public void init(GameObject obj)
+    {
+        creep = obj;
+        int id = obj.GetComponent<PhotonView>().viewID;
+        photonView.RPC("initRPC", PhotonTargets.Others, id);
+    }
+
+    [RPC]
+    public void initRPC(int id)
+    {
+        creep = PhotonView.Find(id).gameObject;
     }
 
     void Update()
