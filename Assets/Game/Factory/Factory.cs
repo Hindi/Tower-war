@@ -4,17 +4,6 @@ using System.Collections.Generic;
 
 public class Factory : MonoBehaviour
 {
-    private static Factory instance;
-
-    public static Factory Instance
-    {
-        get
-        {
-            if (instance == null)
-                instance = GameObject.FindObjectOfType<Factory>();
-            return instance;
-        }
-    }
 
     [SerializeField]
     Catalog catalog;

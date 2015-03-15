@@ -36,7 +36,7 @@ public class CreepMortality : MonoBehaviour {
 
     private void die()
     {
-        //Factory.Instance.spawn(BuySpawn.EFFECTEXPLOSION, transform.position);
+        FxSpawner.Instance.spawn(0, transform.position);
         GetComponent<CreepActivity>().Active = false;
     }
 }

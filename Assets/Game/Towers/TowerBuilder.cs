@@ -48,7 +48,7 @@ public class TowerBuilder : MonoBehaviour {
         if(canBuild(price) && towerUp.hasAnUpgrade())
         {
             tile.GetComponent<OccupentHolder>().destroyOccupent();
-            tile.GetComponent<OccupentHolder>().addOccupent(towerUp.upgradeNow());
+            tile.GetComponent<OccupentHolder>().addOccupent(towerUp.upgradeNow(factory));
             purse.substract(price);
         }
     }

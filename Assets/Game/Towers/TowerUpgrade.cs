@@ -18,11 +18,11 @@ public class TowerUpgrade : MonoBehaviour {
         return (nextVersion != -1);
     }
 
-    public GameObject upgradeNow()
+    public GameObject upgradeNow(Factory towerFactory)
     {
         Vector3 pos = transform.position;
         activity.Active = false;
-        return Factory.Instance.spawn(nextVersion, pos);
+        return towerFactory.spawn(nextVersion, pos);
     }
 
 }
