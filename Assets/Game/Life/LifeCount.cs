@@ -50,6 +50,6 @@ public class LifeCount : MonoBehaviour {
     [RPC]
     public void updateLifeLabelRPC(int value)
     {
-        uiLife.updateEnemyLifeLabel(counter.CurrentAmount);
+        uiLife.updateEnemyLifeLabel(value);
     }
 }

@@ -13,7 +13,7 @@ public class GameState : State {
     /// <returns>void</returns>
     public override void start()
     {
-        EventManager.AddListener(EnumEvent.REACHEDBASE, playerLost);
+        EventManager.AddListener(EnumEvent.GAMELOST, playerLost);
 	}
 
     public void playerLost()
