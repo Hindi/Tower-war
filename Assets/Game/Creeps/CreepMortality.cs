@@ -6,16 +6,17 @@ public class CreepMortality : MonoBehaviour {
     [SerializeField]
     private int maxHp;
 
-    [SerializeField]
     private UIHealthBar healthBar;
+    [SerializeField]
+    private GameObject healthBarPrefab;
 
     private int currentHp;
 
     void Start()
     {
-        reset();
-        healthBar = (PhotonNetwork.Instantiate("HealthBar", transform.position, Quaternion.identity, 0)).GetComponent<UIHealthBar>();
+        healthBar = ((GameObject)Instantiate(healthBarPrefab, transform.position, Quaternion.identity)).GetComponent<UIHealthBar>();
         healthBar.init(gameObject);
+        reset();
     }
 
     public void reset()

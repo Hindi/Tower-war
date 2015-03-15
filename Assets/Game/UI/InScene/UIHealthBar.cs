@@ -21,15 +21,13 @@ public class UIHealthBar : MonoBehaviour {
     private float originalWidth;
     private float currentPercentage;
 
+    [SerializeField]
     private GameObject creep;
-
-    PhotonView photonView;
 
     private Vector3 offset;
 
     public void Start()
     {
-        photonView = GetComponent<PhotonView>();
         originalWidth = bar.rectTransform.sizeDelta.x;
         offset = new Vector3(0, 0.5f, 0);
         reset();
@@ -54,30 +52,10 @@ public class UIHealthBar : MonoBehaviour {
     public void init(GameObject obj)
     {
         creep = obj;
-        int id = obj.GetComponent<PhotonView>().viewID;
-        photonView.RPC("initRPC", PhotonTargets.Others, id);
-    }
-
-    [RPC]
-    public void initRPC(int id)
-    {
-        creep = PhotonView.Find(id).gameObject;
     }
 
     void Update()
     {
         transform.position = creep.transform.position + offset;
-    }
-
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            stream.SendNext(currentPercentage);
-        }
-        else
-        {
-            setHealthPercentage(currentPercentage);
-        }
     }
 }
