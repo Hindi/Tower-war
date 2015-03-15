@@ -62,6 +62,7 @@ public class UIHealthBar : MonoBehaviour {
 
     private void initialize()
     {
+        currentPercentage = 1;
         originalWidth = bar.rectTransform.sizeDelta.x;
         offset = new Vector3(0, 0.5f, 0);
         photonView = GetComponent<PhotonView>();
