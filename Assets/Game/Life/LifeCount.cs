@@ -16,13 +16,19 @@ public class LifeCount : MonoBehaviour {
         photonView = GetComponent<PhotonView>();
         counter = GetComponent<Counter>();
         counter.EndCountingCallback = lost;
-        updateUI(counter.CurrentAmount);
         EventManager.AddListener(EnumEvent.REACHEDBASE, reachedBaseListener);
+        EventManager.AddListener(EnumEvent.START, onGameStart);
 	}
 
     public void reachedBaseListener()
     {
         counter.decreaseAmount();
+        updateUI(counter.CurrentAmount);
+    }
+
+    void onGameStart()
+    {
+        if (counter != null)
         updateUI(counter.CurrentAmount);
     }
 
