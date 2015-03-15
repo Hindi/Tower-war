@@ -17,6 +17,10 @@ public class Counter : MonoBehaviour {
     }
 
     private int currentAmount;
+    public int CurrentAmount
+    {
+        get { return currentAmount; }
+    }
 
 	// Use this for initialization
 	void Start () {
