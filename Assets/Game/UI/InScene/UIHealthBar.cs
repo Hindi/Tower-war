@@ -41,6 +41,9 @@ public class UIHealthBar : MonoBehaviour {
     {
         mask.rectTransform.sizeDelta = new Vector2(originalWidth, bar.rectTransform.sizeDelta.y);
         bar.color = Color.green;
+
+        if(photonView.isMine)
+            photonView.RPC("resetRPC", PhotonTargets.Others);
     }
 
     public void init(GameObject obj)
@@ -49,6 +52,12 @@ public class UIHealthBar : MonoBehaviour {
         creep = obj;
         int id = obj.GetComponent<PhotonView>().viewID;
         photonView.RPC("initRPC", PhotonTargets.Others, id);
+        reset();
+    }
+
+    [RPC]
+    public void resetRPC()
+    {
         reset();
     }
 
