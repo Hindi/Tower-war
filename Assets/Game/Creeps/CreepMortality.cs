@@ -6,23 +6,27 @@ public class CreepMortality : MonoBehaviour {
     [SerializeField]
     private int maxHp;
 
-    private UIHealthBar healthBar;
     [SerializeField]
-    private GameObject healthBarPrefab;
+    private UIHealthBar healthBar;
+
+    PhotonView photonView;
 
     private int currentHp;
 
     void Start()
     {
-        healthBar = ((GameObject)Instantiate(healthBarPrefab, transform.position, Quaternion.identity)).GetComponent<UIHealthBar>();
-        healthBar.init(gameObject);
+        photonView = GetComponent<PhotonView>();
+        if (photonView.isMine)
+        {
+            healthBar = (PhotonNetwork.Instantiate("HealthBar", transform.position, Quaternion.identity, 0)).GetComponent<UIHealthBar>();
+            healthBar.init(gameObject);
+        }
         reset();
     }
 
     public void reset()
     {
         currentHp = maxHp;
-        healthBar.reset();
     }
 
     public bool takeDamage(int dmg)
