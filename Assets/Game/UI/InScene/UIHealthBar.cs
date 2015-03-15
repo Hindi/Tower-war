@@ -80,7 +80,7 @@ public class UIHealthBar : MonoBehaviour {
         }
         else
         {
-            setHealthPercentage(currentPercentage);
+            setHealthPercentage((float)stream.ReceiveNext());
         }
     }
 }
