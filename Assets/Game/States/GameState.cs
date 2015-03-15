@@ -7,20 +7,25 @@ public class GameState : State {
     public GameState(StateManager stateManager)
         : base(stateManager)
     {
-
     }
 
     /// <summary>Called on start.</summary>
     /// <returns>void</returns>
     public override void start()
     {
+        EventManager.AddListener(EnumEvent.REACHEDBASE, playerLost);
 	}
+
+    public void playerLost()
+    {
+        Debug.Log("Lost");
+    }
 
     /// <summary>Called when leaving this state.</summary>
     /// <returns>void</returns>
     public override void end()
     {
-
+        EventManager.RemoveListener(EnumEvent.REACHEDBASE, playerLost);
     }
 
     /// <summary>Called each frame.</summary>

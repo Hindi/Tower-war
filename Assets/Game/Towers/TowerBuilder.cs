@@ -24,21 +24,21 @@ public class TowerBuilder : MonoBehaviour {
     [SerializeField]
     private Catalog catalog;
 
-    private BuySpawn lastBuilt;
+    private int lastBuilt;
 
     void Start()
     {
-        lastBuilt = (BuySpawn)(-1);
+        lastBuilt = -1;
     }
 
-    public void build(BuySpawn spawn, Tile tile)
+    public void build(int index, Tile tile)
     {
-        lastBuilt = spawn;
-        int price = catalog.getPrefab(spawn).GetComponent<TowerMoney>().Price;
+        lastBuilt = index;
+        int price = catalog.getPrefab(index).GetComponent<TowerMoney>().Price;
         if (canBuild(price))
         {
             purse.substract(price);
-            tile.GetComponent<OccupentHolder>().addOccupent(factory.spawn(spawn, tile.transform.position));
+            tile.GetComponent<OccupentHolder>().addOccupent(factory.spawn(index, tile.transform.position));
         }
     }
 

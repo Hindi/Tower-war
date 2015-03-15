@@ -45,32 +45,32 @@ public class CreepSpawner : MonoBehaviour {
 	}
 
     [RPC]
-    public void spawnRPC(int unit)
+    public void spawnRPC(int index)
     {
-        spawn((BuySpawn)unit);
+        spawn(index);
     }
 
-    private void spawn(BuySpawn unit)
+    private void spawn(int index)
     {
-        GameObject creep = factory.spawn(unit, startTile.transform.position);
+        GameObject creep = factory.spawn(index, startTile.transform.position);
         creep.GetComponent<CreepMovement>().Path = pathfinder.Result;
         creep.GetComponent<CreepMovement>().Pathfinder = pathfinder;
     }
 
-    public void requestSpawn(BuySpawn unit)
+    public void requestSpawn(int index)
     {
-        if(catalog.containsCreep(unit))
+        if (catalog.contains(index))
         {
-            int price = catalog.getPrefab(unit).GetComponent<CreepMoney>().Price;
+            int price = catalog.getPrefab(index).GetComponent<CreepMoney>().Price;
 
             if (purse.canAfford(price))
             {
                 purse.substract(price);
-                income.increaseIncome(catalog.getPrefab(unit).GetComponent<CreepMoney>().IncomeIncrease);
+                income.increaseIncome(catalog.getPrefab(index).GetComponent<CreepMoney>().IncomeIncrease);
                 if (PhotonNetwork.offlineMode)
-                    spawn(unit);
+                    spawn(index);
                 else
-                    photonView.RPC("spawnRPC", PhotonTargets.Others, (int)unit);
+                    photonView.RPC("spawnRPC", PhotonTargets.Others, index);
             }
         }
     }

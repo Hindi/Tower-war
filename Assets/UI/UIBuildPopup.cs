@@ -16,21 +16,8 @@ public class UIBuildPopup : UIElement {
 
     public void build(int i)
     {
-        BuySpawn spawn;
-        switch(i)
-        {
-            case 0:
-                spawn = BuySpawn.TOWER;
-                break;
-            case 1:
-                spawn = BuySpawn.TOWER2;
-                break;
-            default:
-                spawn = BuySpawn.TOWER;
-                break;
-        }
         if (currentTile != null)
-            towerBuilder.build(spawn, currentTile);
+            towerBuilder.build(i, currentTile);
 
         hide();
     }

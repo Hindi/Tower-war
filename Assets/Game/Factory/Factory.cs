@@ -19,25 +19,25 @@ public class Factory : MonoBehaviour
     [SerializeField]
     Catalog catalog;
 
-    Dictionary<BuySpawn, Machine> machinesDict;
+    Dictionary<int, Machine> machinesDict;
 
     private int nextId;
 
     void Start()
     {
         nextId = 0;
-        machinesDict = new Dictionary<BuySpawn, Machine>();
-        foreach (KeyValuePair<BuySpawn,GameObject> p in catalog.SpawnDict)
+        machinesDict = new Dictionary<int, Machine>();
+        for (int i = 0; i < catalog.Spawns.Count; ++i)
         {
             Machine machine = new Machine();
-            machine.ModelName = p.Value.name;
-            machinesDict.Add(p.Key, machine);
+            machine.ModelName = catalog.getPrefab(i).name;
+            machinesDict.Add(i, machine);
         }
     }
 
-    public GameObject spawn(BuySpawn type, Vector3 position)
+    public GameObject spawn(int index, Vector3 position)
     {
-        GameObject currentObj = machinesDict[type].createModel(nextId, position);
+        GameObject currentObj = machinesDict[index].createModel(nextId, position);
         currentObj.transform.parent = transform;
         nextId++;
         return currentObj;

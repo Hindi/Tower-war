@@ -8,7 +8,9 @@ public delegate void Callback<T, U>(T arg1, U arg2);
 public enum EnumEvent
 {
     LOADLEVEL,      //Load Unity level
+    REACHEDBASE,    //A creep reached the last tile (creep movement)
     TILEMAPUPDATE,  //Notify the map updated (for pathfinding)
+    GAMELOST,
     START           //Start game
 }
 

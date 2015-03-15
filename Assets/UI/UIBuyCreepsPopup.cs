@@ -6,9 +6,9 @@ public class UIBuyCreepsPopup : UIElement
     [SerializeField]
     private CreepSpawner creepSpawner;
 
-    public void buyCreep(int spawn)
+    public void buyCreep(int index)
     {
-        creepSpawner.requestSpawn((BuySpawn)spawn);
+        creepSpawner.requestSpawn(index);
     }
 
     public void hide()

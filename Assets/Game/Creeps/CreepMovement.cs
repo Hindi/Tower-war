@@ -81,6 +81,7 @@ public class CreepMovement : MonoBehaviour
             {
                 if (path.Count == 0 || nextPosition == path[path.Count - 1])
                 {
+                    EventManager.Raise(EnumEvent.REACHEDBASE);
                     GetComponent<CreepActivity>().Active = false;
                 }
                 else

@@ -15,6 +15,6 @@ public class BarracksBuy : MonoBehaviour {
 
     public void requestBuy(int i)
     {
-        creepSpawner.requestSpawn((BuySpawn)i);
+        creepSpawner.requestSpawn(i);
     }
 }
