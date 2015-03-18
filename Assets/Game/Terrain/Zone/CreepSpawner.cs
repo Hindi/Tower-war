@@ -34,6 +34,16 @@ public class CreepSpawner : MonoBehaviour {
     [SerializeField]
     private Income income;
 
+    private UIBuyCreepsPopup buyPopup;
+    public UIBuyCreepsPopup BuyPopup
+    {
+        set 
+        { 
+            buyPopup = value;
+            buyPopup.upgrade(catalog);
+        }
+    }
+
     PhotonView photonView;
 
 	// Use this for initialization
@@ -85,5 +95,18 @@ public class CreepSpawner : MonoBehaviour {
         pathfinder.StartId = startTile.GetComponent<Tile>().Id;
         pathfinder.GoalId = endTile.GetComponent<Tile>().Id;
         pathfinder.findPath();
+    }
+
+    public bool upgrade(int price, Catalog newCatalog)
+    {
+        if(purse.canAfford(price))
+        {
+            purse.substract(price);
+            catalog = newCatalog;
+            factory.upgrade(catalog);
+            buyPopup.upgrade(catalog);
+            return true;
+        }
+        return false;
     }
 }

@@ -33,10 +33,19 @@ public class Zone : MonoBehaviour {
     [SerializeField]
     private int columnCount;
 
+    [SerializeField]
+    private UIBuyCreepsPopup buyPopup;
+
 	// Use this for initialization
 	void Awake () {
         tileDict = new Dictionary<int, Tile>();
+        EventManager.AddListener(EnumEvent.START, onGameStart);
 	}
+
+    public void onGameStart()
+    {
+        GetComponent<CreepSpawner>().BuyPopup = buyPopup;
+    }
 
     public void spawnTile(Vector3 position)
     {
@@ -78,7 +87,11 @@ public class Zone : MonoBehaviour {
         }
 
         StartCoroutine(catchNeighbourCoroutine());
-        PhotonNetwork.Instantiate("Barracks", new Vector3(position.x - 1, position.y, 0), Quaternion.identity, 0);
+
+        //Create andi nit barrack
+        var obj  = PhotonNetwork.Instantiate("Barracks", new Vector3(position.x - 1, position.y, 0), Quaternion.identity, 0);
+        obj.GetComponent<BarracksUpgrade>().CreepSpawner = GetComponent<CreepSpawner>();
+        buyPopup.BarackUpgrade = obj.GetComponent<BarracksUpgrade>();
     }
 
     private void addNeighbours(int id1, int id2)

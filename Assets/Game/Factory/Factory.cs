@@ -16,6 +16,11 @@ public class Factory : MonoBehaviour
     {
         nextId = 0;
         machinesDict = new Dictionary<int, Machine>();
+        spawnMachines();
+    }
+
+    private void spawnMachines()
+    {
         for (int i = 0; i < catalog.Spawns.Count; ++i)
         {
             Machine machine = new Machine();
@@ -30,5 +35,12 @@ public class Factory : MonoBehaviour
         currentObj.transform.parent = transform;
         nextId++;
         return currentObj;
+    }
+
+    public void upgrade(Catalog newCatalog)
+    {
+        catalog = newCatalog;
+        machinesDict.Clear();
+        spawnMachines();
     }
 }
