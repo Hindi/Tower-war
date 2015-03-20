@@ -6,6 +6,9 @@ public class SlideInAndOut : MonoBehaviour {
     [SerializeField]
     private RectTransform panelRect;
 
+    [SerializeField]
+    private bool vertical = false;
+
     private Vector2 outPosition;
     private Vector2 inPosition;
     private bool poppingOut;
@@ -16,7 +19,11 @@ public class SlideInAndOut : MonoBehaviour {
     {
         inPosition = panelRect.position;
         outPosition = panelRect.position;
-        outPosition.x += panelRect.sizeDelta.x;
+
+        if (vertical)
+            outPosition.y += panelRect.sizeDelta.y;
+        else
+            outPosition.x += panelRect.sizeDelta.x;
 	}
 
     public void fromUiPopup(bool popIn)
