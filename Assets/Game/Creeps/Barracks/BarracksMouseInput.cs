@@ -23,7 +23,7 @@ public class BarracksMouseInput : InterractableTerrainElement
     {
         if (canInterract())
         {
-            UI.Instance.showBuyCreepsPopup(transform.position);
+            UI.Instance.showBuyCreepsPopup();
         }
     }
 

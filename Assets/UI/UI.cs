@@ -45,9 +45,9 @@ public class UI : MonoBehaviour {
         upgradePopup.popUp(tile);
     }
 
-    public void showBuyCreepsPopup(Vector3 pos)
+    public void showBuyCreepsPopup()
     {
-        buyCreepsPopup.popUp(pos);
+        buyCreepsPopup.GetComponent<SlideInAndOut>().popUp();
     }
 
     public void showServerList()
