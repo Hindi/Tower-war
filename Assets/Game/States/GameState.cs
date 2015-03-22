@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class GameState : State {
+
+    private CameraMovement camera;
     
     /// <summary>Constructor.</summary>
     public GameState(StateManager stateManager)
@@ -14,6 +16,7 @@ public class GameState : State {
     public override void start()
     {
         EventManager.AddListener(EnumEvent.GAMELOST, playerLost);
+        camera = Camera.main.GetComponent<CameraMovement>();
 	}
 
     public void playerLost()
@@ -49,6 +52,18 @@ public class GameState : State {
     {
         if (key == EnumInput.RETURN)
             EventManager.Raise(EnumEvent.START);
+        if (key == EnumInput.UP)
+            camera.moveUp();
+        else if (key == EnumInput.DOWN)
+            camera.moveDown();
+        if (key == EnumInput.LEFT)
+            camera.moveLeft();
+        else if (key == EnumInput.RIGHT)
+            camera.moveRight();
+        if (key == EnumInput.SCROLLUP)
+            camera.zoomIn();
+        if (key == EnumInput.SCROLLDOWN)
+            camera.zoomOut();
     }
 
     /// <summary>Recieves all the necessary inputs (touchscreen & mobile phone buttons).</summary>

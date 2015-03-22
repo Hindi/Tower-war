@@ -28,7 +28,9 @@ public enum EnumInput
     RETURN,
     TAB,
     TOUCH,
-    MENU
+    MENU,
+    SCROLLUP,
+    SCROLLDOWN
 }
 
 /// <summary>Class that check for the inputs and notify the StateManager that relay the info to the current state.</summary>
@@ -68,6 +70,10 @@ public class InputManager : MonoBehaviour {
             stateManager.noticeInput(EnumInput.DOWN);
         if (Input.GetKeyDown(KeyCode.Space))
             stateManager.noticeInput(EnumInput.SPACE);
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            stateManager.noticeInput(EnumInput.SCROLLUP);
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            stateManager.noticeInput(EnumInput.SCROLLDOWN);
         if (Input.GetKeyDown(KeyCode.Return))
             stateManager.noticeInput(EnumInput.RETURN);
         if (Input.GetKeyDown(KeyCode.Escape))

@@ -89,7 +89,7 @@ public class Tile : MonoBehaviour
     public void calcId()
     {
         //TODO CHANGE THIS
-        id = (int)(transform.position.x * 1000 + transform.position.y * 10);
+        id = (int)(transform.position.x * 10000 + transform.position.y * 10);
     }
 
     public static int CalcId(Vector3 position)

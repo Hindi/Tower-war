@@ -52,14 +52,15 @@ public class Zone : MonoBehaviour {
         //Calculate the dimension that we'll use
         Rect rect = tileReference.GetComponent<SpriteSwitcher>().CurrentSprite.rect;
         float offsetL = 0;
-        float width = rect.width / 100;
-        float height = rect.height / 84;
+        float width = rect.width / 100 * tileReference.transform.localScale.x;
+        float height = rect.height / 84 * tileReference.transform.localScale.y;
+
         float heightBetweenLines = height / 2.4f;
         float widthBetweenColumn = (width / 2.69f) + width;
         float offestW = width / 2;
 
-        StartTile = instantiateTile("StartTile", new Vector3(position.x - 1, position.y + heightBetweenLines * lineCount / 2, 0));
-        EndTile = instantiateTile("EndTile", new Vector3(position.x + widthBetweenColumn * (columnCount + 2), position.y + heightBetweenLines * lineCount / 2, 0));
+        StartTile = instantiateTile("StartTile", new Vector3(position.x  + widthBetweenColumn * columnCount / 2, position.y + heightBetweenLines * lineCount +1, 0));
+        EndTile = instantiateTile("EndTile", new Vector3(position.x + widthBetweenColumn * columnCount / 2, position.y - 1, 0));
         int startId = StartTile.GetComponent<Tile>().Id;
         int endId = EndTile.GetComponent<Tile>().Id;
         GetComponent<CreepSpawner>().EndTile = EndTile;
@@ -70,20 +71,21 @@ public class Zone : MonoBehaviour {
         {
             int i;
             for (i = 0; i < columnCount; ++i)
+            {
                 lastInstantiatedTile = instantiateTile("Tile", new Vector3(position.x + offsetL + i * (width + offestW), position.y + j * heightBetweenLines, 0));
 
+                //Add the neighbours ids to the start and end tile
+                if (j <= 2)
+                    addNeighbours(endId, lastInstantiatedTile.GetComponent<Tile>().Id);
+                else if (j >= lineCount - 2)
+                    addNeighbours(startId, lastInstantiatedTile.GetComponent<Tile>().Id);
+            }
+
             //Update the offset to obtain a nice hexagonal tile
-            //Add the neighbours ids to the start and end tile
             if (offsetL == 0)
-            {
-                addNeighbours(startId, Tile.CalcId(new Vector3(position.x + offsetL, position.y + j * heightBetweenLines, 0)));
                 offsetL = width * 2 / 2.69f;
-            }
             else
-            {
-                addNeighbours(endId, lastInstantiatedTile.GetComponent<Tile>().Id);
                 offsetL = 0;
-            }
         }
 
         StartCoroutine(catchNeighbourCoroutine());
@@ -109,6 +111,7 @@ public class Zone : MonoBehaviour {
         currTileScript = currentTile.GetComponent<Tile>();
         currTileScript.Zone = this;
         currTileScript.calcId();
+
         tileDict.Add(currTileScript.Id, currTileScript);
         return currentTile;
     }
