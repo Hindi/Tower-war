@@ -24,16 +24,24 @@ public class TowerBuilder : MonoBehaviour {
     [SerializeField]
     private Catalog catalog;
 
-    private int lastBuilt;
+    [SerializeField]
+    private UIBuildPopup UIBuild;
+
+    private int selectedTower;
+    public int SelectedTower
+    {
+        set { selectedTower = value; }
+    }
 
     void Start()
     {
-        lastBuilt = -1;
+        selectedTower = -1;
+        UIBuild.upgrade(catalog);
     }
 
     public void build(int index, Tile tile)
     {
-        lastBuilt = index;
+        selectedTower = index;
         int price = catalog.getPrefab(index).GetComponent<TowerMoney>().Price;
         if (canBuild(price))
         {
@@ -48,7 +56,7 @@ public class TowerBuilder : MonoBehaviour {
         if(canBuild(price) && towerUp.hasAnUpgrade())
         {
             tile.GetComponent<OccupentHolder>().destroyOccupent();
-            tile.GetComponent<OccupentHolder>().addOccupent(towerUp.upgradeNow(factory));
+            tile.GetComponent<OccupentHolder>().addOccupent(towerUp.upgradeNow(tile.transform.position, factory));
             purse.substract(price);
         }
     }
@@ -60,7 +68,7 @@ public class TowerBuilder : MonoBehaviour {
 
     public void buildLast(Tile tile)
     {
-        if ((int)(lastBuilt) != -1)
-            build(lastBuilt, tile);
+        if ((int)(selectedTower) != -1)
+            build(selectedTower, tile);
     }
 }

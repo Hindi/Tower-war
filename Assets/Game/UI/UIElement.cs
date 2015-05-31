@@ -4,19 +4,21 @@ using System.Collections;
 public class UIElement : MonoBehaviour {
 
     [SerializeField]
-    protected Canvas canvas;
+    protected RectTransform canvasRect;
     [SerializeField]
     protected GameObject menu;
+    [SerializeField]
+    protected RectTransform uiPanelRect;
 
     public void setActive(bool b)
     {
-        canvas.gameObject.SetActive(b);
+        canvasRect.gameObject.SetActive(b);
     }
 
     public virtual void popUp(Vector3 position)
     {
         setActive(true);
-        Vector2 pos = Camera.main.WorldToScreenPoint(position);
-        menu.transform.position = new Vector3(pos.x, pos.y);
+        Vector2 pos = RectTransformUtility.WorldToScreenPoint(Camera.main,  position);
+        uiPanelRect.anchoredPosition = pos - canvasRect.sizeDelta / 2f; ;
     }
 }

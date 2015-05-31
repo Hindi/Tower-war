@@ -4,7 +4,6 @@ using System.Collections;
 [RequireComponent(typeof(Tile))]
 public class TileMouseInput : InterractableTerrainElement
 {
-
     [SerializeField]
     private OccupentHolder occupentHolder;
 
@@ -82,5 +81,4 @@ public class TileMouseInput : InterractableTerrainElement
     {
         GetComponent<SpriteSwitcher>().setPreviousSprite();
     }
-
 }

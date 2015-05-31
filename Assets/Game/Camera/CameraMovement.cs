@@ -33,6 +33,9 @@ public class CameraMovement : MonoBehaviour {
         set { height = value; }
     }
 
+    [SerializeField]
+    private bool noMovement;
+
     private int zoomGoal;
 
     Camera camera;
@@ -96,19 +99,32 @@ public class CameraMovement : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void Update () {
-        move();
-
+    void Update()
+    {
         //Check mouse position
-        Vector2 mousePos = Input.mousePosition;
-        if (mousePos.x > Screen.width)
+        if(!noMovement)
+        {
+            Vector2 mousePos = Input.mousePosition;
+            if (mousePos.x > Screen.width)
+                moveRight();
+            else if (mousePos.x < 0)
+                moveLeft();
+            if (mousePos.y > Screen.height)
+                moveUp();
+            else if (mousePos.y < 0)
+                moveDown();
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow))
             moveRight();
-        else if (mousePos.x < 0)
+        if (Input.GetKey(KeyCode.LeftArrow))
             moveLeft();
-        if (mousePos.y > Screen.height)
+        if (Input.GetKey(KeyCode.UpArrow))
             moveUp();
-        else if (mousePos.y < 0)
+        if (Input.GetKey(KeyCode.DownArrow))
             moveDown();
+
+         move();
 	}
 
     private void move()

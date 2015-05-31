@@ -5,6 +5,10 @@ public class UIUpgradePopup : UIElement
 {
     private Tile currentTile;
 
+    void Start()
+    {
+        setActive(false);
+    }
 
     public void popUp(Tile tile)
     {

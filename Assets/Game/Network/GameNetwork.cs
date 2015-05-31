@@ -31,7 +31,7 @@ public class GameNetwork : MonoBehaviour {
         if (b)
             zone.spawnTile(Vector3.zero);
         else
-            zone.spawnTile(new Vector3(0, 7, 0));
+            zone.spawnTile(new Vector3(10, 0, 0));
     }
 
     [RPC]

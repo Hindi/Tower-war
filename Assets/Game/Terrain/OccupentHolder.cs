@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class OccupentHolder : MonoBehaviour {
+public class OccupentHolder : MonoBehaviour
+{
 
     int creepCounter = 0;
 
@@ -48,6 +49,7 @@ public class OccupentHolder : MonoBehaviour {
 
     public bool canBuild()
     {
+        //Debug.Log(!hasCreepOnIt() + " " + GetComponent<Tile>().Zone.canBuildHere(GetComponent<Tile>())  )
         return (!hasCreepOnIt() && GetComponent<Tile>().Zone.canBuildHere(GetComponent<Tile>()) && !IsOccupied);
     }
 

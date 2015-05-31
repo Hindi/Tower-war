@@ -53,7 +53,10 @@ public class UIServerList : UIElement {
     private void showServerList()
     {
         foreach (GameObject o in serverList)
+        {
             o.transform.SetParent(contentPanel);
+            o.transform.localScale = new Vector3(1, 1, 1);
+        }
     }
 
     public void select(ServerInfo selected)

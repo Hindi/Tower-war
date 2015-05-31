@@ -37,7 +37,7 @@ public class UIBuyCreepsPopup : UIElement
         for(int i = 0; i < catalog.Spawns.Count; ++i)
         {
             CreepInfo obj = ((GameObject)Instantiate(creepInfoPrefab)).GetComponent<CreepInfo>();
-            CreepUIINfo ci = catalog.Spawns[i].GetComponent<CreepUIINfo>();
+            ProdutUIInfo ci = catalog.Spawns[i].GetComponent<ProdutUIInfo>();
             CreepMoney cm = catalog.Spawns[i].GetComponent<CreepMoney>();
 
             obj.BuyCreepUI = this;
