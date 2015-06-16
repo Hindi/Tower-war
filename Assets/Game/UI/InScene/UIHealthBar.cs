@@ -79,7 +79,7 @@ public class UIHealthBar : MonoBehaviour {
 
     void Update()
     {
-        transform.position = creep.transform.position + offset;
+        //transform.position = creep.transform.position + offset;
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

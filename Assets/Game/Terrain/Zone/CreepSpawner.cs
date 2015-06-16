@@ -21,8 +21,8 @@ public class CreepSpawner : MonoBehaviour {
     }
 
     [SerializeField]
-    private Factory factory;
-    public Factory Factory
+    private GOF.GOFactory factory;
+    public GOF.GOFactory Factory
     { set { factory = value; } }
 
     [SerializeField]
@@ -62,7 +62,8 @@ public class CreepSpawner : MonoBehaviour {
 
     private void spawn(int index)
     {
-        GameObject creep = factory.spawn(index, startTile.transform.position);
+        string name = catalog.getPrefab(index).name;
+        GameObject creep = factory.spawn(name, startTile.transform.position);
         creep.GetComponent<CreepMovement>().Path = pathfinder.Result;
         creep.GetComponent<CreepMovement>().Pathfinder = pathfinder;
     }
@@ -103,7 +104,6 @@ public class CreepSpawner : MonoBehaviour {
         {
             purse.substract(price);
             catalog = newCatalog;
-            factory.upgrade(catalog);
             buyPopup.upgrade(catalog);
             return true;
         }

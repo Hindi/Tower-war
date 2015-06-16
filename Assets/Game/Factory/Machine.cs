@@ -35,7 +35,6 @@ public class Machine
         {
             model = PhotonNetwork.Instantiate(modelName, position, Quaternion.identity, 0);
             model.GetComponent<FactoryModel>().Id = id;
-            model.GetComponent<Activity>().Machine = this;
         }
         inUse.Add(model);
         return model;

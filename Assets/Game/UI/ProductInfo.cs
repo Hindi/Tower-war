@@ -9,6 +9,7 @@ public class ProductInfo : MonoBehaviour
     public string Name
     {
         set { name.text = value; }
+        get { return name.text; }
     }
 
     [SerializeField]
