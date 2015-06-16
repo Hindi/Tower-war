@@ -4,7 +4,7 @@ using System.Collections;
 public class TowerUpgrade : MonoBehaviour {
 
     [SerializeField]
-    private string nextVersion = ""; 
+    private int nextVersion = -1; 
 
     private TowerActivity activity;
 
@@ -15,10 +15,10 @@ public class TowerUpgrade : MonoBehaviour {
 
     public bool hasAnUpgrade()
     {
-        return (nextVersion != "");
+        return (nextVersion != -1);
     }
 
-    public GameObject upgradeNow(Vector3 pos, GOF.GOFactory towerFactory)
+    public GameObject upgradeNow(Vector3 pos, Factory towerFactory)
     {
         activity.Active = false;
         return towerFactory.spawn(nextVersion, pos);

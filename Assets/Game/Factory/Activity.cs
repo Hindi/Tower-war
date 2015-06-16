@@ -34,9 +34,11 @@ public class Activity : MonoBehaviour
 
     protected void hide(bool b)
     {
+        transform.position = new Vector3(1000, 0, 0);
         if(photonView.isMine)
         {
             photonView.RPC("hideRPC", PhotonTargets.Others, b);
+            photonView.RPC("moveRPC", PhotonTargets.Others, b);
         }
     }
 
@@ -44,5 +46,10 @@ public class Activity : MonoBehaviour
     public void hideRPC(bool b)
     {
         hide(b);
+    }
+    [RPC]
+    public void moveRPC(bool b)
+    {
+        transform.position = new Vector3(1000, 0, 0);
     }
 }

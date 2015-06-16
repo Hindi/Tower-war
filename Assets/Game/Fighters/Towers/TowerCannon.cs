@@ -14,6 +14,8 @@ public class TowerCannon : MonoBehaviour
 
     [SerializeField]
     private MoveTowardAndHide projectile;
+    [SerializeField]
+    private int damage;
 
     void Start()
     {
@@ -37,7 +39,7 @@ public class TowerCannon : MonoBehaviour
         var heading = towerFocus.CurrentTarget.transform.position - transform.position;
         float dist = heading.magnitude;
         projectile.move(transform.position, target.transform.position);
-        target.GetComponent<CreepMortality>().takeDamage(DamageCalculator.calcDamage(GetComponent<CombatStats>(), target.GetComponent<CombatStats>()));
+        target.GetComponent<CreepMortality>().takeDamage(damage);
         lastShotTime = Time.time;
     }
 

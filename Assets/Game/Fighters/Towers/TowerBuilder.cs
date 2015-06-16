@@ -16,7 +16,7 @@ public class TowerBuilder : MonoBehaviour {
     }
 
     [SerializeField]
-    GOF.GOFactory factory;
+    Factory factory;
 
     [SerializeField]
     private Purse purse;
@@ -47,7 +47,7 @@ public class TowerBuilder : MonoBehaviour {
         if (canBuild(price))
         {
             purse.substract(price);
-            tile.GetComponent<OccupentHolder>().addOccupent(factory.spawn(name, tile.transform.position));
+            tile.GetComponent<OccupentHolder>().addOccupent(factory.spawn(index, tile.transform.position));
         }
     }
 

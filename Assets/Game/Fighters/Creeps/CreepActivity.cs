@@ -13,7 +13,6 @@ public class CreepActivity : Activity
         }
         else
         {
-            GOF.GOFactory.Recycle(gameObject);
             GetComponent<CreepMovement>().notifyDesactivation();
             GetComponent<CreepTargetKeeper>().notifyExit();
         }
