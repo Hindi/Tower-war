@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Tile : MonoBehaviour
+public class Tile : NetworkBehaviour
 {
     private Zone zone;
     public Zone Zone
@@ -62,16 +63,9 @@ public class Tile : MonoBehaviour
         get { return neighboursIds; }
     }
 
-    private PhotonView photonView;
-
     void Start()
     {
-        photonView = GetComponent<PhotonView>();
-    }
 
-    public bool isMine()
-    {
-        return photonView.isMine;
     }
     
     public void manHattanDistance(Tile endTile)
@@ -123,7 +117,7 @@ public class Tile : MonoBehaviour
         if (hitUp.transform != null && hitUp.collider.tag == "Tile")
         {
             int id = hitUp.collider.gameObject.GetComponent<Tile>().Id;
-            if (!neighboursIds.Contains(id) && hitUp.collider.gameObject.GetComponent<Tile>().isMine())
+            if (!neighboursIds.Contains(id))
             {
                 neighboursIds.Add(id);
             }

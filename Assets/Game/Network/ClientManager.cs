@@ -23,7 +23,7 @@ public class ClientManager : MonoBehaviour
     [SerializeField]
     private int maxClientCount;
 
-    private Dictionary<int, TWClient> clients;
+    private Dictionary<int, TWClient> clients; 
 
     TWClient client1;
     TWClient client2;

@@ -8,12 +8,12 @@ public class LifeCount : MonoBehaviour {
     [SerializeField]
     private UILife uiLife;
 
-    PhotonView photonView;
+    //PhotonView photonView;
 
 	// Use this for initialization
     void Start()
     {
-        photonView = GetComponent<PhotonView>();
+        //photonView = GetComponent<PhotonView>();
         counter = GetComponent<Counter>();
         counter.EndCountingCallback = lost;
         EventManager.AddListener(EnumEvent.REACHEDBASE, reachedBaseListener);
@@ -44,12 +44,12 @@ public class LifeCount : MonoBehaviour {
     private void updateUI(int value)
     {
         uiLife.updateMyLifeLabel(counter.CurrentAmount);
-        photonView.RPC("updateLifeLabelRPC", PhotonTargets.Others, value);
+        //photonView.RPC("updateLifeLabelRPC", PhotonTargets.Others, value);
     }
-
+    /*
     [RPC]
     public void updateLifeLabelRPC(int value)
     {
         uiLife.updateEnemyLifeLabel(value);
-    }
+    }*/
 }

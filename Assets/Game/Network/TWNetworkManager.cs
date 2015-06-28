@@ -7,9 +7,14 @@ public class TWNetworkManager : NetworkManager
 {
     [SerializeField]
     private bool isServer;
+    [SerializeField]
+    private GameObject obj;
 
     [SerializeField]
     private ClientManager clientManager;
+
+    [SerializeField]
+    private Zone zone;
     
     NetworkClient myClient;
 
@@ -20,12 +25,14 @@ public class TWNetworkManager : NetworkManager
 	void Start () {
         if(isServer)
         {
+            StartHost();
             NetworkServer.Listen(4444);
             NetworkServer.RegisterHandler(TWNetworkMsg.ready, OnClientReady);
             NetworkServer.RegisterHandler(MsgType.Connect, OnClientConnected);
         }
         else
         {
+            StartClient();
             myClient = new NetworkClient();
             myClient.RegisterHandler(MsgType.Connect, OnConnected);
             myClient.RegisterHandler(TWNetworkMsg.start, OnStart);
@@ -37,8 +44,11 @@ public class TWNetworkManager : NetworkManager
     {
         Debug.Log("[NETWORK MANAGER]Client connected");
         clientManager.addNewClient(netMsg.conn);
+        GameObject gobj = (GameObject)Instantiate(obj);
+        NetworkServer.Spawn(gobj);
         if (clientManager.isRoomFull())
             StartCoroutine(waitClientsReady());
+        //zone.spawnTile(new Vector3(0, 0, 0));
     }
 
     private IEnumerator waitClientsReady()

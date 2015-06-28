@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Zone : MonoBehaviour {
+public class Zone : NetworkBehaviour {
 
     [SerializeField]
     private GameObject tileReference;
@@ -36,11 +37,23 @@ public class Zone : MonoBehaviour {
     [SerializeField]
     private UIBuyCreepsPopup buyPopup;
 
+    [SerializeField]
+    private GameObject startTilePrefab;
+    [SerializeField]
+    private GameObject endTilePrefab;
+    [SerializeField]
+    private GameObject tilePrefab;
+
 	// Use this for initialization
 	void Awake () {
         tileDict = new Dictionary<int, Tile>();
         EventManager.AddListener(EnumEvent.START, onGameStart);
 	}
+
+    void OnDisable()
+    {
+
+    }
 
     public void onGameStart()
     {
@@ -91,9 +104,9 @@ public class Zone : MonoBehaviour {
         StartCoroutine(catchNeighbourCoroutine());
 
         //Create andi nit barrack
-        var obj  = PhotonNetwork.Instantiate("Barracks", new Vector3(position.x - 1, position.y, 0), Quaternion.identity, 0);
+        /*var obj  = PhotonNetwork.Instantiate("Barracks", new Vector3(position.x - 1, position.y, 0), Quaternion.identity, 0);
         obj.GetComponent<BarracksUpgrade>().CreepSpawner = GetComponent<CreepSpawner>();
-        buyPopup.BarackUpgrade = obj.GetComponent<BarracksUpgrade>();
+        buyPopup.BarackUpgrade = obj.GetComponent<BarracksUpgrade>();*/
     }
 
     private void addNeighbours(int id1, int id2)
@@ -104,8 +117,8 @@ public class Zone : MonoBehaviour {
 
     GameObject instantiateTile(string tileType, Vector3 position)
     {
-        GameObject currentTile = null;
-        currentTile = PhotonNetwork.Instantiate(tileType, position, Quaternion.identity, 0);
+        GameObject currentTile = (GameObject)Instantiate(tilePrefab, position, Quaternion.identity);
+        NetworkServer.Spawn(currentTile);
 
         Tile currTileScript;
         currTileScript = currentTile.GetComponent<Tile>();
