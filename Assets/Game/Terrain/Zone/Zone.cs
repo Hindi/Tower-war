@@ -71,7 +71,7 @@ public class Zone : NetworkBehaviour {
         float heightBetweenLines = height / 2.4f;
         float widthBetweenColumn = (width / 2.69f) + width;
         float offestW = width / 2;
-
+        Debug.Log("pouet"); 
         StartTile = instantiateTile("StartTile", new Vector3(position.x  + widthBetweenColumn * columnCount / 2, position.y + heightBetweenLines * lineCount +1, 0));
         EndTile = instantiateTile("EndTile", new Vector3(position.x + widthBetweenColumn * columnCount / 2, position.y - 1, 0));
         int startId = StartTile.GetComponent<Tile>().Id;

@@ -7,8 +7,6 @@ public class TWNetworkManager : NetworkManager
 {
     [SerializeField]
     private bool isServer;
-    [SerializeField]
-    private GameObject obj;
 
     [SerializeField]
     private ClientManager clientManager;
@@ -22,33 +20,25 @@ public class TWNetworkManager : NetworkManager
     /* #######################################################
      * ######################## SERVER ####################### 
      * #######################################################*/
-	void Start () {
-        if(isServer)
-        {
-            StartHost();
-            NetworkServer.Listen(4444);
-            NetworkServer.RegisterHandler(TWNetworkMsg.ready, OnClientReady);
-            NetworkServer.RegisterHandler(MsgType.Connect, OnClientConnected);
-        }
-        else
-        {
-            StartClient();
-            myClient = new NetworkClient();
-            myClient.RegisterHandler(MsgType.Connect, OnConnected);
-            myClient.RegisterHandler(TWNetworkMsg.start, OnStart);
-            myClient.Connect("127.0.0.1", 4444);
-        }
+    void Start()
+    {
+        myClient = new NetworkClient();
 	}
 
-    public void OnClientConnected(NetworkMessage netMsg)
+
+    public override void OnStartServer()
     {
+        base.OnStartServer();
+        Debug.Log("[Network MANAGER]Server created.");
+        NetworkServer.RegisterHandler(TWNetworkMsg.ready, OnClientReady);
+    }
+
+    public override void OnServerConnect(NetworkConnection conn)
+    {
+        base.OnServerConnect(conn);
         Debug.Log("[NETWORK MANAGER]Client connected");
-        clientManager.addNewClient(netMsg.conn);
-        GameObject gobj = (GameObject)Instantiate(obj);
-        NetworkServer.Spawn(gobj);
-        if (clientManager.isRoomFull())
-            StartCoroutine(waitClientsReady());
-        //zone.spawnTile(new Vector3(0, 0, 0));
+        clientManager.addNewClient(conn);
+        zone.spawnTile(new Vector3(0, 0, 0));
     }
 
     private IEnumerator waitClientsReady()
@@ -70,8 +60,16 @@ public class TWNetworkManager : NetworkManager
     /* #######################################################
      * ######################## CLIENT ####################### 
      * #######################################################*/
-    public void OnConnected(NetworkMessage netMsg)
+    public override void OnStartClient(NetworkClient client)
     {
+        base.OnStartClient(client);
+        Debug.Log("[Network MANAGER]Client created.");
+        myClient.RegisterHandler(TWNetworkMsg.start, OnStart);
+    }
+
+    public override void OnClientConnect(NetworkConnection conn)
+    {
+        base.OnClientConnect(conn);
         Debug.Log("[NETWORK MANAGER]Connected to server");
         StartCoroutine(simulateLoadingCoroutine());
     }
@@ -92,5 +90,4 @@ public class TWNetworkManager : NetworkManager
         var msg = new EmptyMessage();
         myClient.Send(TWNetworkMsg.ready, msg);
     }
-    
 }
