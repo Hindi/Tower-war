@@ -9,6 +9,7 @@ public class TWClient
     public NetworkConnection connection;
     public bool isConnected;
     public bool isReady;
+    public int id;
 
     public TWClient() { isConnected = true; }
     public TWClient(NetworkConnection c) 

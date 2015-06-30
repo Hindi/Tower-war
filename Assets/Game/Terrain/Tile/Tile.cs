@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 public class Tile : NetworkBehaviour
 {
-    private Zone zone;
+    [SyncVar]
+    public Zone zone;
     public Zone Zone
     {
         get { return zone; }
@@ -13,6 +14,17 @@ public class Tile : NetworkBehaviour
         {
             zone = value;
             transform.parent = value.transform;
+        }
+    }
+
+    [SyncVar]
+    public Player player;
+    public Player Player
+    {
+        get { return player; }
+        set
+        {
+            player = value;
         }
     }
 
@@ -65,7 +77,15 @@ public class Tile : NetworkBehaviour
 
     void Start()
     {
-
+        var objects = GameObject.FindGameObjectsWithTag("Zone");
+        foreach(GameObject obj in objects)
+        {
+            if(obj.GetComponent<Zone>().isLocalPlayer)
+            {
+                zone = obj.GetComponent<Zone>();
+                player = obj.GetComponent<Player>();
+            }
+        }
     }
     
     public void manHattanDistance(Tile endTile)
@@ -84,11 +104,19 @@ public class Tile : NetworkBehaviour
     {
         //TODO CHANGE THIS
         id = (int)(transform.position.x * 10000 + transform.position.y * 10);
+        RpcSyncId(id);
     }
 
     public static int CalcId(Vector3 position)
     {
         return (int)(position.x * 1000 + position.y * 10);
+    }
+
+
+    [ClientRpc]
+    public void RpcSyncId(int newId)
+    {
+        id = newId;
     }
     
     public void catchNeighboursIds()

@@ -29,13 +29,13 @@ public class Zone : NetworkBehaviour {
     }
 
     [SerializeField]
+    private Player player;
+
+    [SerializeField]
     private int lineCount;
 
     [SerializeField]
     private int columnCount;
-
-    [SerializeField]
-    private UIBuyCreepsPopup buyPopup;
 
     [SerializeField]
     private GameObject startTilePrefab;
@@ -47,7 +47,6 @@ public class Zone : NetworkBehaviour {
 	// Use this for initialization
 	void Awake () {
         tileDict = new Dictionary<int, Tile>();
-        EventManager.AddListener(EnumEvent.START, onGameStart);
 	}
 
     void OnDisable()
@@ -55,9 +54,13 @@ public class Zone : NetworkBehaviour {
 
     }
 
-    public void onGameStart()
+    private void Start()
     {
-        GetComponent<CreepSpawner>().BuyPopup = buyPopup;
+        Debug.Log(isServer);
+        if (isServer)
+        {
+            spawnTile(new Vector3(0, 0, 0));
+        }
     }
 
     public void spawnTile(Vector3 position)
@@ -71,8 +74,8 @@ public class Zone : NetworkBehaviour {
         float heightBetweenLines = height / 2.4f;
         float widthBetweenColumn = (width / 2.69f) + width;
         float offestW = width / 2;
-        Debug.Log("pouet"); 
-        StartTile = instantiateTile("StartTile", new Vector3(position.x  + widthBetweenColumn * columnCount / 2, position.y + heightBetweenLines * lineCount +1, 0));
+
+        StartTile = instantiateTile("StartTile", new Vector3(position.x + widthBetweenColumn * columnCount / 2, position.y + heightBetweenLines * lineCount + 1, 0));
         EndTile = instantiateTile("EndTile", new Vector3(position.x + widthBetweenColumn * columnCount / 2, position.y - 1, 0));
         int startId = StartTile.GetComponent<Tile>().Id;
         int endId = EndTile.GetComponent<Tile>().Id;
@@ -102,11 +105,6 @@ public class Zone : NetworkBehaviour {
         }
 
         StartCoroutine(catchNeighbourCoroutine());
-
-        //Create andi nit barrack
-        /*var obj  = PhotonNetwork.Instantiate("Barracks", new Vector3(position.x - 1, position.y, 0), Quaternion.identity, 0);
-        obj.GetComponent<BarracksUpgrade>().CreepSpawner = GetComponent<CreepSpawner>();
-        buyPopup.BarackUpgrade = obj.GetComponent<BarracksUpgrade>();*/
     }
 
     private void addNeighbours(int id1, int id2)
@@ -123,6 +121,7 @@ public class Zone : NetworkBehaviour {
         Tile currTileScript;
         currTileScript = currentTile.GetComponent<Tile>();
         currTileScript.Zone = this;
+        currTileScript.Player = player;
         currTileScript.calcId();
 
         tileDict.Add(currTileScript.Id, currTileScript);
@@ -137,24 +136,22 @@ public class Zone : NetworkBehaviour {
         EventManager.Raise(EnumEvent.START);
     }
 
-    public void notifyMouseOver()
-    {
-        foreach (Transform g in transform)
-        {
-            g.GetComponent<Fader>().setRendererVisible(true);
-        }
-    }
-
-    public void notifyMouseExit()
-    {
-        foreach(Transform g in transform)
-        {
-            g.GetComponent<Fader>().setRendererVisible(false);
-        }
-    }
-
     public bool canBuildHere(Tile tile)
     {
         return GetComponent<Pathfinder>().canAddObstacle(tile);
+    }
+
+    public bool canBuildHere(int id)
+    {
+        if (tileDict.ContainsKey(id))
+        {
+            Tile tile = tileDict[id];
+            OccupentHolder oh = tile.GetComponent<OccupentHolder>();
+
+            Debug.Log("POUET POUET" + oh.canBuild());
+            return oh.canBuild();
+        }
+        else
+            return false;
     }
 }

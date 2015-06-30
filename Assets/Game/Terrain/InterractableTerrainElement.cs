@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.EventSystems;
 using System.Collections;
 
-public abstract class InterractableTerrainElement : MonoBehaviour {
+public abstract class InterractableTerrainElement : NetworkBehaviour {
 
     public abstract void onMouseOver();
     public abstract void onMouseExit();
     public abstract void onMouseDown();
     public abstract void onMouseUp();
 
-    [SerializeField]
-    PhotonView photonView;
-
     void Start()
     {
-        photonView = GetComponent<PhotonView>();
     }
 
     protected bool hoveringUI()
@@ -24,7 +21,7 @@ public abstract class InterractableTerrainElement : MonoBehaviour {
 
     protected virtual bool canInterract()
     {
-        return (!hoveringUI() && photonView.isMine);
+        return (!hoveringUI());
     }
 
     void OnMouseOver()

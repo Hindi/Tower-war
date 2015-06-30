@@ -38,7 +38,6 @@ public class TWNetworkManager : NetworkManager
         base.OnServerConnect(conn);
         Debug.Log("[NETWORK MANAGER]Client connected");
         clientManager.addNewClient(conn);
-        zone.spawnTile(new Vector3(0, 0, 0));
     }
 
     private IEnumerator waitClientsReady()

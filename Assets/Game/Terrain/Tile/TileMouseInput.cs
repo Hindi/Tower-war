@@ -8,10 +8,13 @@ public class TileMouseInput : InterractableTerrainElement
     private OccupentHolder occupentHolder;
 
     Tile tile;
+    [SerializeField]
+    Player player;
 
     void Start()
     {
         tile = GetComponent<Tile>();
+        player = tile.Player;
     }
 
     public Rect spriteRect()
@@ -29,7 +32,6 @@ public class TileMouseInput : InterractableTerrainElement
         if (canInterract())
         {
             GetComponent<SpriteSwitcher>().setMouseOverSprite();
-            tile.Zone.notifyMouseOver();
         }
     }
 
@@ -38,8 +40,12 @@ public class TileMouseInput : InterractableTerrainElement
         if (canInterract())
         {
             resetToIdle();
-            tile.Zone.notifyMouseExit();
         }
+    }
+
+    public void buildLast()
+    {
+        TowerBuilder.Instance.buildLast(tile);
     }
 
     public override void onMouseDown()
@@ -48,10 +54,7 @@ public class TileMouseInput : InterractableTerrainElement
         {
             if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             {
-                if (occupentHolder.canBuild())
-                {
-                    TowerBuilder.Instance.buildLast(tile);
-                }
+                player.CmdCanBuild(tile.Id);
             }
             else
             {
