@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
 [RequireComponent(typeof(CreepMovement), typeof(CreepMortality))]
@@ -6,6 +7,11 @@ public class CreepActivity : Activity
 {
     protected override void activate(bool b)
     {
+        if (isServer)
+        {
+            base.activate(b);
+            RpcActivate(b);
+        }
         if (b)
         {
             GetComponent<CreepMovement>().spawn();
@@ -15,9 +21,20 @@ public class CreepActivity : Activity
         {
             GetComponent<CreepMovement>().notifyDesactivation();
             GetComponent<CreepTargetKeeper>().notifyExit();
+            hide();
         }
         GetComponent<CreepMovement>().enabled = b;
         GetComponent<CapsuleCollider>().enabled = b;
-        hide(b);
+    }
+
+    protected void hide()
+    {
+        transform.position = new Vector3(1000, 0, 0);
+    }
+
+    [ClientRpc]
+    public void RpcActivate(bool b)
+    {
+        activate(b);
     }
 }

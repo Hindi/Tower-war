@@ -31,6 +31,7 @@ public class TowerBuilder : MonoBehaviour {
     public int SelectedTower
     {
         set { selectedTower = value; }
+        get { return selectedTower; }
     }
 
     void Start()
@@ -40,7 +41,7 @@ public class TowerBuilder : MonoBehaviour {
         UIBuild.upgrade(catalog);
     }
 
-    public void build(int index, Tile tile)
+    public bool build(int index, Tile tile)
     {
         selectedTower = index;
         int price = catalog.getPrefab(index).GetComponent<TowerMoney>().Price;
@@ -49,7 +50,9 @@ public class TowerBuilder : MonoBehaviour {
         {
             purse.substract(price);
             tile.GetComponent<OccupentHolder>().addOccupent(factory.spawn(index, tile.transform.position));
+            return true;
         }
+        return false;
     }
 
     public void upgrade(Tile tile, TowerUpgrade towerUp)

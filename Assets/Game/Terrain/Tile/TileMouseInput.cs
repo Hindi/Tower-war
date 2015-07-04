@@ -54,7 +54,7 @@ public class TileMouseInput : InterractableTerrainElement
         {
             if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             {
-                player.CmdCanBuild(tile.Id);
+                player.CmdRequestBuild(tile.Id, TowerBuilder.Instance.SelectedTower);
             }
             else
             {

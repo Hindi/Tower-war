@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TowerFocus : MonoBehaviour {
+public class TowerFocus : NetworkBehaviour {
 
     [SerializeField]
     private int radius;
@@ -23,17 +24,15 @@ public class TowerFocus : MonoBehaviour {
     private GameObject endTile;
     private Vector3 idleDirection;
     private Vector3 lookAtPosition;
-    PhotonView photonView;
 
     // Use this for initialization
     void Start()
     {
-        photonView = GetComponent<PhotonView>();
 
         targets = new List<GameObject>();
         GetComponent<SphereCollider>().radius = radius;
 
-        if (photonView.isMine)
+        if (isServer)
             idleDirection = GetComponent<OccupentTileInfos>().Zone.StartTile.transform.position;
         idleDirection.z -= 0.1f;
     }
@@ -41,7 +40,7 @@ public class TowerFocus : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (photonView.isMine)
+        if (isServer)
         {
             if (currentTarget != null)
             {

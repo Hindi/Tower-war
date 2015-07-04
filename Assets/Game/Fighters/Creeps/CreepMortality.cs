@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class CreepMortality : MonoBehaviour {
+public class CreepMortality : NetworkBehaviour {
 
     [SerializeField]
     private int maxHp;
@@ -9,16 +10,17 @@ public class CreepMortality : MonoBehaviour {
     [SerializeField]
     private UIHealthBar healthBar;
 
-    PhotonView photonView;
+    [SerializeField]
+    private GameObject healthBarPrefab;
 
     private int currentHp;
 
     void Start()
     {
-        photonView = GetComponent<PhotonView>();
-        if (photonView.isMine)
+        if (isServer)
         {
-            healthBar = (PhotonNetwork.Instantiate("HealthBar", transform.position, Quaternion.identity, 0)).GetComponent<UIHealthBar>();
+            healthBar = ((GameObject)Instantiate(healthBarPrefab, transform.position, Quaternion.identity)).GetComponent<UIHealthBar>();
+            NetworkServer.Spawn(healthBar.gameObject);
             healthBar.init(gameObject);
         }
         reset();
@@ -27,8 +29,7 @@ public class CreepMortality : MonoBehaviour {
     public void reset()
     {
         currentHp = maxHp;
-        if (photonView.isMine)
-            healthBar.reset();
+        healthBar.reset();
     }
 
     public bool takeDamage(int dmg)
@@ -52,5 +53,6 @@ public class CreepMortality : MonoBehaviour {
     {
         FxSpawner.Instance.spawn(0, transform.position);
         GetComponent<CreepActivity>().Active = false;
+        Destroy(healthBar.gameObject);
     }
 }

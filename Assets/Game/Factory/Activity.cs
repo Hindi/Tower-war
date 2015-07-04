@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class Activity : MonoBehaviour
+public class Activity : NetworkBehaviour
 {
-    PhotonView photonView;
 
     [SerializeField]
     private float inactivityTimeBeforeDestroy;
 
     [SerializeField]
     protected GameObject model;
+
+    private Machine machine;
+    public Machine Machine
+    {
+        set { machine = value; }
+    }
 
     protected bool isActive;
     public bool Active
@@ -24,32 +30,7 @@ public class Activity : MonoBehaviour
 
     protected virtual void activate(bool b)
     {
-        hide(b);
-    }
-
-    void Start()
-    {
-        photonView = GetComponent<PhotonView>();
-    }
-
-    protected void hide(bool b)
-    {
-        transform.position = new Vector3(1000, 0, 0);
-        if(photonView.isMine)
-        {
-            photonView.RPC("hideRPC", PhotonTargets.Others, b);
-            photonView.RPC("moveRPC", PhotonTargets.Others, b);
-        }
-    }
-
-    [RPC]
-    public void hideRPC(bool b)
-    {
-        hide(b);
-    }
-    [RPC]
-    public void moveRPC(bool b)
-    {
-        transform.position = new Vector3(1000, 0, 0);
+        if (!b)
+            machine.putAway(gameObject);
     }
 }

@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(CreepActivity))]
-public class CreepMovement : MonoBehaviour
+public class CreepMovement : NetworkBehaviour
 {
     private List<Vector3> path;
     public List<Vector3> Path
@@ -26,6 +27,7 @@ public class CreepMovement : MonoBehaviour
     }
 
     private Vector3 nextPosition;
+    [SyncVar]
     private Quaternion goalRotation;
     private Vector3 direction;
     private int currentPositionId;
@@ -33,20 +35,19 @@ public class CreepMovement : MonoBehaviour
     [SerializeField]
     private float speed;
 
-    PhotonView photonView;
-
+    [SyncVar]
     private Vector3 networkPosition;
 
     void Start()
     {
-        photonView = GetComponent<PhotonView>();
-        if (photonView.isMine)
+        if (isServer)
             EventManager.AddListener(EnumEvent.TILEMAPUPDATE, onMapUpdate);
     }
     
     public void spawn()
     {
-        path = pathfinder.Result;
+        if(isServer)
+            path = pathfinder.Result;
     }
 
     void onMapUpdate()
@@ -74,9 +75,10 @@ public class CreepMovement : MonoBehaviour
 
     void Update()
     {
-        if(photonView.isMine)
+        if(isServer)
         {
             transform.position = Vector3.MoveTowards(transform.position, nextPosition, speed * Time.deltaTime);
+            networkPosition = transform.position;
             if (Vector3.Distance(transform.position, nextPosition) < 0.1f)
             {
                 if (path.Count == 0 || nextPosition == path[path.Count - 1])
@@ -96,20 +98,6 @@ public class CreepMovement : MonoBehaviour
                 transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 10);
         }
         transform.rotation = Quaternion.Slerp(transform.rotation, goalRotation, Time.deltaTime * 10);
-    }
-
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            this.networkPosition = (Vector3)stream.ReceiveNext();
-            this.goalRotation = (Quaternion)stream.ReceiveNext();
-        }
     }
 
     void OnDestroy()

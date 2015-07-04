@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
 [RequireComponent(typeof(Pathfinder))]
-public class CreepSpawner : MonoBehaviour {
+public class CreepSpawner : NetworkBehaviour {
 
     private Pathfinder pathfinder;
 
@@ -35,30 +36,15 @@ public class CreepSpawner : MonoBehaviour {
     private Income income;
 
     private UIBuyCreepsPopup buyPopup;
-    public UIBuyCreepsPopup BuyPopup
-    {
-        set 
-        { 
-            buyPopup = value;
-            buyPopup.upgrade(catalog);
-        }
-    }
-
-    PhotonView photonView;
 
 	// Use this for initialization
 	void Start () {
         pathfinder = GetComponent<Pathfinder>();
-        photonView = GetComponent<PhotonView>();
-
+        buyPopup = GameObject.FindGameObjectWithTag("UICreepPopup").GetComponent<UIBuyCreepsPopup>();
+        buyPopup.init(this);
+        buyPopup.upgrade(catalog);
         EventManager.AddListener(EnumEvent.START, onGameStart);
 	}
-
-    [RPC]
-    public void spawnRPC(int index)
-    {
-        spawn(index);
-    }
 
     private void spawn(int index)
     {
@@ -69,6 +55,12 @@ public class CreepSpawner : MonoBehaviour {
 
     public void requestSpawn(int index)
     {
+        CmdRequestSpawn(index);
+    }
+
+    [Command]
+    public void CmdRequestSpawn(int index)
+    {
         if (catalog.contains(index))
         {
             int price = catalog.getPrefab(index).GetComponent<CreepMoney>().Price;
@@ -77,10 +69,10 @@ public class CreepSpawner : MonoBehaviour {
             {
                 purse.substract(price);
                 income.increaseIncome(catalog.getPrefab(index).GetComponent<CreepMoney>().IncomeIncrease);
-                if (PhotonNetwork.offlineMode)
+                if (TWNetworkManager.DEBUG)
                     spawn(index);
-                else
-                    photonView.RPC("spawnRPC", PhotonTargets.Others, index);
+                else 
+                    Debug.LogWarning("Not implemented in non debug mode");
             }
         }
     }

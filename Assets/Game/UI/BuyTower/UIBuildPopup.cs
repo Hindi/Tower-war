@@ -3,10 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UIBuildPopup : UIElement {
-
-    [SerializeField]
-    private TowerBuilder towerBuilder;
+public class UIBuildPopup : UIElement 
+{
 
     private Tile currentTile;
 
@@ -70,10 +68,10 @@ public class UIBuildPopup : UIElement {
     public void build(int i)
     {
         currentTowerImage.overrideSprite = buttons[i].Image;
-        towerBuilder.SelectedTower = i;
-        if (currentTile != null && currentTile.GetComponent<OccupentHolder>().canBuild())
-            towerBuilder.build(i, currentTile);
-
+        TowerBuilder.Instance.SelectedTower = i;
+        /*if (currentTile != null && currentTile.GetComponent<OccupentHolder>().canBuild())
+            TowerBuilder.Instance.build(i, currentTile);*/
+        Debug.Log(i);
     }
 
     public void hide()

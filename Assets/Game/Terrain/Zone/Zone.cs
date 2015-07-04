@@ -8,6 +8,7 @@ public class Zone : NetworkBehaviour {
     [SerializeField]
     private GameObject tileReference;
 
+    [SyncVar]
     private Dictionary<int, Tile> tileDict;
     public Dictionary<int, Tile> TileDict
     {
@@ -56,7 +57,6 @@ public class Zone : NetworkBehaviour {
 
     private void Start()
     {
-        Debug.Log(isServer);
         if (isServer)
         {
             spawnTile(new Vector3(0, 0, 0));
@@ -79,6 +79,7 @@ public class Zone : NetworkBehaviour {
         EndTile = instantiateTile("EndTile", new Vector3(position.x + widthBetweenColumn * columnCount / 2, position.y - 1, 0));
         int startId = StartTile.GetComponent<Tile>().Id;
         int endId = EndTile.GetComponent<Tile>().Id;
+
         GetComponent<CreepSpawner>().EndTile = EndTile;
         GetComponent<CreepSpawner>().StartTile = StartTile;
         GameObject lastInstantiatedTile = null;
@@ -148,7 +149,6 @@ public class Zone : NetworkBehaviour {
             Tile tile = tileDict[id];
             OccupentHolder oh = tile.GetComponent<OccupentHolder>();
 
-            Debug.Log("POUET POUET" + oh.canBuild());
             return oh.canBuild();
         }
         else

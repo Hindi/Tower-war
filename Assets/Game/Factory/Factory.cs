@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Factory : MonoBehaviour
 {
+    [SerializeField]
+    GameObject machinePrefab;
 
     [SerializeField]
     Catalog catalog;
@@ -23,9 +25,10 @@ public class Factory : MonoBehaviour
     {
         for (int i = 0; i < catalog.Spawns.Count; ++i)
         {
-            Machine machine = new Machine();
+            Machine machine = Instantiate(machinePrefab).GetComponent<Machine>();
             machine.ModelName = catalog.getPrefab(i).name;
             machinesDict.Add(i, machine);
+            machine.transform.SetParent(transform);
         }
     }
 

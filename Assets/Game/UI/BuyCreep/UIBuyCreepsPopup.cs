@@ -30,6 +30,11 @@ public class UIBuyCreepsPopup : UIElement
         buttons = new List<CreepInfo>();
     }
 
+    public void init(CreepSpawner spawner)
+    {
+        creepSpawner = spawner;
+    }
+
     public void upgrade(Catalog newCatalog)
     {
         catalog = newCatalog;

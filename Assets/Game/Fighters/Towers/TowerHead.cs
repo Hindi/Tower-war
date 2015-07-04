@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class TowerHead : MonoBehaviour 
+public class TowerHead : NetworkBehaviour 
 {
     [SerializeField]
     private GameObject headObject;
@@ -9,6 +10,7 @@ public class TowerHead : MonoBehaviour
     [SerializeField]
     private float speed;
 
+    [SyncVar]
     private Quaternion networkRotation;
 
     public void lookAt(Vector3 pos)
@@ -27,15 +29,9 @@ public class TowerHead : MonoBehaviour
         return Quaternion.LookRotation(norm, Vector3.forward);
     }
 
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    private void Update()
     {
-        if (stream.isWriting)
-        {
-            stream.SendNext(headObject.transform.rotation);
-        }
-        else
-        {
-            this.networkRotation = (Quaternion)stream.ReceiveNext();
-        }
+        if(isServer)
+            networkRotation = headObject.transform.rotation;
     }
 }

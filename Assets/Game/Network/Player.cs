@@ -8,16 +8,26 @@ public class Player : NetworkBehaviour
     private Zone zone;
 
     [Command]
-    public void CmdCanBuild(int id)
+    public void CmdRequestBuild(int tileId, int towerId)
     {
-        Debug.Log("can build");
-        if (zone.canBuildHere(id))
-            RpcBuild();
+        Debug.Log("Request build on " + tileId + " with tower " + towerId);
+        if (zone.canBuildHere(tileId))
+        {
+            if (TowerBuilder.Instance.build(towerId, zone.TileDict[tileId]))
+                RpcCanBuild(tileId);
+            else
+                RpcFailBuild(tileId);
+        }
     }
 
     [ClientRpc]
-    public void RpcBuild()
+    public void RpcCanBuild(int id)
     {
         Debug.Log("can build");
+    }
+    [ClientRpc]
+    public void RpcFailBuild(int id)
+    {
+        Debug.Log("You can't build on tile " + id);
     }
 }

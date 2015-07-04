@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections;
 
-public class UIHealthBar : MonoBehaviour {
+public class UIHealthBar : NetworkBehaviour {
 
     [SerializeField]
     private Image bar;
@@ -23,12 +24,12 @@ public class UIHealthBar : MonoBehaviour {
 
     private GameObject creep;
 
-    PhotonView photonView;
-
     private Vector3 offset;
     
     public void setHealthPercentage(float percentage)
     {
+        if (isServer)
+            RpcSetHealthPercentage(percentage);
         currentPercentage = percentage;
         mask.rectTransform.sizeDelta = new Vector2(originalWidth * percentage, bar.rectTransform.sizeDelta.y);
         if (percentage < 0.7f)
@@ -42,29 +43,35 @@ public class UIHealthBar : MonoBehaviour {
         mask.rectTransform.sizeDelta = new Vector2(originalWidth, bar.rectTransform.sizeDelta.y);
         bar.color = Color.green;
 
-        if(photonView.isMine)
-            photonView.RPC("resetRPC", PhotonTargets.Others);
+        if (isServer)
+            RpcReset();
     }
 
     public void init(GameObject obj)
     {
         initialize(obj);
-        int id = obj.GetComponent<PhotonView>().viewID;
-        photonView.RPC("initRPC", PhotonTargets.Others, id);
+        uint id = obj.GetComponent<NetworkIdentity>().netId.Value;
+        RpcInit(obj);
         reset();
     }
 
-    [RPC]
-    public void resetRPC()
+    [ClientRpc]
+    public void RpcReset()
     {
         reset();
     }
 
-    [RPC]
-    public void initRPC(int id)
+    [ClientRpc]
+    public void RpcInit(GameObject obj)
     {
-        initialize(PhotonView.Find(id).gameObject);
+        initialize(obj);
         reset();
+    }
+
+    [ClientRpc]
+    public void RpcSetHealthPercentage(float percentage)
+    {
+        setHealthPercentage(percentage);
     }
 
     private void initialize(GameObject obj)
@@ -73,24 +80,11 @@ public class UIHealthBar : MonoBehaviour {
         currentPercentage = 1;
         originalWidth = bar.rectTransform.sizeDelta.x;
         offset = new Vector3(0, 0.5f, 0);
-        photonView = GetComponent<PhotonView>();
         transform.SetParent(obj.transform.parent);
     }
 
     void Update()
     {
         transform.position = creep.transform.position + offset;
-    }
-
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            stream.SendNext(currentPercentage);
-        }
-        else
-        {
-            setHealthPercentage((float)stream.ReceiveNext());
-        }
     }
 }

@@ -16,6 +16,8 @@ public class TWNetworkManager : NetworkManager
     
     NetworkClient myClient;
 
+    public static bool DEBUG = true;
+
 
     /* #######################################################
      * ######################## SERVER ####################### 

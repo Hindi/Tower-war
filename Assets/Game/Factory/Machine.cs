@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Machine
+public class Machine : NetworkBehaviour
 {
     private string modelName;
     public string ModelName
@@ -10,6 +11,8 @@ public class Machine
         get { return modelName; }
         set { modelName = value; }
     }
+
+    private GameObject prefab;
 
     List<GameObject> inUse;
     List<GameObject> waiting;
@@ -33,8 +36,16 @@ public class Machine
         }
         else
         {
-            model = PhotonNetwork.Instantiate(modelName, position, Quaternion.identity, 0);
-            model.GetComponent<FactoryModel>().Id = id;
+            if (prefab == null)
+                prefab = Resources.Load(modelName) as GameObject;
+            if (prefab == null)
+            {
+                Debug.LogError("Couldn't find prefab " + modelName + " in the Resource folders.");
+                return null;
+            }
+            model = (GameObject)Instantiate(prefab, position, Quaternion.identity);
+            model.GetComponent<Activity>().Machine = this;
+            NetworkServer.Spawn(model);
         }
         inUse.Add(model);
         return model;
@@ -53,6 +64,5 @@ public class Machine
             waiting.Remove(obj);
         if (inUse.Contains(obj))
             inUse.Remove(obj);
-        PhotonNetwork.Destroy(obj);
     }
 }
