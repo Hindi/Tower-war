@@ -8,11 +8,11 @@ public class Purse : MonoBehaviour {
     [SerializeField]
     private int startAmount;
 
+    [SerializeField]
     private UIIncome incomeCanvas;
 
     void Start()
     {
-        incomeCanvas = UI.Instance.IncomeCanvas;
         currentAmount = startAmount;
         updateUI();
     }

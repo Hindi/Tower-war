@@ -9,13 +9,13 @@ public class Income : MonoBehaviour {
     [SerializeField]
     private float incomeCooldown;
 
+    [SerializeField]
     private UIIncome incomeCanvas;
 
     private Purse purse;
 
 	// Use this for initialization
 	void Start () {
-        incomeCanvas = UI.Instance.IncomeCanvas;
         purse = GetComponent<Purse>();
         currentIncome = startIncome;
         incomeCanvas.IncomeTime = incomeCooldown.ToString();

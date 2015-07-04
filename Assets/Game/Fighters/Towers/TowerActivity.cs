@@ -12,12 +12,9 @@ public class TowerActivity : Activity
             RpcActivate(b);
         }
 
-        if (b)
-            GetComponent<Tower>().spawn();
-        else
+        if (!b)
         {
             hide();
-            GetComponent<Tower>().notifyDesactivation();
         }
     }
 

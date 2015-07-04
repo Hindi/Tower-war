@@ -13,6 +13,9 @@ public class TowerHead : NetworkBehaviour
     [SyncVar]
     private Quaternion networkRotation;
 
+    [SerializeField]
+    private TowerCannon cannon;
+
     public void lookAt(Vector3 pos)
     {
         headObject.transform.rotation = Quaternion.Slerp(headObject.transform.rotation, computeRotation(pos), Time.deltaTime * speed);
@@ -32,6 +35,9 @@ public class TowerHead : NetworkBehaviour
     private void Update()
     {
         if(isServer)
+        {
             networkRotation = headObject.transform.rotation;
+            cannon.tryShot();
+        }
     }
 }

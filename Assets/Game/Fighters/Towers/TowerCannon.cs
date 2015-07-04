@@ -23,22 +23,19 @@ public class TowerCannon : NetworkBehaviour
         lastShotTime = Time.time;
     }
 	
-	// Update is called once per frame
-	void Update () {
-        if (isServer)
-            if (towerFocus.CurrentTarget != null )
-                rayCast();
+	public void tryShot()
+    {
+        if (towerFocus.CurrentTarget != null)
+            rayCast();
     }
 
     bool canFire()
     {
-        Debug.Log("canfire " + (Time.time - lastShotTime > fireCooldown));
         return (Time.time - lastShotTime > fireCooldown);
     }
 
     void fire(GameObject target)
     {
-        Debug.Log("fire");
         var heading = towerFocus.CurrentTarget.transform.position - transform.position;
         float dist = heading.magnitude;
         projectile.move(transform.position, target.transform.position);

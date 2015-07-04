@@ -7,6 +7,16 @@ public class Player : NetworkBehaviour
     [SerializeField]
     private Zone zone;
 
+    [SerializeField]
+    private GameObject UI;
+
+    void Start()
+    {
+        if (isServer)
+            UI.SetActive(false);
+
+    }
+
     [Command]
     public void CmdRequestBuild(int tileId, int towerId)
     {
@@ -23,11 +33,11 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     public void RpcCanBuild(int id)
     {
-        Debug.Log("can build");
+        Debug.Log("[FEEDBACK] You built a tower on position " + id);
     }
     [ClientRpc]
     public void RpcFailBuild(int id)
     {
-        Debug.Log("You can't build on tile " + id);
+        Debug.Log("[FEEDBACK]You can't build on tile " + id + " for reasons");
     }
 }

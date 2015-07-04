@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class Tile : NetworkBehaviour
 {
-    [SyncVar]
     public Zone zone;
     public Zone Zone
     {
@@ -17,7 +16,6 @@ public class Tile : NetworkBehaviour
         }
     }
 
-    [SyncVar]
     public Player player;
     public Player Player
     {
@@ -52,6 +50,7 @@ public class Tile : NetworkBehaviour
     public int Id
     {
         get { return id; }
+        set {  id = value;}
     }
 
     private int parentId;

@@ -17,6 +17,12 @@ public class SlideInAndOut : MonoBehaviour {
 	// Use this for initialization
     void Start()
     {
+        StartCoroutine(lateInit());
+	}
+
+    IEnumerator lateInit()
+    {
+        yield return new WaitForSeconds(0.1f);
         inPosition = panelRect.position;
         outPosition = panelRect.position;
 
@@ -24,7 +30,7 @@ public class SlideInAndOut : MonoBehaviour {
             outPosition.y += panelRect.sizeDelta.y;
         else
             outPosition.x += panelRect.sizeDelta.x;
-	}
+    }
 
     public void fromUiPopup(bool popIn)
     {

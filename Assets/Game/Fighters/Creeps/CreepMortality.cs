@@ -53,6 +53,5 @@ public class CreepMortality : NetworkBehaviour {
     {
         FxSpawner.Instance.spawn(0, transform.position);
         GetComponent<CreepActivity>().Active = false;
-        Destroy(healthBar.gameObject);
     }
 }
