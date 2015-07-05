@@ -6,15 +6,12 @@ using System.Collections;
 public class TWNetworkManager : NetworkManager 
 {
     [SerializeField]
-    private bool isServer;
-
-    [SerializeField]
     private ClientManager clientManager;
 
     [SerializeField]
     private Zone zone;
     
-    NetworkClient myClient;
+    public static NetworkClient Client;
 
     public static bool DEBUG = true;
 
@@ -22,9 +19,9 @@ public class TWNetworkManager : NetworkManager
     /* #######################################################
      * ######################## SERVER ####################### 
      * #######################################################*/
-    void Start()
+    void Awake()
     {
-        myClient = new NetworkClient();
+        Client = new NetworkClient();
 	}
 
 
@@ -58,6 +55,16 @@ public class TWNetworkManager : NetworkManager
         clientManager.getClient(netMsg.conn.connectionId).isReady = true;
     }
 
+    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+    {
+        TWClient client = clientManager.getClient(conn.connectionId);
+        Vector3 pos = new Vector3(client.id * 10, 0, 0);
+        var obj = (GameObject)GameObject.Instantiate(playerPrefab, pos, Quaternion.identity);
+        client.gameObject = obj;
+        clientManager.tryInitialyzeLifeCount();
+        NetworkServer.AddPlayerForConnection(conn, obj, playerControllerId);
+    }
+
     /* #######################################################
      * ######################## CLIENT ####################### 
      * #######################################################*/
@@ -65,7 +72,7 @@ public class TWNetworkManager : NetworkManager
     {
         base.OnStartClient(client);
         Debug.Log("[Network MANAGER]Client created.");
-        myClient.RegisterHandler(TWNetworkMsg.start, OnStart);
+        Client.RegisterHandler(TWNetworkMsg.start, OnStart);
     }
 
     public override void OnClientConnect(NetworkConnection conn)
@@ -89,6 +96,6 @@ public class TWNetworkManager : NetworkManager
     private void sendReady()
     {
         var msg = new EmptyMessage();
-        myClient.Send(TWNetworkMsg.ready, msg);
+        Client.Send(TWNetworkMsg.ready, msg);
     }
 }

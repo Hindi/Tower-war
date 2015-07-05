@@ -12,7 +12,7 @@ public class Player : NetworkBehaviour
 
     void Start()
     {
-        if (isServer)
+        if (isServer || !isLocalPlayer)
             UI.SetActive(false);
 
     }

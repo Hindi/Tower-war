@@ -61,7 +61,7 @@ public class Zone : NetworkBehaviour {
     {
         if (isServer)
         {
-            spawnTile(new Vector3(0, 0, 0));
+            spawnTile(transform.position);
         }
         EventManager.AddListener(EnumEvent.START, onGameStart);
     }

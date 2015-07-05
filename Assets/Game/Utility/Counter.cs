@@ -20,6 +20,7 @@ public class Counter : MonoBehaviour {
     public int CurrentAmount
     {
         get { return currentAmount; }
+        set { currentAmount = value; }
     }
 
 	// Use this for initialization

@@ -26,6 +26,12 @@ public class CreepMovement : NetworkBehaviour
         set { pathfinder = value; }
     }
 
+    private Zone currentZone;
+    public Zone CurrentZone
+    {
+        set { currentZone = value; }
+    }
+
     private Vector3 nextPosition;
     [SyncVar]
     private Quaternion goalRotation;
@@ -83,7 +89,7 @@ public class CreepMovement : NetworkBehaviour
             {
                 if (path.Count == 0 || nextPosition == path[path.Count - 1])
                 {
-                    EventManager.Raise(EnumEvent.REACHEDBASE);
+                    currentZone.GetComponent<LifeCount>().reachedBaseListener();
                     GetComponent<CreepActivity>().Active = false;
                 }
                 else

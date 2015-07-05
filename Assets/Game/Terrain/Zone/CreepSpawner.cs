@@ -35,12 +35,15 @@ public class CreepSpawner : NetworkBehaviour {
     [SerializeField]
     private Income income;
 
+    [SerializeField]
     private UIBuyCreepsPopup buyPopup;
+
+    private Zone zone;
 
 	// Use this for initialization
 	void Start () {
+        zone = GetComponent<Zone>();
         pathfinder = GetComponent<Pathfinder>();
-        buyPopup = GameObject.FindGameObjectWithTag("UICreepPopup").GetComponent<UIBuyCreepsPopup>();
         buyPopup.init(this);
         buyPopup.upgrade(catalog);
         EventManager.AddListener(EnumEvent.START, onGameStart);
@@ -49,8 +52,10 @@ public class CreepSpawner : NetworkBehaviour {
     private void spawn(int index)
     {
         GameObject creep = factory.spawn(index, startTile.transform.position);
-        creep.GetComponent<CreepMovement>().Path = pathfinder.Result;
-        creep.GetComponent<CreepMovement>().Pathfinder = pathfinder;
+        CreepMovement cm = creep.GetComponent<CreepMovement>();
+        cm.Path = pathfinder.Result;
+        cm.Pathfinder = pathfinder;
+        cm.CurrentZone = zone;
     }
 
     public void requestSpawn(int index)

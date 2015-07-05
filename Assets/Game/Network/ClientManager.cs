@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class TWClient
 {
     public NetworkConnection connection;
+    public GameObject gameObject;
     public bool isConnected;
     public bool isReady;
     public int id;
@@ -41,9 +42,27 @@ public class ClientManager : MonoBehaviour
             clients.Add(connection.connectionId, twc);
 
         if (client1 == null)
+        {
             client1 = twc;
+            client1.id = 0;
+        }
         else
+        {
             client2 = twc;
+            client2.id = 1;
+        }
+    }
+
+    public void tryInitialyzeLifeCount()
+    {
+        if(client2 != null)
+        {
+            var lc1 = client1.gameObject.GetComponent<LifeCount>();
+            var lc2 = client2.gameObject.GetComponent<LifeCount>();
+
+            lc1.initEnemyLifeCount(lc2);
+            lc2.initEnemyLifeCount(lc1);
+        }
     }
 
     public bool isRoomFull()
@@ -59,14 +78,6 @@ public class ClientManager : MonoBehaviour
     public TWClient getClient(int id)
     {
         return clients[id];
-    }
-
-    public void sendSpawn()
-    {
-        var msg = new IntegerMessage(1);
-        client1.connection.Send(TWNetworkMsg.spawn, msg);
-        msg = new IntegerMessage(2);
-        client2.connection.Send(TWNetworkMsg.spawn, msg);
     }
 
     public void sendStart()
