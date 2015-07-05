@@ -8,7 +8,6 @@ public class Zone : NetworkBehaviour {
     [SerializeField]
     private GameObject tileReference;
 
-    [SyncVar]
     private Dictionary<int, Tile> tileDict;
     public Dictionary<int, Tile> TileDict
     {

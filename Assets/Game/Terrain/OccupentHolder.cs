@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class OccupentHolder : MonoBehaviour
+public class OccupentHolder : NetworkBehaviour
 {
 
     int creepCounter = 0;
@@ -19,15 +20,22 @@ public class OccupentHolder : MonoBehaviour
 
     public void addOccupent(GameObject occ)
     {
-        if (!IsOccupied)
+        if (isServer && !IsOccupied)
         {
-            IsOccupied = true;
+            RpcAddOccupent(occ);
             EventManager.Raise(EnumEvent.TILEMAPUPDATE);
         }
+        IsOccupied = true;
         occupent = occ;
 
         occupent.GetComponent<OccupentTileInfos>().Tile = tile;
         occupent.GetComponent<OccupentTileInfos>().Zone = tile.Zone;
+    }
+
+    [ClientRpc]
+    private void RpcAddOccupent(GameObject obj)
+    {
+        addOccupent(obj);
     }
 
     void Start()
@@ -42,9 +50,17 @@ public class OccupentHolder : MonoBehaviour
 
     public void destroyOccupent()
     {
+        if (isServer)
+            RpcDestroyOccupent();
         occupent.GetComponent<Activity>().Active = false;
         IsOccupied = false;
         EventManager.Raise(EnumEvent.TILEMAPUPDATE);
+    }
+
+    [ClientRpc]
+    private void RpcDestroyOccupent()
+    {
+        destroyOccupent();
     }
 
     public bool canBuild()

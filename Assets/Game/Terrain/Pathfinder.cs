@@ -76,6 +76,7 @@ public class Pathfinder : MonoBehaviour {
         List<Vector3> path = new List<Vector3>();
 
         initialiseZone(path);
+        Debug.Log((tileDict == null));
         bool wasOccupied = tileDict[tile.Id].GetComponent<OccupentHolder>().IsOccupied;
         tileDict[tile.Id].GetComponent<OccupentHolder>().IsOccupied = true;
         bool res = checkNeighbourNodes(path);

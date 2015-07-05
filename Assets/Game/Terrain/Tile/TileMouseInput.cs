@@ -69,7 +69,6 @@ public class TileMouseInput : InterractableTerrainElement
                 else if (occupentHolder.canBuild())
                 {
                     GetComponent<SpriteSwitcher>().setSelected();
-                    UI.Instance.showBuildPopup(tile);
                 }
             }
         }

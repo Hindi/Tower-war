@@ -76,10 +76,7 @@ public class Tile : NetworkBehaviour
 
     void Start()
     {
-        if (isServer)
-        {
-            RpcSetZone(zone.gameObject);
-        }
+
     }
     
     public void manHattanDistance(Tile endTile)
@@ -98,6 +95,7 @@ public class Tile : NetworkBehaviour
     {
         //TODO CHANGE THIS
         id = (int)(transform.position.x * 10000 + transform.position.y * 10);
+        RpcSetZone(zone.gameObject);
         RpcSyncId(id);
     }
 
@@ -118,6 +116,7 @@ public class Tile : NetworkBehaviour
     public void RpcSyncId(int newId)
     {
         id = newId;
+        zone.TileDict.Add(id, this);
     }
     
     public void catchNeighboursIds()
