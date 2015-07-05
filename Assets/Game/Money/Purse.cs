@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class Purse : MonoBehaviour {
+public class Purse : NetworkBehaviour {
 
     private int currentAmount;
 
@@ -23,6 +24,13 @@ public class Purse : MonoBehaviour {
     }
 
     public void add(int amount)
+    {
+        currentAmount += amount;
+        RpcAdd(amount);
+    }
+
+    [ClientRpc]
+    public void RpcAdd(int amount)
     {
         currentAmount += amount;
         updateUI();

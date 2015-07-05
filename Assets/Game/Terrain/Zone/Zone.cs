@@ -44,6 +44,8 @@ public class Zone : NetworkBehaviour {
     private GameObject endTilePrefab;
     [SerializeField]
     private GameObject tilePrefab;
+    [SerializeField]
+    private Income income;
 
 	// Use this for initialization
 	void Awake () {
@@ -61,7 +63,15 @@ public class Zone : NetworkBehaviour {
         {
             spawnTile(new Vector3(0, 0, 0));
         }
+        EventManager.AddListener(EnumEvent.START, onGameStart);
     }
+
+    public void onGameStart()
+    {
+        if (isServer)
+            income.startCounting();
+    }
+
 
     public void spawnTile(Vector3 position)
     {
@@ -75,8 +85,8 @@ public class Zone : NetworkBehaviour {
         float widthBetweenColumn = (width / 2.69f) + width;
         float offestW = width / 2;
 
-        StartTile = instantiateTile("StartTile", new Vector3(position.x + widthBetweenColumn * columnCount / 2, position.y + heightBetweenLines * lineCount + 1, 0));
-        EndTile = instantiateTile("EndTile", new Vector3(position.x + widthBetweenColumn * columnCount / 2, position.y - 1, 0));
+        StartTile = instantiateTile(new Vector3(position.x + widthBetweenColumn * columnCount / 2, position.y + heightBetweenLines * lineCount + 1, 0));
+        EndTile = instantiateTile(new Vector3(position.x + widthBetweenColumn * columnCount / 2, position.y - 1, 0));
         int startId = StartTile.GetComponent<Tile>().Id;
         int endId = EndTile.GetComponent<Tile>().Id;
 
@@ -89,7 +99,7 @@ public class Zone : NetworkBehaviour {
             int i;
             for (i = 0; i < columnCount; ++i)
             {
-                lastInstantiatedTile = instantiateTile("Tile", new Vector3(position.x + offsetL + i * (width + offestW), position.y + j * heightBetweenLines, 0));
+                lastInstantiatedTile = instantiateTile(new Vector3(position.x + offsetL + i * (width + offestW), position.y + j * heightBetweenLines, 0));
 
                 //Add the neighbours ids to the start and end tile
                 if (j <= 2)
@@ -114,7 +124,7 @@ public class Zone : NetworkBehaviour {
         tileDict[id2].addNeighBourId(id1);
     }
 
-    GameObject instantiateTile(string tileType, Vector3 position)
+    GameObject instantiateTile(Vector3 position)
     {
         GameObject currentTile = (GameObject)Instantiate(tilePrefab, position, Quaternion.identity);
         NetworkServer.Spawn(currentTile);
@@ -153,5 +163,10 @@ public class Zone : NetworkBehaviour {
         }
         else
             return false;
+    }
+
+    void OnDestroy()
+    {
+        EventManager.RemoveListener(EnumEvent.START, onGameStart);
     }
 }

@@ -45,7 +45,7 @@ public class TowerBuilder : MonoBehaviour {
     {
         selectedTower = index;
         int price = catalog.getPrefab(index).GetComponent<TowerMoney>().Price;
-        string name = catalog.getPrefab(index).GetComponent<ProdutUIInfo>().Name;
+
         if (canBuild(price))
         {
             purse.substract(price);

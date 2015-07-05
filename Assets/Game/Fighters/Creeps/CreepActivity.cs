@@ -10,7 +10,7 @@ public class CreepActivity : Activity
         if (isServer)
         {
             base.activate(b);
-            RpcActivate(b);
+            RpcActivate(b, transform.position);
         }
         if (b)
         {
@@ -33,8 +33,9 @@ public class CreepActivity : Activity
     }
 
     [ClientRpc]
-    public void RpcActivate(bool b)
+    public void RpcActivate(bool b, Vector3 position)
     {
+        transform.position = position;
         activate(b);
     }
 }

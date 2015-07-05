@@ -2,7 +2,7 @@
 using UnityEngine.Networking;
 using System.Collections;
 
-public class TowerActivity : Activity
+public class FxActivity : Activity
 {
     protected override void activate(bool b)
     {
@@ -11,6 +11,7 @@ public class TowerActivity : Activity
             hide();
         }
 
+        Debug.Log(transform.position);
         if (isServer)
         {
             base.activate(b);
@@ -26,6 +27,7 @@ public class TowerActivity : Activity
     [ClientRpc]
     public void RpcActivate(Vector3 position)
     {
+        Debug.Log(position);
         transform.position = position;
     }
 }

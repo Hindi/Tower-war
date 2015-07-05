@@ -20,13 +20,6 @@ public class MoveTowardAndHide : NetworkBehaviour {
     public void move(Vector3 start, Vector3 goal)
     {
         StartCoroutine(moveTowardAndHide(start, goal));
-        RpcMoveTowardAndHide(start, goal);
-    }
-
-    [ClientRpc]
-    public void RpcMoveTowardAndHide(Vector3 start, Vector3 goal)
-    {
-        StartCoroutine(moveTowardAndHide(start, goal));
     }
 
     IEnumerator moveTowardAndHide(Vector3 start, Vector3 goal)

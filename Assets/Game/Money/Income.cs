@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class Income : MonoBehaviour {
+public class Income : NetworkBehaviour {
 
     private int currentIncome;
     [SerializeField]
@@ -20,10 +21,9 @@ public class Income : MonoBehaviour {
         currentIncome = startIncome;
         incomeCanvas.IncomeTime = incomeCooldown.ToString();
         incomeCanvas.IncomeAmount = currentIncome.ToString();
-        EventManager.AddListener(EnumEvent.START, onGameStart);
 	}
 
-    public void onGameStart()
+    public void startCounting()
     {
         StartCoroutine(incomeCoroutine());
     }
@@ -37,21 +37,22 @@ public class Income : MonoBehaviour {
             while (secondCounter < incomeCooldown)
             {
                 secondCounter++;
-                incomeCanvas.IncomeTime = (incomeCooldown - secondCounter).ToString();
+                RpcUpdateValues(incomeCooldown - secondCounter, currentIncome);
                 yield return new WaitForSeconds(1);
             }
             purse.add(currentIncome);
         }
     }
 
+    [ClientRpc]
+    private void RpcUpdateValues(float time, int income)
+    {
+        incomeCanvas.IncomeTime = time.ToString();
+        incomeCanvas.IncomeAmount = income.ToString();
+    }
+
     public void increaseIncome(int amount)
     {
         currentIncome += amount;
-        incomeCanvas.IncomeAmount = currentIncome.ToString();
-    }
-
-    void OnDestroy()
-    {
-        EventManager.RemoveListener(EnumEvent.START, onGameStart);
     }
 }

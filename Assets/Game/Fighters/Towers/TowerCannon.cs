@@ -14,7 +14,7 @@ public class TowerCannon : NetworkBehaviour
     private TowerFocus towerFocus;
 
     [SerializeField]
-    private MoveTowardAndHide projectile;
+    private TowerHead towerHead;
     [SerializeField]
     private int damage;
 
@@ -37,8 +37,7 @@ public class TowerCannon : NetworkBehaviour
     void fire(GameObject target)
     {
         var heading = towerFocus.CurrentTarget.transform.position - transform.position;
-        float dist = heading.magnitude;
-        projectile.move(transform.position, target.transform.position);
+        towerHead.moveProjectile(transform.position, target.transform.position);
         target.GetComponent<CreepMortality>().takeDamage(damage);
         lastShotTime = Time.time;
     }

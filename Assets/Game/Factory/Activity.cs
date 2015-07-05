@@ -31,6 +31,8 @@ public class Activity : NetworkBehaviour
     protected virtual void activate(bool b)
     {
         if (!b)
+        {
             machine.putAway(gameObject);
+        }
     }
 }
