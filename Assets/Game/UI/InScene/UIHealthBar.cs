@@ -20,7 +20,6 @@ public class UIHealthBar : NetworkBehaviour {
     private Color lowHealthColor;
 
     private float originalWidth;
-    private float currentPercentage;
 
     private GameObject creep;
 
@@ -30,7 +29,6 @@ public class UIHealthBar : NetworkBehaviour {
     {
         if (isServer)
             RpcSetHealthPercentage(percentage);
-        currentPercentage = percentage;
         mask.rectTransform.sizeDelta = new Vector2(originalWidth * percentage, bar.rectTransform.sizeDelta.y);
         if (percentage < 0.7f)
             bar.color = Color.yellow;
@@ -50,7 +48,6 @@ public class UIHealthBar : NetworkBehaviour {
     public void init(GameObject obj)
     {
         initialize(obj);
-        uint id = obj.GetComponent<NetworkIdentity>().netId.Value;
         RpcInit(obj);
         reset();
     }
@@ -77,7 +74,6 @@ public class UIHealthBar : NetworkBehaviour {
     private void initialize(GameObject obj)
     {
         creep = obj;
-        currentPercentage = 1;
         originalWidth = bar.rectTransform.sizeDelta.x;
         offset = new Vector3(0, 0.5f, 0);
         transform.SetParent(obj.transform.parent);

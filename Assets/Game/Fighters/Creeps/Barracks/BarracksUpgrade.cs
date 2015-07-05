@@ -26,21 +26,19 @@ public class BarracksUpgrade : MonoBehaviour {
     [SerializeField]
     private List<Upgrade> upgrades;
 
-    private PhotonView photonView;
 
     private int currentVersionId;
 
 	// Use this for initialization
 	void Start () {
         currentVersionId = 0;
-        photonView = GetComponent<PhotonView>();
 	}
 
-    [RPC]
+    /*[RPC]
     public void upgradeRPC()
     {
         applyUpdate();
-    }
+    }*/
 
     public void upgrade()
     {
@@ -48,7 +46,7 @@ public class BarracksUpgrade : MonoBehaviour {
         if(creepSpawner.upgrade(upgrades[currentVersionId + 1].price, upgrades[currentVersionId + 1].catalog))
         {
             applyUpdate();
-            photonView.RPC("upgradeRPC", PhotonTargets.OthersBuffered);
+            //photonView.RPC("upgradeRPC", PhotonTargets.OthersBuffered);
         }
     }
 

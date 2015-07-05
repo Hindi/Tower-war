@@ -6,8 +6,6 @@ using System.Collections.Generic;
 public class UIBuildPopup : UIElement 
 {
 
-    private Tile currentTile;
-
     private List<TowerInfo> buttons;
     private Catalog catalog;
 
@@ -26,7 +24,6 @@ public class UIBuildPopup : UIElement
     public void popUp(Tile tile)
     {
         GetComponent<SlideInAndOut>().popUp();
-        currentTile = tile;
     }
 
     IEnumerator showTowerInfo()
@@ -69,9 +66,6 @@ public class UIBuildPopup : UIElement
     {
         currentTowerImage.overrideSprite = buttons[i].Image;
         TowerBuilder.Instance.SelectedTower = i;
-        /*if (currentTile != null && currentTile.GetComponent<OccupentHolder>().canBuild())
-            TowerBuilder.Instance.build(i, currentTile);*/
-        Debug.Log(i);
     }
 
     public void hide()

@@ -8,7 +8,7 @@ public class UIHostOrJoin : MonoBehaviour
 
     public void host()
     {
-        PhotonNetwork.CreateRoom("Boite");
+        //PhotonNetwork.CreateRoom("Boite");
         serverListUI.setActive(false);
     }
 

@@ -10,12 +10,6 @@ public class UIFriendList : UIElement
     [SerializeField]
     private Transform contentPanel;
 
-    private List<UIFriendInfo> friendList;
-
-    void Start()
-    {
-        friendList = new List<UIFriendInfo>();
-    }
 
     public void addFriend(int id)
     {

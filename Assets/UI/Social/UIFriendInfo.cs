@@ -5,11 +5,11 @@ using System.Collections;
 public class UIFriendInfo : MonoBehaviour
 {
     [SerializeField]
-    private Text name;
+    private Text myName;
     public string Name
     {
-        get { return name.text; }
-        set { name.text = value; }
+        get { return myName.text; }
+        set { myName.text = value; }
     }
 
     [SerializeField]

@@ -5,11 +5,11 @@ using System.Collections;
 public class ProductInfo : MonoBehaviour
 {
     [SerializeField]
-    protected Text name;
+    protected Text myName;
     public string Name
     {
-        set { name.text = value; }
-        get { return name.text; }
+        set { myName.text = value; }
+        get { return myName.text; }
     }
 
     [SerializeField]

@@ -33,7 +33,7 @@ public class UIServerList : UIElement {
 
     public void generateServerList()
     {
-        RoomInfo[] roomList = PhotonNetwork.GetRoomList();
+        /*RoomInfo[] roomList = PhotonNetwork.GetRoomList();
         foreach(RoomInfo r in roomList)
         {
             if(r.visible && r.open)
@@ -45,7 +45,7 @@ public class UIServerList : UIElement {
                 si.ServerList = this;
                 serverList.Add(si.gameObject);
             }
-        }
+        }*/
 
         showServerList();
     }
@@ -78,6 +78,6 @@ public class UIServerList : UIElement {
 
     public void join()
     {
-        PhotonNetwork.JoinRoom(selectedServer.ServerName);
+       // PhotonNetwork.JoinRoom(selectedServer.ServerName);
     }
 }

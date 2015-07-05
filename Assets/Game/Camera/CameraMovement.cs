@@ -38,14 +38,14 @@ public class CameraMovement : MonoBehaviour {
 
     private int zoomGoal;
 
-    Camera camera;
+    Camera myCamera;
 
     private Vector3 nextMove;
     private float frameSpeed;
 
 	// Use this for initialization
 	void Start () {
-        camera = GetComponent<Camera>();
+        myCamera = GetComponent<Camera>();
         startPosition = transform.position;
         zoomGoal = 60;
         goalPosition = startPosition;
@@ -135,7 +135,7 @@ public class CameraMovement : MonoBehaviour {
         nextMove.y = Mathf.Clamp(nextMove.y, -frameSpeed, frameSpeed);
         goalPosition += nextMove;
         transform.position = Vector3.Lerp(transform.position, goalPosition, speed * Time.deltaTime);
-        camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, zoomGoal, 0.3f);
+        myCamera.fieldOfView = Mathf.Lerp(myCamera.fieldOfView, zoomGoal, 0.3f);
         nextMove = Vector3.zero;
     }
 }

@@ -11,7 +11,6 @@ public class ProdutUIInfo : MonoBehaviour
     }
 
     [SerializeField]
-    private string name;
     public string Name
     {
         get { return gameObject.name; }

@@ -36,7 +36,6 @@ public class TowerCannon : NetworkBehaviour
 
     void fire(GameObject target)
     {
-        var heading = towerFocus.CurrentTarget.transform.position - transform.position;
         towerHead.moveProjectile(transform.position, target.transform.position);
         target.GetComponent<CreepMortality>().takeDamage(damage);
         lastShotTime = Time.time;
