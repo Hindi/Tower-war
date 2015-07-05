@@ -12,9 +12,13 @@ public class Player : NetworkBehaviour
 
     void Start()
     {
-        if (isServer || !isLocalPlayer)
+        if (!isLocalPlayer)
             UI.SetActive(false);
+    }
 
+    public bool isMine()
+    {
+        return isLocalPlayer;
     }
 
     [Command]

@@ -11,7 +11,8 @@ public enum EnumEvent
     REACHEDBASE,    //A creep reached the last tile (creep movement)
     TILEMAPUPDATE,  //Notify the map updated (for pathfinding)
     GAMELOST,
-    START           //Start game
+    START,          //Start game
+    RESENDRPCS
 }
 
 /// <summary>

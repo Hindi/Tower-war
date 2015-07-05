@@ -76,14 +76,9 @@ public class Tile : NetworkBehaviour
 
     void Start()
     {
-        var objects = GameObject.FindGameObjectsWithTag("Zone");
-        foreach(GameObject obj in objects)
+        if (isServer)
         {
-            if(obj.GetComponent<Zone>().isLocalPlayer)
-            {
-                zone = obj.GetComponent<Zone>();
-                player = obj.GetComponent<Player>();
-            }
+            RpcSetZone(zone.gameObject);
         }
     }
     
@@ -111,6 +106,13 @@ public class Tile : NetworkBehaviour
         return (int)(position.x * 1000 + position.y * 10);
     }
 
+    [ClientRpc]
+    public void RpcSetZone(GameObject zoneGameObject)
+    {
+        Zone = zoneGameObject.GetComponent<Zone>();
+        Player = zoneGameObject.GetComponent<Player>();
+        GetComponent<TileMouseInput>().setPlayer(player);
+    }
 
     [ClientRpc]
     public void RpcSyncId(int newId)

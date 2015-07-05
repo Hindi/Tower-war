@@ -8,13 +8,16 @@ public class TileMouseInput : InterractableTerrainElement
     private OccupentHolder occupentHolder;
 
     Tile tile;
-    [SerializeField]
     Player player;
 
     void Start()
     {
         tile = GetComponent<Tile>();
-        player = tile.Player;
+    }
+
+    public void setPlayer(Player p)
+    {
+        player = p;
     }
 
     public Rect spriteRect()
@@ -83,5 +86,12 @@ public class TileMouseInput : InterractableTerrainElement
     void resetToIdle()
     {
         GetComponent<SpriteSwitcher>().setPreviousSprite();
+    }
+
+    protected override bool canInterract()
+    {
+        if (player == null)
+            return false;
+        return base.canInterract() && player.isMine();
     }
 }
