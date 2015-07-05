@@ -12,6 +12,8 @@ public class Player : NetworkBehaviour
     [SerializeField]
     private GameObject UI;
 
+    private NetworkConnection connection;
+
     void Start()
     {
         if (!isLocalPlayer)
@@ -26,32 +28,16 @@ public class Player : NetworkBehaviour
     [Command]
     public void CmdRequestBuild(int tileId, int towerId)
     {
-        Debug.Log("Request build on " + tileId + " with tower " + towerId);
         if (zone.canBuildHere(tileId))
         {
-            if (TowerBuilder.Instance.build(towerId, zone.TileDict[tileId]))
-                RpcCanBuild(tileId);
-            else
-                RpcFailBuild(tileId);
+            TowerBuilder.Instance.build(towerId, zone.TileDict[tileId]);
         }
     }
 
     [Command]
     public void CmdRequestUpgrade(int tileId)
     {
-        Debug.Log("Request upgrade on " + tileId);
         Tile tile = zone.TileDict[tileId];
         towerBuilder.upgrade(tile, tile.GetComponent<OccupentHolder>().occupent.GetComponent<TowerUpgrade>());
-    }
-
-    [ClientRpc]
-    public void RpcCanBuild(int id)
-    {
-        Debug.Log("[FEEDBACK] You built a tower on position " + id);
-    }
-    [ClientRpc]
-    public void RpcFailBuild(int id)
-    {
-        Debug.Log("[FEEDBACK]You can't build on tile " + id + " for reasons");
     }
 }
