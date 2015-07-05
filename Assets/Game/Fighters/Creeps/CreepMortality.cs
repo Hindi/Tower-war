@@ -51,7 +51,6 @@ public class CreepMortality : NetworkBehaviour {
 
     private void die()
     {
-        FxSpawner.Instance.spawn(0, transform.position);
         GetComponent<CreepActivity>().Active = false;
     }
 }

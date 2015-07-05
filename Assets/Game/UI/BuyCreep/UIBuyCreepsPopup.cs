@@ -10,12 +10,6 @@ public class UIBuyCreepsPopup : UIElement
     [SerializeField]
     private Transform contentPanel;
 
-    private BarracksUpgrade barackUpgrade;
-    public BarracksUpgrade BarackUpgrade
-    {
-        set { barackUpgrade = value; }
-    }
-
     [SerializeField]
     private GameObject creepInfoPrefab;
 
@@ -79,7 +73,7 @@ public class UIBuyCreepsPopup : UIElement
 
     public void upgrade()
     {
-        barackUpgrade.upgrade();
+        Debug.LogWarning("UPGRADE CREEP NOT IMPLEMENTED");
     }
 
     public void hide()
