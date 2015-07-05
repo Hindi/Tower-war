@@ -6,6 +6,8 @@ public class Player : NetworkBehaviour
 {
     [SerializeField]
     private Zone zone;
+    [SerializeField]
+    private TowerBuilder towerBuilder;
 
     [SerializeField]
     private GameObject UI;
@@ -32,6 +34,14 @@ public class Player : NetworkBehaviour
             else
                 RpcFailBuild(tileId);
         }
+    }
+
+    [Command]
+    public void CmdRequestUpgrade(int tileId)
+    {
+        Debug.Log("Request upgrade on " + tileId);
+        Tile tile = zone.TileDict[tileId];
+        towerBuilder.upgrade(tile, tile.GetComponent<OccupentHolder>().occupent.GetComponent<TowerUpgrade>());
     }
 
     [ClientRpc]

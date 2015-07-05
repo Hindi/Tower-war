@@ -45,6 +45,8 @@ public class Zone : NetworkBehaviour {
     private GameObject tilePrefab;
     [SerializeField]
     private Income income;
+    [SerializeField]
+    private UIUpgradePopup upgradePopup;
 
 	// Use this for initialization
 	void Awake () {
@@ -71,6 +73,10 @@ public class Zone : NetworkBehaviour {
             income.startCounting();
     }
 
+    public void showUpgradePopup(Tile tile)
+    {
+        upgradePopup.popUp(tile);
+    }
 
     public void spawnTile(Vector3 position)
     {

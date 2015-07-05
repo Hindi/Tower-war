@@ -3,6 +3,9 @@ using System.Collections;
 
 public class UIUpgradePopup : UIElement
 {
+    [SerializeField]
+    private Player player;
+
     private Tile currentTile;
 
     void Start()
@@ -25,7 +28,7 @@ public class UIUpgradePopup : UIElement
 
     public void upgrade()
     {
-        TowerBuilder.Instance.upgrade(currentTile, currentTile.GetComponent<OccupentHolder>().occupent.GetComponent<TowerUpgrade>());
+        player.CmdRequestUpgrade(currentTile.Id);
     }
 
     public void hide()

@@ -64,7 +64,7 @@ public class TileMouseInput : InterractableTerrainElement
                 if (occupentHolder.IsOccupied)
                 {
                     GetComponent<SpriteSwitcher>().setSelected();
-                    UI.Instance.showUpgradePopupp(tile);
+                    tile.Zone.showUpgradePopup(tile);
                 }
                 else if (occupentHolder.canBuild())
                 {

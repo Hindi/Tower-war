@@ -36,7 +36,6 @@ public class TowerBuilder : MonoBehaviour {
 
     void Start()
     {
-        UIBuild = GameObject.FindGameObjectWithTag("UIBuildPopup").GetComponent<UIBuildPopup>();
         selectedTower = -1;
         UIBuild.upgrade(catalog);
     }
