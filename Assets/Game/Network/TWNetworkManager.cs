@@ -24,6 +24,12 @@ public class TWNetworkManager : NetworkManager
         Client = new NetworkClient();
 	}
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
+    }
+
 
     public override void OnStartServer()
     {
