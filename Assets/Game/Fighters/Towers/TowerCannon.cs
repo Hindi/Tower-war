@@ -6,21 +6,33 @@ public class TowerCannon : NetworkBehaviour
 {
     RaycastHit hit;
 
-    [SerializeField]
     private float fireCooldown;
+    public float FireCooldown
+    {
+        set { fireCooldown = value; }
+    }
+
     private float lastShotTime;
 
-    [SerializeField]
     private TowerFocus towerFocus;
+    private TowerHead towerHead;
+    private TowerStats towerStat;
 
     [SerializeField]
-    private TowerHead towerHead;
-    [SerializeField]
+    private Transform headObject;
+
     private int damage;
+    public int Damage
+    {
+        set { damage = value; }
+    }
 
     void Start()
     {
         lastShotTime = Time.time;
+        towerFocus = GetComponent<TowerFocus>();
+        towerHead = GetComponent<TowerHead>();
+        towerStat = GetComponent<TowerStats>();
     }
 	
 	public void tryShot()
@@ -36,19 +48,21 @@ public class TowerCannon : NetworkBehaviour
 
     void fire(GameObject target)
     {
-        towerHead.moveProjectile(transform.position, target.transform.position);
-        target.GetComponent<CreepMortality>().takeDamage(damage);
+        towerHead.moveProjectile(headObject.position, target.transform.position);
+        CombatManager.solveAttack(towerStat, target.GetComponent<CreepStats>());
         lastShotTime = Time.time;
     }
 
     void rayCast()
     {
-        if (Physics.Raycast(transform.position, transform.forward * towerFocus.Radius * towerFocus.transform.localScale.x, out hit))
+        if (canFire())
         {
-            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Creep"))
+            if (Physics.Raycast(headObject.position, headObject.forward * towerFocus.Radius * towerFocus.transform.localScale.x, out hit))
             {
-                if (canFire())
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Creep"))
+                {
                     fire(hit.collider.gameObject);
+                }
             }
         }
     }

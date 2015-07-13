@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TowerMoney : MonoBehaviour {
-
-    [SerializeField]
+public class TowerMoney : MonoBehaviour 
+{
     private int price;
     public int Price
     {
@@ -11,7 +10,6 @@ public class TowerMoney : MonoBehaviour {
         set { price = value; }
     }
 
-    [SerializeField]
     private int upgradePrice;
     public int UpgradePrice
     {

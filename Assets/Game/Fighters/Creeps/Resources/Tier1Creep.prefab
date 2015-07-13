@@ -16,11 +16,11 @@ GameObject:
   - 136: {fileID: 13600002}
   - 114: {fileID: 11400008}
   - 114: {fileID: 11400010}
-  - 114: {fileID: 11400012}
   - 114: {fileID: 11491058}
   - 114: {fileID: 11441818}
   - 114: {fileID: 11489362}
-  - 114: {fileID: 11455536}
+  - 114: {fileID: 11425074}
+  - 114: {fileID: 11419406}
   m_Layer: 8
   m_Name: Tier1Creep
   m_TagString: Untagged
@@ -151,7 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c309e07722487f34eaf1649679e1967d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -174,9 +173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 168f484a2f1e35a4e8a51b7f53472465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 20
-  healthBar: {fileID: 0}
-  healthBarPrefab: {fileID: 0}
+  healthBar: {fileID: 11411882, guid: 1d1680d7c9117404fa5bb197668667d1, type: 2}
+  healthBarPrefab: {fileID: 195496, guid: 1d1680d7c9117404fa5bb197668667d1, type: 2}
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea165a1a5fa67a409c0542864c73613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11400012
+--- !u!114 &11419406
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -196,23 +194,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 11400004}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 70
+    i1: 14
+    i2: 81
+    i3: 108
+    i4: 251
+    i5: 17
+    i6: 145
+    i7: 164
+    i8: 200
+    i9: 253
+    i10: 165
+    i11: 120
+    i12: 160
+    i13: 90
+    i14: 191
+    i15: 87
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11425074
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d721292eb82bdd345983ddb9c83991a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  maxHp: 20
+  price: 5
+  incomeIncrease: 1
+  moneyDrop: 1
 --- !u!114 &11441818
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -224,21 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6023b66e587ff74d9f1ec90de405b89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 5
-  incomeIncrease: 1
-  moneyDrop: 1
---- !u!114 &11455536
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07a7f562aac302d4593c975e1bd4cb26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
 --- !u!114 &11489362
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -290,6 +296,27 @@ Prefab:
       propertyPath: maxHp
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: price
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: incomeIncrease
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: moneyDrop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarPrefab
+      value: 
+      objectReference: {fileID: 195496, guid: 1d1680d7c9117404fa5bb197668667d1, type: 2}
+    - target: {fileID: 0}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 11411882, guid: 1d1680d7c9117404fa5bb197668667d1,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}

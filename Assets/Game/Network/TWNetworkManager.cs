@@ -30,7 +30,6 @@ public class TWNetworkManager : NetworkManager
             Application.Quit();
     }
 
-
     public override void OnStartServer()
     {
         base.OnStartServer();

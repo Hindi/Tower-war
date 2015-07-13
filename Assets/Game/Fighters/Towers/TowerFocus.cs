@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 public class TowerFocus : NetworkBehaviour {
 
-    [SerializeField]
     private int radius;
     public int Radius
     {
         get { return radius; }
+        set { radius = value; }
     }
 
     List<GameObject> targets;

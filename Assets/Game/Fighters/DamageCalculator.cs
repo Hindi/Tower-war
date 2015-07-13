@@ -3,8 +3,8 @@ using System.Collections;
 
 public static class DamageCalculator 
 {
-    public static int calcDamage(CombatStats attaquer, CombatStats target)
+    public static int processDamage(TowerStats attaquer, CreepStats target)
     {
-        return attaquer.damage;
+        return attaquer.Damage;
     }
 }

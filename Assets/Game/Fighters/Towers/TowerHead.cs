@@ -9,15 +9,21 @@ public class TowerHead : NetworkBehaviour
 
     [SerializeField]
     private float speed;
+    public float Speed
+    { set { speed = value; } }
 
     [SyncVar]
     private Quaternion networkRotation;
 
-    [SerializeField]
     private TowerCannon cannon;
 
     [SerializeField]
     private MoveTowardAndHide projectile;
+
+    void Start()
+    {
+        cannon = GetComponent<TowerCannon>();
+    }
 
     public void lookAt(Vector3 pos)
     {

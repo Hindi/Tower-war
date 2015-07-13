@@ -38,8 +38,9 @@ public class CreepMovement : NetworkBehaviour
     private Vector3 direction;
     private int currentPositionId;
 
-    [SerializeField]
     private float speed;
+    public float Speed
+    { set { speed = value; } }
 
     [SyncVar]
     private Vector3 networkPosition;

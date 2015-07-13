@@ -33,11 +33,11 @@ GameObject:
   - 136: {fileID: 13626102}
   - 114: {fileID: 11480966}
   - 114: {fileID: 11433964}
-  - 114: {fileID: 11436752}
   - 114: {fileID: 11447718}
   - 114: {fileID: 11466382}
   - 114: {fileID: 11456704}
-  - 114: {fileID: 11463942}
+  - 114: {fileID: 11429464}
+  - 114: {fileID: 11483018}
   m_Layer: 8
   m_Name: Tier2Creep
   m_TagString: Untagged
@@ -140,6 +140,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d10e5cce8cac244b9fb438306230b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11429464
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 186302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d721292eb82bdd345983ddb9c83991a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  maxHp: 30
+  price: 10
+  incomeIncrease: 2
+  moneyDrop: 2
 --- !u!114 &11433964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,31 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea165a1a5fa67a409c0542864c73613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11436752
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 186302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 11439854}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &11439854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -187,7 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c309e07722487f34eaf1649679e1967d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
 --- !u!114 &11444566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -222,18 +212,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 77eba32a3ca052441aee2da929492166, type: 3}
---- !u!114 &11463942
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 186302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07a7f562aac302d4593c975e1bd4cb26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
 --- !u!114 &11466382
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -245,9 +223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6023b66e587ff74d9f1ec90de405b89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 10
-  incomeIncrease: 2
-  moneyDrop: 2
 --- !u!114 &11480966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -259,9 +234,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 168f484a2f1e35a4e8a51b7f53472465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 30
   healthBar: {fileID: 11411882, guid: 1d1680d7c9117404fa5bb197668667d1, type: 2}
-  healthBarPrefab: {fileID: 0}
+  healthBarPrefab: {fileID: 195496, guid: 1d1680d7c9117404fa5bb197668667d1, type: 2}
+--- !u!114 &11483018
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 186302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 139
+    i1: 242
+    i2: 191
+    i3: 73
+    i4: 33
+    i5: 141
+    i6: 133
+    i7: 244
+    i8: 218
+    i9: 111
+    i10: 247
+    i11: 226
+    i12: 66
+    i13: 79
+    i14: 42
+    i15: 191
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!136 &13626102
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -286,6 +292,26 @@ Prefab:
       propertyPath: maxHp
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: price
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: incomeIncrease
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: moneyDrop
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarPrefab
+      value: 
+      objectReference: {fileID: 195496, guid: 1d1680d7c9117404fa5bb197668667d1, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 186302}

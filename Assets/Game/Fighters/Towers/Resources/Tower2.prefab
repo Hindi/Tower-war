@@ -54,7 +54,6 @@ GameObject:
   - 114: {fileID: 11400018}
   - 114: {fileID: 11446034}
   - 114: {fileID: 11410778}
-  - 114: {fileID: 11490002}
   - 114: {fileID: 11473294}
   m_Layer: 2
   m_Name: Tower2
@@ -384,10 +383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8bc15ed44db36d45bd1f42392e565ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireCooldown: .5
-  towerFocus: {fileID: 11400004}
-  towerHead: {fileID: 0}
-  damage: 10
+  headObject: {fileID: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -399,7 +395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88520bf35073c0047b4ec1ce31b887c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 5
   currentTarget: {fileID: 0}
 --- !u!114 &11400006
 MonoBehaviour:
@@ -543,8 +538,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecef53ba2a7fb294d92dadbe54f9fca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 10
-  upgradePrice: 0
 --- !u!114 &11473294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -577,18 +570,6 @@ MonoBehaviour:
     i15: 240
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &11490002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07a7f562aac302d4593c975e1bd4cb26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
 --- !u!114 &11499808
 MonoBehaviour:
   m_ObjectHideFlags: 1

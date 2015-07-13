@@ -16,11 +16,11 @@ GameObject:
   - 136: {fileID: 13678056}
   - 114: {fileID: 11415906}
   - 114: {fileID: 11458848}
-  - 114: {fileID: 11414888}
   - 114: {fileID: 11426444}
   - 114: {fileID: 11411924}
   - 114: {fileID: 11405902}
-  - 114: {fileID: 11475472}
+  - 114: {fileID: 11486898}
+  - 114: {fileID: 11405350}
   m_Layer: 8
   m_Name: Tier4Creep
   m_TagString: Untagged
@@ -116,6 +116,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &11405350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 116016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 59
+    i1: 91
+    i2: 55
+    i3: 76
+    i4: 177
+    i5: 219
+    i6: 62
+    i7: 84
+    i8: 184
+    i9: 128
+    i10: 137
+    i11: 140
+    i12: 37
+    i13: 107
+    i14: 44
+    i15: 203
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11405902
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,34 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6023b66e587ff74d9f1ec90de405b89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 40
-  incomeIncrease: 8
-  moneyDrop: 8
---- !u!114 &11414888
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 116016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 11451728}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &11415724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,9 +193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 168f484a2f1e35a4e8a51b7f53472465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 28
   healthBar: {fileID: 11411882, guid: 1d1680d7c9117404fa5bb197668667d1, type: 2}
-  healthBarPrefab: {fileID: 0}
+  healthBarPrefab: {fileID: 195496, guid: 1d1680d7c9117404fa5bb197668667d1, type: 2}
 --- !u!114 &11424220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -227,7 +230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c309e07722487f34eaf1649679e1967d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
 --- !u!114 &11458848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -239,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea165a1a5fa67a409c0542864c73613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11475472
+--- !u!114 &11486898
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -247,10 +249,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 116016}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07a7f562aac302d4593c975e1bd4cb26, type: 3}
+  m_Script: {fileID: 11500000, guid: d721292eb82bdd345983ddb9c83991a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  speed: 3
+  maxHp: 28
+  price: 40
+  incomeIncrease: 8
+  moneyDrop: 8
 --- !u!114 &11498078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -281,7 +287,31 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxHp
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: price
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: incomeIncrease
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: moneyDrop
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarPrefab
+      value: 
+      objectReference: {fileID: 195496, guid: 1d1680d7c9117404fa5bb197668667d1, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 116016}

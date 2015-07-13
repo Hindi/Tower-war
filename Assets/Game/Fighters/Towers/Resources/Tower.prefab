@@ -19,8 +19,8 @@ GameObject:
   - 114: {fileID: 11400018}
   - 114: {fileID: 11450660}
   - 114: {fileID: 11424126}
-  - 114: {fileID: 11463020}
   - 114: {fileID: 11415238}
+  - 114: {fileID: 11482706}
   m_Layer: 2
   m_Name: Tower
   m_TagString: Untagged
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   headObject: {fileID: 100004}
-  speed: 10
+  speed: 0
   cannon: {fileID: 11400012}
   projectile: {fileID: 11466482}
 --- !u!114 &11400012
@@ -385,10 +385,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8bc15ed44db36d45bd1f42392e565ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireCooldown: .5
-  towerFocus: {fileID: 11400014}
-  towerHead: {fileID: 11400010}
-  damage: 5
+  towerFocus: {fileID: 0}
+  towerHead: {fileID: 0}
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -400,7 +398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88520bf35073c0047b4ec1ce31b887c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 8
   currentTarget: {fileID: 0}
 --- !u!114 &11400018
 MonoBehaviour:
@@ -413,7 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ea6ce69afebbc439061db8c354514e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextVersion: 1
+  nextVersion: -1
 --- !u!114 &11415238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -457,7 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 315c5595987c43c4486a8175c9f91ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 37bd3ed3e36c5f14aae4f2c2a401ac06, type: 3}
+  icon: {fileID: 0}
 --- !u!114 &11432798
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -521,20 +518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecef53ba2a7fb294d92dadbe54f9fca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 10
-  upgradePrice: 0
---- !u!114 &11463020
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07a7f562aac302d4593c975e1bd4cb26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
 --- !u!114 &11466482
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -546,9 +529,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2c255ff7c0c0a4495c6fc50e41b681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  precision: .100000001
-  speed: 15
+  precision: 0
+  speed: 0
   model: {fileID: 195974}
+--- !u!114 &11482706
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18567a2943b2c3b46839d4f4029c6321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  money: {fileID: 11450660}
+  focus: {fileID: 11400014}
+  cannon: {fileID: 11400012}
+  price: 10
+  upgradePrice: 20
+  radius: 5
+  damage: 10
+  fireCooldown: 1
 --- !u!114 &11494310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -614,6 +616,26 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: nextVersion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: price
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradePrice
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: radius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: damage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: fireCooldown
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
