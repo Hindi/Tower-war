@@ -20,16 +20,19 @@ public class OccupentHolder : NetworkBehaviour
 
     public void addOccupent(GameObject occ)
     {
-        if (isServer && !IsOccupied)
+        if (!IsOccupied)
         {
-            RpcAddOccupent(occ);
-            EventManager.Raise(EnumEvent.TILEMAPUPDATE);
-        }
-        IsOccupied = true;
-        occupent = occ;
+            IsOccupied = true;
+            occupent = occ;
+            if(isServer)
+            {
+                RpcAddOccupent(occ);
+                EventManager.Raise(EnumEvent.TILEMAPUPDATE);
+            }
 
-        occupent.GetComponent<OccupentTileInfos>().Tile = tile;
-        occupent.GetComponent<OccupentTileInfos>().Zone = tile.Zone;
+            occupent.GetComponent<OccupentTileInfos>().Tile = tile;
+            occupent.GetComponent<OccupentTileInfos>().Zone = tile.Zone;
+        }
     }
 
     [ClientRpc]
