@@ -21,8 +21,7 @@ public class UIUpgradePopup : UIElement
 
     public void sell()
     {
-        if(currentTile != null)
-            currentTile.GetComponent<OccupentHolder>().destroyOccupent();
+        player.CmdRequestSell(currentTile.Id);
         hide();
     }
 

@@ -1560,6 +1560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zone: {fileID: 11419470}
   towerBuilder: {fileID: 11472062}
+  purse: {fileID: 11451796}
   UI: {fileID: 118040}
 --- !u!114 &11410392
 MonoBehaviour:

@@ -40,4 +40,14 @@ public class Player : NetworkBehaviour
         Tile tile = zone.TileDict[tileId];
         towerBuilder.upgrade(tile, tile.GetComponent<OccupentHolder>().occupent.GetComponent<TowerUpgrade>());
     }
+
+    [Command]
+    public void CmdRequestSell(int tileId)
+    {
+        Tile tile = zone.TileDict[tileId];
+        if (tile)
+        {
+            TowerBuilder.Instance.sell(tile);
+        }
+    }
 }

@@ -43,7 +43,7 @@ public class TowerBuilder : MonoBehaviour {
     public bool build(int index, Tile tile)
     {
         selectedTower = index;
-        int price = catalog.getPrefab(index).GetComponent<TowerMoney>().Price;
+        int price = catalog.getPrefab(index).GetComponent<TowerStats>().Price;
 
         if (canBuild(price))
         {
@@ -52,6 +52,13 @@ public class TowerBuilder : MonoBehaviour {
             return true;
         }
         return false;
+    }
+
+    public void sell(Tile tile)
+    {
+        OccupentHolder oh = tile.GetComponent<OccupentHolder>();
+        purse.add(oh.occupent.GetComponent<TowerMoney>().Price);
+        oh.destroyOccupent();
     }
 
     public void upgrade(Tile tile, TowerUpgrade towerUp)
