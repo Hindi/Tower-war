@@ -602,11 +602,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18567a2943b2c3b46839d4f4029c6321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 0
-  upgradePrice: 0
-  radius: 8
-  damage: 0
-  fireCooldown: 0
+  price: 10
+  upgradePrice: 10
+  radius: 3
+  damage: 1
+  fireCooldown: 1
   speed: 10
 --- !u!114 &11439520
 MonoBehaviour:
@@ -744,7 +744,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: radius
-      value: 8
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
@@ -765,6 +765,18 @@ Prefab:
       value: 
       objectReference: {fileID: 11400014, guid: 475107066ded681448d4e3a248b8f31c,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: price
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradePrice
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: fireCooldown
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}

@@ -642,9 +642,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price: 10
-  upgradePrice: 20
-  radius: 8
-  damage: 5
+  upgradePrice: 10
+  radius: 3
+  damage: 1
   fireCooldown: 1
   speed: 10
 --- !u!114 &11484594
@@ -740,11 +740,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: radius
-      value: 8
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: price
@@ -752,7 +752,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: upgradePrice
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: fireCooldown
