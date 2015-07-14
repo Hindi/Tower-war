@@ -30,7 +30,7 @@ public class Player : NetworkBehaviour
     {
         if (zone.canBuildHere(tileId))
         {
-            TowerBuilder.Instance.build(towerId, zone.TileDict[tileId]);
+            towerBuilder.build(towerId, zone.TileDict[tileId]);
         }
     }
 
@@ -47,7 +47,7 @@ public class Player : NetworkBehaviour
         Tile tile = zone.TileDict[tileId];
         if (tile)
         {
-            TowerBuilder.Instance.sell(tile);
+            towerBuilder.sell(tile);
         }
     }
 }

@@ -46,11 +46,6 @@ public class TileMouseInput : InterractableTerrainElement
         }
     }
 
-    public void buildLast()
-    {
-        TowerBuilder.Instance.buildLast(tile);
-    }
-
     public override void onMouseDown()
     {
         if (canInterract())
