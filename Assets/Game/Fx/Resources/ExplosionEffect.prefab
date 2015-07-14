@@ -26,9 +26,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400002}
   - 114: {fileID: 11403812}
-  - 114: {fileID: 11440864}
   - 114: {fileID: 11490338}
-  - 114: {fileID: 11428510}
   m_Layer: 0
   m_Name: ExplosionEffect
   m_TagString: Untagged
@@ -123,30 +121,6 @@ MonoBehaviour:
     i15: 157
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &11428510
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b31be13fa9268ca4283bfed58f7bcbf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11440864
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bb0535a9ee834146ae3eb26d61f581b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inactivityTimeBeforeDestroy: 0
-  model: {fileID: 100004}
 --- !u!114 &11490338
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -158,6 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9a98ef08212b004c8da6f854b2a47cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ps: {fileID: 19800002}
+  model: {fileID: 100004}
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

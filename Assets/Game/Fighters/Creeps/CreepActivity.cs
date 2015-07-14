@@ -5,6 +5,9 @@ using System.Collections;
 [RequireComponent(typeof(CreepMovement), typeof(CreepMortality))]
 public class CreepActivity : Activity
 {
+    [SerializeField]
+    private GameObject fxObject;
+
     protected override void activate(bool b)
     {
         if (isServer)
@@ -21,10 +24,20 @@ public class CreepActivity : Activity
         {
             GetComponent<CreepMovement>().notifyDesactivation();
             GetComponent<CreepTargetKeeper>().notifyExit();
-            hide();
+            showFxAndHide();
         }
         GetComponent<CreepMovement>().enabled = b;
         GetComponent<CapsuleCollider>().enabled = b;
+    }
+
+    public void showFxAndHide()
+    {
+        if (fxObject)
+        {
+            fxObject.GetComponent<OneShotParticle>().setInactive(hide);
+        }
+        else
+            hide();
     }
 
     protected void hide()

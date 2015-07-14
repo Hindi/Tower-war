@@ -644,7 +644,7 @@ MonoBehaviour:
   price: 10
   upgradePrice: 10
   radius: 3
-  damage: 1
+  damage: 10
   fireCooldown: 1
   speed: 10
 --- !u!114 &11484594
@@ -740,7 +740,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: radius

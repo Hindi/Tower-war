@@ -1,29 +1,35 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
-[RequireComponent(typeof(Activity))]
 public class OneShotParticle : MonoBehaviour 
 {
+    [SerializeField]
     private ParticleSystem ps;
-    private Activity activity;
+    [SerializeField]
+    private GameObject model;
 
     public void Start()
     {
-        ps = GetComponent<ParticleSystem>();
-        activity = GetComponent<Activity>();
-        StartCoroutine(setInactiveCoroutine());
+
     }
 
-    IEnumerator setInactiveCoroutine()
+    public void setInactive(Action effectEndCallback)
     {
-        yield return new WaitForSeconds(1);
-        if(ps)
+        StartCoroutine(setInactiveCoroutine(effectEndCallback));
+    }
+
+    IEnumerator setInactiveCoroutine(Action effectEndCallback)
+    {
+        if (model)
+            model.SetActive(false);
+        ps.Play();
+        while (ps.IsAlive())
         {
-            while (ps.IsAlive())
-            {
-                yield return new WaitForSeconds(1);
-            }
+            yield return null;
         }
-        activity.Active = false;
+        effectEndCallback();
+        if (model)
+            model.SetActive(true);
     }
 }
