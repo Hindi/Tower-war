@@ -48,6 +48,12 @@ public class Zone : NetworkBehaviour {
     [SerializeField]
     private UIUpgradePopup upgradePopup;
 
+    float width;
+    float height;
+
+    float heightBetweenLines;
+    float widthBetweenColumn;
+
 	// Use this for initialization
 	void Awake () {
         tileDict = new Dictionary<int, Tile>();
@@ -78,39 +84,23 @@ public class Zone : NetworkBehaviour {
         upgradePopup.popUp(tile);
     }
 
-    public void spawnTile(Vector3 position)
+    public Vector3 spawnSquare(Vector3 position, bool odd)
     {
         //Calculate the dimension that we'll use
-        Rect rect = tileReference.GetComponent<SpriteSwitcher>().CurrentSprite.rect;
-        float offsetL = 0;
-        float width = rect.width / 100 * tileReference.transform.localScale.x;
-        float height = rect.height / 84 * tileReference.transform.localScale.y;
+        Vector3 lastPosition = position;
 
-        float heightBetweenLines = height / 2.4f;
-        float widthBetweenColumn = (width / 2.69f) + width;
         float offestW = width / 2;
+        float offsetL = 0;
+        if(odd)
+            offsetL = width * 2 / 2.69f;
 
-        StartTile = instantiateTile(new Vector3(position.x + widthBetweenColumn * columnCount / 2, position.y + heightBetweenLines * lineCount + 1, 0));
-        EndTile = instantiateTile(new Vector3(position.x + widthBetweenColumn * columnCount / 2, position.y - 1, 0));
-        int startId = StartTile.GetComponent<Tile>().Id;
-        int endId = EndTile.GetComponent<Tile>().Id;
-
-        GetComponent<CreepSpawner>().EndTile = EndTile;
-        GetComponent<CreepSpawner>().StartTile = StartTile;
-        GameObject lastInstantiatedTile = null;
-
-        for (int j = 0; j < lineCount; ++j)
+        for (int j = 0; j < 21; ++j)
         {
             int i;
-            for (i = 0; i < columnCount; ++i)
+            for (i = 0; i < 10; ++i)
             {
-                lastInstantiatedTile = instantiateTile(new Vector3(position.x + offsetL + i * (width + offestW), position.y + j * heightBetweenLines, 0));
-
-                //Add the neighbours ids to the start and end tile
-                if (j <= 2)
-                    addNeighbours(endId, lastInstantiatedTile.GetComponent<Tile>().Id);
-                else if (j >= lineCount - 2)
-                    addNeighbours(startId, lastInstantiatedTile.GetComponent<Tile>().Id);
+                lastPosition = new Vector3(position.x + offsetL + i * (width + offestW), position.y - j * heightBetweenLines, 0);
+                instantiateTile(lastPosition);
             }
 
             //Update the offset to obtain a nice hexagonal tile
@@ -119,7 +109,68 @@ public class Zone : NetworkBehaviour {
             else
                 offsetL = 0;
         }
+        return new Vector3(position.x, lastPosition.y - heightBetweenLines);
+    }
 
+    public Vector3 spawnTriangle(Vector3 position, bool odd)
+    {
+        Vector3 lastPosition = position;
+
+        int linewidth = 10;
+        int tileForThisLine = 1;
+        int currentLineId = 0;
+
+        float offestW = width / 2;
+        float offsetL = 0;
+        if (odd)
+            offsetL = width * 2 / 2.69f;
+
+        while(tileForThisLine < linewidth)
+        {
+            int i;
+            for (i = 0; i < linewidth; ++i)
+            {
+                if (i >= linewidth / 2 - (tileForThisLine +1) / 2 && i <= linewidth / 2 + tileForThisLine / 2)
+                {
+                    lastPosition = new Vector3(position.x + offsetL + i * (width + offestW), position.y - currentLineId * heightBetweenLines, 0);
+                    instantiateTile(lastPosition);
+                }
+            }
+
+            //Update the offset to obtain a nice hexagonal tile
+            if (offsetL == 0)
+            {
+                offsetL = width * 2 / 2.69f;
+            }
+            else
+                offsetL = 0;
+            tileForThisLine++;
+            currentLineId++;
+        }
+        return new Vector3(position.x, lastPosition.y - heightBetweenLines);
+    }
+
+    public void spawnTile(Vector3 position)
+    {
+        Rect rect = tileReference.GetComponent<SpriteSwitcher>().CurrentSprite.rect;
+        width = rect.width / 100 * tileReference.transform.localScale.x;
+        height = rect.height / 84 * tileReference.transform.localScale.y;
+        heightBetweenLines = height / 2.4f;
+        widthBetweenColumn = (width / 2.69f) + width;
+
+        //Calculate the dimension that we'll use        
+        StartTile = instantiateTile(new Vector3(position.x, position.y + 1, 0));
+        int startId = StartTile.GetComponent<Tile>().Id;
+        StartTile.GetComponent<SpriteSwitcher>().setIdleSprite();
+        GetComponent<CreepSpawner>().StartTile = StartTile;
+
+        position = spawnSquare(position, false);
+        position = spawnTriangle(position, true);
+        position = spawnSquare(position, false);
+
+        EndTile = instantiateTile(new Vector3(position.x, position.y, 0));
+        int endId = EndTile.GetComponent<Tile>().Id;
+        GetComponent<CreepSpawner>().EndTile = EndTile;
         StartCoroutine(catchNeighbourCoroutine());
     }
 
