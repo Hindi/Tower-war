@@ -2,7 +2,7 @@ Temp/
 Library/
 build/
 obj/
-node_modules/
+TowerWarServer/node_modules/
 *.sln
 *.csproj
 *.suo
