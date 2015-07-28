@@ -627,12 +627,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18567a2943b2c3b46839d4f4029c6321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 10
-  upgradePrice: 10
-  radius: 3
-  damage: 1
+  price: 50
+  upgradePrice: 160
+  radius: 15
+  damage: 5
   fireCooldown: 1
-  speed: 10
+  speed: 25
 --- !u!114 &11459976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -740,15 +740,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: radius
-      value: 3
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: 10
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: head
@@ -767,11 +767,11 @@ Prefab:
         type: 2}
     - target: {fileID: 0}
       propertyPath: price
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: upgradePrice
-      value: 10
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: fireCooldown
