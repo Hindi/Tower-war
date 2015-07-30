@@ -12,6 +12,7 @@ public enum EnumEvent
     TILEMAPUPDATE,  //Notify the map updated (for pathfinding)
     GAMELOST,
     START,          //Start game
+    LOADTEXTS,
     RESENDRPCS
 }
 
