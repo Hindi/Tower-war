@@ -16,7 +16,7 @@ public class UIResolutionOption : MonoBehaviour
 
     public void setResolution()
     {
-        settings.setResolution(w, h);
+        settings.selectNewResolution(w, h);
     }
 
     public void init(int width, int height)

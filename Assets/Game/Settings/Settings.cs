@@ -8,32 +8,38 @@ public class Settings : MonoBehaviour
     [SerializeField]
     private GameObject resOptionPrefab;
     [SerializeField]
-    private Transform resOptionContainer;
+    private DropDown resOptionContainer;
     [SerializeField]
     private UIConfirm uiConfirm;
+    [SerializeField]
+    private Toggle fullscreenToggle;
 
     private int resX; 
-    private int resY; 
-    private int isFullScreen;
+    private int resY;
+    private bool isFullScreen;
 
-    private bool anythingChanged;
     private bool isFullScreenSelection;
     private int resXSelection;
     private int resYSelection;
 
-    void Awake()
+    private void Awake()
     {
         //loadVideoSettings();
     }
 
-    void Start()
+    private void Start()
     {
-        loadResolutionUI();
+        loadUI();
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
-        anythingChanged = false;
+        resetToCurrent();
+    }
+
+    private void resetToCurrent()
+    {
+        fullscreenToggle.isOn = Screen.fullScreen;
         resXSelection = Screen.width;
         resYSelection = Screen.height;
     }
@@ -52,27 +58,38 @@ public class Settings : MonoBehaviour
 
         if (PlayerPrefs.HasKey("fullscreen"))
         {
-            isFullScreen = PlayerPrefs.GetInt("fullscreen");
+            isFullScreen = PlayerPrefs.GetInt("fullscreen") == 0;
         }
         else
         {
             resetFullScreen();
         }
-        Screen.SetResolution(resX, resY, (isFullScreen == 0));
+        Screen.SetResolution(resX, resY, isFullScreen);
     }
 
-    private void loadResolutionUI()
+    public void onResolutionSelected(string s)
     {
+        string[] param = s.Split('x');
+        int w = System.Convert.ToInt32(param[0]);
+        int h = System.Convert.ToInt32(param[1]);
+        selectNewResolution(w, h);
+    }
+
+    private void loadUI()
+    {
+        //Resolution option
         foreach(Resolution res in Screen.resolutions)
         {
-            GameObject obj = (GameObject)Instantiate(resOptionPrefab);
-            obj.GetComponent<UIResolutionOption>().Settings = this;
-            obj.GetComponent<UIResolutionOption>().init(res.width, res.height);
-            obj.transform.SetParent(resOptionContainer);
+            resOptionContainer.addItems(res.width + "x" + res.height);
         }
+        resOptionContainer.selectionCallback += onResolutionSelected;
+        resOptionContainer.ButtonText = Screen.width + "x" + Screen.height;
+
+        //fullscreen option
+        fullscreenToggle.isOn = Screen.fullScreen;
     }
 
-    public void setResolution(int width, int height)
+    private void setResolution(int width, int height)
     {
         PlayerPrefs.SetInt("resolutionX", width);
         PlayerPrefs.SetInt("resolutionY", height);
@@ -81,10 +98,17 @@ public class Settings : MonoBehaviour
         Screen.SetResolution(resX, resY, Screen.fullScreen);
     }
 
-    public void setFullScreen(bool fs)
+    private void setFullScreen()
     {
-        isFullScreen = System.Convert.ToInt32(fs);
-        Screen.fullScreen = fs;
+        isFullScreen = isFullScreenSelection;
+        Screen.fullScreen = isFullScreenSelection;
+        PlayerPrefs.SetInt("fullscreen", System.Convert.ToInt32(isFullScreen));
+    }
+
+    public void selectNewResolution(int width, int height)
+    {
+        resXSelection = width;
+        resYSelection = height;
     }
 
     private void resetToDefaultResolution()
@@ -93,14 +117,24 @@ public class Settings : MonoBehaviour
         resY = Screen.currentResolution.height;
         PlayerPrefs.SetInt("resolutionX", Screen.currentResolution.width);
         PlayerPrefs.SetInt("resolutionY", Screen.currentResolution.height);
-        Screen.SetResolution(resX, resY, (isFullScreen == 0));
+        Screen.SetResolution(resX, resY, isFullScreen);
     }
 
     private void resetFullScreen()
     {
-        isFullScreen = 0;
+        isFullScreen = true;
         PlayerPrefs.SetInt("fullscreen", System.Convert.ToInt32(isFullScreen));
-        Screen.fullScreen = (isFullScreen == 0);
+        Screen.fullScreen = isFullScreen;
+    }
+
+    public void selectFullScreen(bool fs)
+    {
+        isFullScreenSelection = fullscreenToggle.isOn;
+    }
+    
+    private bool anythingChanged()
+    {
+        return (resX != resXSelection || resY != resYSelection || isFullScreen != isFullScreenSelection);
     }
 
     public void resetVideoSettings()
@@ -109,21 +143,20 @@ public class Settings : MonoBehaviour
         resetToDefaultResolution();
     }
 
-    public void toggleFullScreen()
-    {
-        setFullScreen(!Screen.fullScreen);
-    }
-
     public void askSettingsValidation()
     {
-        if (anythingChanged)
-            uiConfirm.askConfirm(TextDB.Instance().getText("confirmApplySettings"), validateSettings);
+        if (anythingChanged())
+            uiConfirm.askConfirm(TextDB.Instance().getText("confirmApplySettings"), validateSettings, withdrawSettings);
     }
 
     public void validateSettings()
     {
-        setFullScreen(isFullScreenSelection);
+        setFullScreen();
         setResolution(resXSelection, resYSelection);
     }
-    
+
+    public void withdrawSettings()
+    {
+        resetToCurrent();
+    }
 }
