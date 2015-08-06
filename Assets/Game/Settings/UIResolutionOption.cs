@@ -7,8 +7,8 @@ public class UIResolutionOption : MonoBehaviour
     [SerializeField]
     private Text buttonText;
 
-    private Settings settings;
-    public Settings Settings
+    private SettingsVideo settings;
+    public SettingsVideo Settings
     { set { settings = value; } }
 
     int w;
