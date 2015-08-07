@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public enum InputAction
 {
-    test
+    test,
+    test2
 }
 
 public class ControlsManager : MonoBehaviour 
@@ -22,7 +23,7 @@ public class ControlsManager : MonoBehaviour
         checkers.ForEach(c => c.update());
 	}
 
-    public void addOrReplaceChecker(InputAction action, KeyCode[] inputs)
+    public void addOrReplaceChecker(InputAction action, Combinaison inputs)
     {
         foreach(InputChecker checker in checkers)
         {
@@ -32,7 +33,6 @@ public class ControlsManager : MonoBehaviour
                 return;
             }
         }
-        Debug.Log(action + " " + inputs);
         checkers.Add(new InputChecker(action, this, inputs));
     }
 

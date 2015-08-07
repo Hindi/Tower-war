@@ -3,8 +3,8 @@ using System.Collections;
 
 public class InputChecker 
 {
-    private KeyCode[] keyList;
-    public KeyCode[] KeyList
+    private Combinaison keyList;
+    public Combinaison KeyList
     { set { keyList = value; } }
 
     private InputAction action;
@@ -13,13 +13,14 @@ public class InputChecker
 
     private ControlsManager controlsManager;
 
-    public InputChecker(InputAction actionName, ControlsManager mgr, params KeyCode[] keys)
+    public InputChecker(InputAction actionName, ControlsManager mgr, Combinaison keys)
     {
         init(actionName, mgr, keys);
     }
 
 	// Use this for initialization
-	public void init (InputAction actionName, ControlsManager mgr, params KeyCode[] keys) {
+    public void init(InputAction actionName, ControlsManager mgr, Combinaison keys)
+    {
         keyList = keys;
         action = actionName;
         controlsManager = mgr;
@@ -36,9 +37,9 @@ public class InputChecker
 
     private bool isKeylistPressed()
     {
-        foreach(KeyCode k in keyList)
+        for(int i = 0; i < keyList.Length; ++i)
         {
-            if(!Input.GetKey(k))
+            if(!Input.GetKey(keyList[i]))
                 return false;
         }
         return true;

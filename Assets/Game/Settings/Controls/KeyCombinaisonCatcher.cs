@@ -9,23 +9,24 @@ public class KeyCombinaisonCatcher : MonoBehaviour, IPointerUpHandler
     [SerializeField]
     private SettingsControlLine controlLine;
 
-    private List<KeyCode> pressedKey;
+    private Combinaison pressedKey;
     bool editing = false;
+
+    void Start()
+    {
+        pressedKey = new Combinaison();
+    }
 
     public void onEditStart()
     {
         editing = true;
+        controlLine.startEditing(true);
         //StartCoroutine(startEditCoroutine());
     }
 
     private IEnumerator startEditCoroutine()
     {
         yield return null;
-    }
-
-    void Start()
-    {
-        pressedKey = new List<KeyCode>();
     }
 
     void IPointerUpHandler.OnPointerUp(PointerEventData e)
@@ -35,37 +36,38 @@ public class KeyCombinaisonCatcher : MonoBehaviour, IPointerUpHandler
 
     public void updateControlLine()
     {
-        Debug.Log(pressedKey[0]);
+        controlLine.tryAddCombinaison(pressedKey.clone());
+        controlLine.startEditing(false);
         editing = false;
-        pressedKey.Clear();
+        pressedKey.reset();
     }
 
     void Update()
     {
         if (editing)
         {
-
-            if (Input.anyKey)
+            foreach (KeyCode k in Enum.GetValues(typeof(KeyCode)))
             {
-                foreach (KeyCode k in Enum.GetValues(typeof(KeyCode)))
+                //If a key is pressed, we want to catch it
+                if ((Input.GetKeyDown(k)) && pressedKey[0] != k && pressedKey[1] != k)
                 {
-                    //If a key is pressed, we want to catch it
-                    if ((Input.GetKeyDown(k)) && !pressedKey.Contains(k))
-                    {
-                        pressedKey.Add(k);
-                        if (pressedKey.Count > 1)
-                        {
-                            updateControlLine();
-                            return;
-                        }
-                    }
+                    if(pressedKey[0] == KeyCode.None)
+                        pressedKey[0] = k;
+                    else
+                        pressedKey[1] = k;
 
-                    //If one of the pressed key is up, then we stop catching inputs
-                    if(Input.GetKeyUp(k) && pressedKey.Contains(k))
+                    if (pressedKey[1] != KeyCode.None)
                     {
                         updateControlLine();
                         return;
                     }
+                }
+
+                //If one of the pressed key is up, then we stop catching inputs
+                if (Input.GetKeyUp(k) && pressedKey[0] == k)
+                {
+                    updateControlLine();
+                    return;
                 }
             }
         }
