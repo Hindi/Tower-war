@@ -37,7 +37,9 @@ public class UIConfirm : MonoBehaviour
     {
         cancelCallback = null;
         if (confirmCallback != null)
+        {
             confirmCallback();
+        }
         canvas.SetActive(false);
     }
 
@@ -62,6 +64,7 @@ public class UIConfirm : MonoBehaviour
     {
         questionText.text = text;
         confirmCallback = action;
+        cancelCallback = cancelAction;
         canvas.SetActive(true);
     }
 }

@@ -39,7 +39,7 @@ public class InputChecker
     {
         for(int i = 0; i < keyList.Length; ++i)
         {
-            if(!Input.GetKey(keyList[i]))
+            if(keyList[i] != KeyCode.None && !Input.GetKey(keyList[i]))
                 return false;
         }
         return true;

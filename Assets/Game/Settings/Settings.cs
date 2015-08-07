@@ -24,11 +24,7 @@ public class Settings : MonoBehaviour
 
     private void Start()
     {
-        foreach (SettingsAbstract s in settingsList)
-        {
-            s.loadFromSave();
-            s.loadUI();
-        }
+        settingsList.ForEach(s => s.loadFromSave());
     }
 
     public void resetToCurrent()
@@ -39,6 +35,15 @@ public class Settings : MonoBehaviour
     public void toggleDisplayPanel()
     {
         settingsPanel.SetActive(!settingsPanel.activeSelf);
+        resetToCurrent();
+        StartCoroutine(loadUICoroutine());
+    }
+
+    private IEnumerator loadUICoroutine()
+    {
+        yield return null;
+        if (settingsPanel.activeSelf)
+            settingsList.ForEach(s => s.loadUI());
     }
 
     public void askSettingsValidation()
@@ -47,7 +52,7 @@ public class Settings : MonoBehaviour
         {
             if (s.anythingChanged())
             {
-                uiConfirm.askConfirm(TextDB.Instance().getText("confirmApplySettings"), validateSettings, withdrawSettings);
+                uiConfirm.askConfirm(TextDB.Instance().getText("confirmApplySettings"), doValidate, withdrawSettings);
                 return;
             }
         }
@@ -58,16 +63,9 @@ public class Settings : MonoBehaviour
         settingsList.ForEach(s => s.resetSettings());
     }
 
-    public void validateSettings()
+    public void doValidate()
     {
-        foreach (SettingsAbstract s in settingsList)
-        {
-            if (s.anythingChanged())
-            {
-                uiConfirm.askConfirm(TextDB.Instance().getText("confirmApplySettings"), validateSettings, withdrawSettings);
-                return;
-            }
-        }
+        settingsList.ForEach(s => s.validateSettings());
     }
 
     public void withdrawSettings()

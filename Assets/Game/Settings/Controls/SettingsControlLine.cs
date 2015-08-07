@@ -7,6 +7,11 @@ using System.Collections.Generic;
 public class SettingsControlLine : MonoBehaviour
 {
     [SerializeField]
+    private GameObject inactiveObj;
+    [SerializeField]
+    private GameObject activeObj;
+
+    [SerializeField]
     private Text title;
     public string Title
     { set { title.text = value; } }
@@ -46,5 +51,7 @@ public class SettingsControlLine : MonoBehaviour
     public void startEditing(bool b)
     {
         settingControl.notifyEditing(b);
+        activeObj.SetActive(b);
+        inactiveObj.SetActive(!b);
     }
 }

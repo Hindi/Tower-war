@@ -116,7 +116,11 @@ public class SettingsVideo : SettingsAbstract
 
     public override bool anythingChanged()
     {
+#if UNITY_EDITOR
+        return false;
+#else
         return (resX != resXSelection || resY != resYSelection || isFullScreen != isFullScreenSelection);
+#endif
     }
 
     public override void resetSettings()

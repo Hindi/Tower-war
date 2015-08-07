@@ -32,8 +32,10 @@ public class Combinaison
     public string ToString()
     {
         string s = "";
-        if (keys[0] != KeyCode.None) s += keys[0];
-        if (keys[1] != KeyCode.None) s += " + " + keys[1];
+        if (keys[0] != KeyCode.None) 
+            s += keys[0];
+        if (keys[1] != KeyCode.None) 
+            s += " + " + keys[1];
         return s;
     }
 
@@ -75,8 +77,10 @@ public class SettingsControls : SettingsAbstract
     private Dictionary<InputAction, Combinaison> inputs;
     private List<SettingsControlLine> lines;
 
-    void Start()
+    void Awake()
     {
+        inputs = new Dictionary<InputAction, Combinaison>();
+        lines = new List<SettingsControlLine>();
     }
 
     public void tryAddCombinaison(Combinaison keys, InputAction action, Func<Combinaison, int> callback)
@@ -106,7 +110,6 @@ public class SettingsControls : SettingsAbstract
         foreach (Transform t in scrollContainer)
             Destroy(t.gameObject);
         lines.Clear();
-        loadUI();
     }
 
     public override void loadUI()
@@ -126,10 +129,28 @@ public class SettingsControls : SettingsAbstract
 
     public override void loadFromSave()
     {
-        inputs = new Dictionary<InputAction, Combinaison>();
-        lines = new List<SettingsControlLine>();
-        inputs.Add(InputAction.test, new Combinaison(KeyCode.Space, KeyCode.A));
-        inputs.Add(InputAction.test2, new Combinaison(KeyCode.Space, KeyCode.Alpha0));
+        inputs.Add(InputAction.sell, new Combinaison(KeyCode.S, KeyCode.None));
+        inputs.Add(InputAction.upgrade, new Combinaison(KeyCode.U, KeyCode.None));
+        inputs.Add(InputAction.escape, new Combinaison(KeyCode.Escape, KeyCode.None));
+        inputs.Add(InputAction.focusOnTarget, new Combinaison(KeyCode.Space, KeyCode.None));
+        inputs.Add(InputAction.scrollUp, new Combinaison(KeyCode.Mouse3, KeyCode.None));
+        inputs.Add(InputAction.multipleSelection, new Combinaison(KeyCode.LeftControl, KeyCode.Mouse0));
+        inputs.Add(InputAction.selectionGroup1, new Combinaison(KeyCode.LeftShift, KeyCode.Alpha1));
+        inputs.Add(InputAction.selectionGroup2, new Combinaison(KeyCode.LeftShift, KeyCode.Alpha2));
+        inputs.Add(InputAction.selectionGroup3, new Combinaison(KeyCode.LeftShift, KeyCode.Alpha3));
+        inputs.Add(InputAction.selectionGroup4, new Combinaison(KeyCode.LeftShift, KeyCode.Alpha4));
+        inputs.Add(InputAction.selectionGroup5, new Combinaison(KeyCode.LeftShift, KeyCode.Alpha5));
+        inputs.Add(InputAction.selectionGroup6, new Combinaison(KeyCode.LeftShift, KeyCode.Alpha6));
+        inputs.Add(InputAction.selectionGroup7, new Combinaison(KeyCode.LeftShift, KeyCode.Alpha7));
+
+        inputs.Add(InputAction.selectTower1, new Combinaison(KeyCode.F1, KeyCode.None));
+        inputs.Add(InputAction.selectTower2, new Combinaison(KeyCode.F2, KeyCode.None));
+        inputs.Add(InputAction.selectTower3, new Combinaison(KeyCode.F3, KeyCode.None));
+        inputs.Add(InputAction.selectTower4, new Combinaison(KeyCode.F4, KeyCode.None));
+        inputs.Add(InputAction.selectTower5, new Combinaison(KeyCode.F5, KeyCode.None));
+        inputs.Add(InputAction.selectTower6, new Combinaison(KeyCode.F6, KeyCode.None));
+        inputs.Add(InputAction.selectTower7, new Combinaison(KeyCode.F7, KeyCode.None));
+
         validateSettings();
     }
 
