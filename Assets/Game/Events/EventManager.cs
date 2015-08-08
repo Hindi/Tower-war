@@ -12,7 +12,8 @@ public enum EnumEvent
     TILEMAPUPDATE,  //Notify the map updated (for pathfinding)
     GAMELOST,
     START,          //Start game
-    LOADTEXTS,
+    LOADTEXTS,      //Load all texts from TextDB
+    BLOCKINPUTS,    //Start or stop listening inputs
     RESENDRPCS
 }
 

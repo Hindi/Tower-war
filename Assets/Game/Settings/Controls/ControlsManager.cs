@@ -30,17 +30,30 @@ public enum InputAction
 public class ControlsManager : MonoBehaviour 
 {
     List<InputChecker> checkers;
+    private bool blockInputs;
 
 	// Use this for initialization
 	void Start () 
     {
         checkers = new List<InputChecker>();
+        EventManager<bool>.AddListener(EnumEvent.BLOCKINPUTS, onBlockInputs);
 	}
+
+    void OnDestroy()
+    {
+        EventManager<bool>.RemoveListener(EnumEvent.BLOCKINPUTS, onBlockInputs);
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        checkers.ForEach(c => c.update());
+        if(!blockInputs)
+            checkers.ForEach(c => c.update());
 	}
+
+    public void onBlockInputs(bool b)
+    {
+        blockInputs = b;
+    }
 
     public void addOrReplaceChecker(InputAction action, Combinaison inputs)
     {

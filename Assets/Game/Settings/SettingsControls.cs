@@ -73,6 +73,8 @@ public class SettingsControls : SettingsAbstract
     private Transform scrollContainer;
     [SerializeField]
     private Text notificationText;
+    [SerializeField]
+    private UIConfirm uiConfirm;
 
     private Dictionary<InputAction, Combinaison> inputs;
     private List<SettingsControlLine> lines;
@@ -83,22 +85,33 @@ public class SettingsControls : SettingsAbstract
         lines = new List<SettingsControlLine>();
     }
 
-    public void tryAddCombinaison(Combinaison keys, InputAction action, Func<Combinaison, int> callback)
+    public void tryAddCombinaison(Combinaison keys, InputAction action, Action<Combinaison> callback)
     {
-        bool hasdouble = false;
-        if (keys.Length > 0)
+        bool hasDouble = false;
+        foreach (KeyValuePair<InputAction, Combinaison> p in inputs)
         {
-            foreach (KeyValuePair<InputAction, Combinaison> p in inputs)
+            if(p.Value.equals(keys) && p.Key != action)
             {
-                if(p.Value.equals(keys))
+                SettingsControlLine duplicatedScl = null;
+                foreach (SettingsControlLine scl in lines)
+                    if (scl.Action == p.Key)
+                        duplicatedScl = scl;
+
+                Action doValidate = delegate()
                 {
-                    hasdouble = true;
-                    break;
-                }
+                    duplicatedScl.newKeyCombinaison(new Combinaison());
+                    inputs[p.Key] = new Combinaison();
+                    inputs[action] = keys;
+                    callback(keys);
+                };
+
+                uiConfirm.askConfirm(TextDB.Instance().getText("confirmAlreadyUsedKeys", p.Key.ToString()), doValidate);
+                hasDouble = true;
+                return;
             }
         }
 
-        if(!hasdouble)
+        if(!hasDouble)
         {
             inputs[action] = keys;
             callback(keys);

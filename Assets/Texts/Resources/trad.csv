@@ -1,3 +1,4 @@
 confirmApplySettings;Voulez-vous conserver ces paramètres ?;TODO
+confirmAlreadyUsedKeys;Ce raccourci est déjà utilisé pour %0, voulez-vous l'écraser ?;
 confirm;Confirmer;Confirm
 cancel;Annuler;Cancel

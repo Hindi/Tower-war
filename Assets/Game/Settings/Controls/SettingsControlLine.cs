@@ -29,7 +29,10 @@ public class SettingsControlLine : MonoBehaviour
 
     private InputAction action;
     public InputAction Action
-    { set { action = value; } }
+    { 
+        set { action = value; }
+        get { return action; }
+    }
 
     public bool hasChanged()
     {
@@ -41,15 +44,15 @@ public class SettingsControlLine : MonoBehaviour
         settingControl.tryAddCombinaison(keys, action, newKeyCombinaison);
     }
 
-    public int newKeyCombinaison(Combinaison keys)
+    public void newKeyCombinaison(Combinaison keys)
     {
         prevKey = keyTextPlaceHolder.text;
         keyTextPlaceHolder.text = keys.ToString();
-        return 0;
     }
 
     public void startEditing(bool b)
     {
+        EventManager<bool>.Raise(EnumEvent.BLOCKINPUTS, b);
         settingControl.notifyEditing(b);
         activeObj.SetActive(b);
         inactiveObj.SetActive(!b);
