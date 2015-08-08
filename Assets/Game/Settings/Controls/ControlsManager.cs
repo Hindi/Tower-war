@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 public enum InputAction
 {
-    selectTower1,
-    selectTower2,
-    selectTower3,
-    selectTower4,
-    selectTower5,
-    selectTower6,
-    selectTower7,
+    sell,
+    upgrade,
+    escape,
+    focusOnTarget,
+    scrollUp,
+    scrollDown,
+    multipleSelection,
     selectionGroup1,
     selectionGroup2,
     selectionGroup3,
@@ -18,13 +18,13 @@ public enum InputAction
     selectionGroup5,
     selectionGroup6,
     selectionGroup7,
-    sell,
-    upgrade,
-    escape,
-    focusOnTarget,
-    scrollUp,
-    scrollDown,
-    multipleSelection
+    selectTower1,
+    selectTower2,
+    selectTower3,
+    selectTower4,
+    selectTower5,
+    selectTower6,
+    selectTower7
 }
 
 public class ControlsManager : MonoBehaviour 

@@ -142,11 +142,47 @@ public class SettingsControls : SettingsAbstract
 
     public override void loadFromSave()
     {
+        if (PlayerPrefs.HasKey("controls"))
+        {
+            foreach (InputAction ia in Enum.GetValues(typeof(InputAction)))
+            {
+                if (PlayerPrefs.HasKey(ia.ToString() + "_0") && PlayerPrefs.HasKey(ia.ToString() + "_1"))
+                {
+                    inputs.Add(ia, new Combinaison((KeyCode)PlayerPrefs.GetInt(ia.ToString() + "_0"), (KeyCode)PlayerPrefs.GetInt(ia.ToString() + "_1")));
+                }
+            }
+        }
+        else
+            resetSettings();
+
+        validateSettings();
+    }
+
+    public override bool anythingChanged()
+    {
+        foreach (SettingsControlLine scl in lines)
+            if (scl.hasChanged())
+                return true;
+        return false;
+    }
+
+    public override void validateSettings()
+    {
+        PlayerPrefs.SetInt("controls", 0);
+        foreach (KeyValuePair<InputAction, Combinaison> p in inputs)
+        {
+            controlsManager.addOrReplaceChecker(p.Key, p.Value);
+            PlayerPrefs.SetInt(p.Key.ToString() + "_0", (int)p.Value[0]);
+            PlayerPrefs.SetInt(p.Key.ToString() + "_1", (int)p.Value[1]);
+        }
+    }
+
+    public override void resetSettings()
+    {
         inputs.Add(InputAction.sell, new Combinaison(KeyCode.S, KeyCode.None));
         inputs.Add(InputAction.upgrade, new Combinaison(KeyCode.U, KeyCode.None));
         inputs.Add(InputAction.escape, new Combinaison(KeyCode.Escape, KeyCode.None));
         inputs.Add(InputAction.focusOnTarget, new Combinaison(KeyCode.Space, KeyCode.None));
-        inputs.Add(InputAction.scrollUp, new Combinaison(KeyCode.Mouse3, KeyCode.None));
         inputs.Add(InputAction.multipleSelection, new Combinaison(KeyCode.LeftControl, KeyCode.Mouse0));
         inputs.Add(InputAction.selectionGroup1, new Combinaison(KeyCode.LeftShift, KeyCode.Alpha1));
         inputs.Add(InputAction.selectionGroup2, new Combinaison(KeyCode.LeftShift, KeyCode.Alpha2));
@@ -163,29 +199,6 @@ public class SettingsControls : SettingsAbstract
         inputs.Add(InputAction.selectTower5, new Combinaison(KeyCode.F5, KeyCode.None));
         inputs.Add(InputAction.selectTower6, new Combinaison(KeyCode.F6, KeyCode.None));
         inputs.Add(InputAction.selectTower7, new Combinaison(KeyCode.F7, KeyCode.None));
-
-        validateSettings();
-    }
-
-    public override bool anythingChanged()
-    {
-        foreach (SettingsControlLine scl in lines)
-            if (scl.hasChanged())
-                return true;
-        return false;
-    }
-
-    public override void validateSettings()
-    {
-        foreach (KeyValuePair<InputAction, Combinaison> p in inputs)
-        {
-            controlsManager.addOrReplaceChecker(p.Key, p.Value);
-        }
-    }
-
-    public override void resetSettings()
-    {
-
     }
 
     public void notifyEditing(bool b)
