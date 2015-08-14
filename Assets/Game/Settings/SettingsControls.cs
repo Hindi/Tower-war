@@ -179,6 +179,7 @@ public class SettingsControls : SettingsAbstract
 
     public override void resetSettings()
     {
+        inputs.Clear();
         inputs.Add(InputAction.sell, new Combinaison(KeyCode.S, KeyCode.None));
         inputs.Add(InputAction.upgrade, new Combinaison(KeyCode.U, KeyCode.None));
         inputs.Add(InputAction.escape, new Combinaison(KeyCode.Escape, KeyCode.None));
@@ -200,6 +201,7 @@ public class SettingsControls : SettingsAbstract
         inputs.Add(InputAction.selectTower5, new Combinaison(KeyCode.F5, KeyCode.None));
         inputs.Add(InputAction.selectTower6, new Combinaison(KeyCode.F6, KeyCode.None));
         inputs.Add(InputAction.selectTower7, new Combinaison(KeyCode.F7, KeyCode.None));
+        validateSettings();
     }
 
     public void notifyEditing(bool b)

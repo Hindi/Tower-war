@@ -82,6 +82,7 @@ public class ControlsManager : MonoBehaviour
 
     public void addOrReplaceChecker(InputAction action, Combinaison inputs)
     {
+        Debug.Log(action);
         foreach(InputChecker checker in checkers)
         {
             if(checker.Action == action)
