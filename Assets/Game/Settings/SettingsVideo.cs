@@ -44,7 +44,7 @@ public class SettingsVideo : SettingsAbstract
         }
         else
         {
-            resetFullScreen();
+            resetDefaultFullScreen();
         }
         Screen.SetResolution(resX, resY, isFullScreen);
     }
@@ -102,10 +102,10 @@ public class SettingsVideo : SettingsAbstract
         Screen.SetResolution(resX, resY, isFullScreen);
     }
 
-    private void resetFullScreen()
+    private void resetDefaultFullScreen()
     {
         isFullScreen = false;
-        PlayerPrefs.SetInt("fullscreen", System.Convert.ToInt32(isFullScreen));
+        PlayerPrefs.SetInt("fullscreen", System.Convert.ToInt32(1));
         Screen.fullScreen = isFullScreen;
     }
 
@@ -125,7 +125,7 @@ public class SettingsVideo : SettingsAbstract
 
     public override void resetSettings()
     {
-        resetFullScreen();
+        resetDefaultFullScreen();
         resetToDefaultResolution();
     }
 
