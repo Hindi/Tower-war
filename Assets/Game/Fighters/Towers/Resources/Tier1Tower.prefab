@@ -646,7 +646,7 @@ MonoBehaviour:
   radius: 3
   damage: 10
   fireCooldown: 1
-  speed: 10
+  speed: 6
 --- !u!114 &11484594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -760,7 +760,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: head

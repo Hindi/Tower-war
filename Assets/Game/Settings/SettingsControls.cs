@@ -83,6 +83,7 @@ public class SettingsControls : SettingsAbstract
     {
         inputs = new Dictionary<InputAction, Combinaison>();
         lines = new List<SettingsControlLine>();
+		PlayerPrefs.DeleteAll();
     }
 
     public void tryAddCombinaison(Combinaison keys, InputAction action, Action<Combinaison> callback)
