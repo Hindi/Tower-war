@@ -1,4 +1,6 @@
 confirmApplySettings;Voulez-vous conserver ces paramètres ?;TODO
-confirmAlreadyUsedKeys;Ce raccourci est déjà utilisé pour %0, voulez-vous l'écraser ?;
+confirmAlreadyUsedKeys;Ce raccourci est déjà utilisé pour %0, voulez-vous l'écraser ?;TODO
 confirm;Confirmer;Confirm
 cancel;Annuler;Cancel
+sellOneTower;Etes-vous sur de vouloir vendre cette tour ?;TODO
+sellSeveralTower;Êtes-vous sur de vouloir vendre ces tours ?;TODO

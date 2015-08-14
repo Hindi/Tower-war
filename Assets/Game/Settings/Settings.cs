@@ -34,7 +34,9 @@ public class Settings : MonoBehaviour
 
     public void toggleDisplayPanel()
     {
-        settingsPanel.SetActive(!settingsPanel.activeSelf);
+        bool isActive = settingsPanel.activeSelf;
+        settingsPanel.SetActive(!isActive);
+        EventManager<bool>.Raise(EnumEvent.BLOCKINPUTS, !isActive);
         resetToCurrent();
         StartCoroutine(loadUICoroutine());
     }
@@ -56,6 +58,7 @@ public class Settings : MonoBehaviour
                 return;
             }
         }
+        settingsPanel.SetActive(false);
     }
 
     public void resetSettings()
@@ -66,6 +69,7 @@ public class Settings : MonoBehaviour
     public void doValidate()
     {
         settingsList.ForEach(s => s.validateSettings());
+        settingsPanel.SetActive(false);
     }
 
     public void withdrawSettings()

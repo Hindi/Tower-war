@@ -34,7 +34,6 @@ public class TileMouseInput : InterractableTerrainElement
     {
         if (canInterract())
         {
-            GetComponent<SpriteSwitcher>().setMouseOverSprite();
         }
     }
 
@@ -42,28 +41,33 @@ public class TileMouseInput : InterractableTerrainElement
     {
         if (canInterract())
         {
-            resetToIdle();
         }
     }
 
     public override void onMouseDown()
     {
+        StartCoroutine(mouseDownEndOfFrame());
+    }
+
+    private IEnumerator mouseDownEndOfFrame()
+    {
+        yield return new WaitForEndOfFrame();
         if (canInterract())
         {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            if (ControlsManager.Instance.isActionTriggered(InputAction.build))
             {
                 player.CmdRequestBuild(tile.Id, TowerBuilder.Instance.SelectedTower);
             }
-            else
+            if (occupentHolder.IsOccupied)
             {
-                if (occupentHolder.IsOccupied)
+                GetComponent<SpriteSwitcher>().setSelected();
+                if (ControlsManager.Instance.isActionTriggered(InputAction.multipleSelection))
                 {
-                    GetComponent<SpriteSwitcher>().setSelected();
-                    tile.Zone.showUpgradePopup(tile);
+                    SelectionManager.Instance.selectAnother(gameObject);
                 }
-                else if (occupentHolder.canBuild())
+                else
                 {
-                    GetComponent<SpriteSwitcher>().setSelected();
+                    SelectionManager.Instance.selectNew(gameObject);
                 }
             }
         }
@@ -73,13 +77,13 @@ public class TileMouseInput : InterractableTerrainElement
     {
         if (canInterract())
         {
-            resetToIdle();
+
         }
     }
 
-    void resetToIdle()
+    public void resetToIdle()
     {
-        GetComponent<SpriteSwitcher>().setPreviousSprite();
+        GetComponent<SpriteSwitcher>().setIdleSprite();
     }
 
     protected override bool canInterract()

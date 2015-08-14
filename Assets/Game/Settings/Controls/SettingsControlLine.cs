@@ -52,7 +52,6 @@ public class SettingsControlLine : MonoBehaviour
 
     public void startEditing(bool b)
     {
-        EventManager<bool>.Raise(EnumEvent.BLOCKINPUTS, b);
         settingControl.notifyEditing(b);
         activeObj.SetActive(b);
         inactiveObj.SetActive(!b);

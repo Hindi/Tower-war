@@ -3,6 +3,8 @@ using System.Collections;
 
 public class InputChecker 
 {
+    private bool wasPressed;
+    private bool repeatable;
     private Combinaison keyList;
     public Combinaison KeyList
     { set { keyList = value; } }
@@ -16,6 +18,8 @@ public class InputChecker
     public InputChecker(InputAction actionName, ControlsManager mgr, Combinaison keys)
     {
         init(actionName, mgr, keys);
+        repeatable = false;
+        wasPressed = false;
     }
 
 	// Use this for initialization
@@ -25,14 +29,23 @@ public class InputChecker
         action = actionName;
         controlsManager = mgr;
 	}
+
+    private void triggerAction(bool b)
+    {
+        controlsManager.notifyTriggeredAction(action, b);
+        wasPressed = b;
+    }
 	
 	// Update is called once per frame
 	public void update () 
     {
-	    if(isKeylistPressed())
-        {
-            controlsManager.notifyTriggeredAction(action);
-        }
+        if (wasPressed && !isKeylistPressed())
+            triggerAction(false);
+
+        if (isKeylistPressed() && !wasPressed)
+            triggerAction(true);
+        else if (isKeylistPressed() && repeatable)
+            triggerAction(true);
 	}
 
     private bool isKeylistPressed()

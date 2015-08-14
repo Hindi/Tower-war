@@ -184,6 +184,7 @@ public class SettingsControls : SettingsAbstract
         inputs.Add(InputAction.escape, new Combinaison(KeyCode.Escape, KeyCode.None));
         inputs.Add(InputAction.focusOnTarget, new Combinaison(KeyCode.Space, KeyCode.None));
         inputs.Add(InputAction.multipleSelection, new Combinaison(KeyCode.LeftControl, KeyCode.Mouse0));
+        inputs.Add(InputAction.build, new Combinaison(KeyCode.LeftShift, KeyCode.Mouse0));
         inputs.Add(InputAction.selectionGroup1, new Combinaison(KeyCode.LeftShift, KeyCode.Alpha1));
         inputs.Add(InputAction.selectionGroup2, new Combinaison(KeyCode.LeftShift, KeyCode.Alpha2));
         inputs.Add(InputAction.selectionGroup3, new Combinaison(KeyCode.LeftShift, KeyCode.Alpha3));
