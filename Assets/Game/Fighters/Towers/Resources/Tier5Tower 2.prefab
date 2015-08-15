@@ -522,7 +522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   headObject: {fileID: 100004}
   speed: 10
-  projectile: {fileID: 0}
+  projectile: {fileID: 11415288}
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -777,6 +777,10 @@ Prefab:
       propertyPath: fireCooldown
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 11415288}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
