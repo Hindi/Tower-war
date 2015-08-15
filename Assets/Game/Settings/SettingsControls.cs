@@ -12,13 +12,13 @@ public class Combinaison
 
     public Combinaison()
     {
-        reset();
+        keys = new KeyCode[2];
         clickedAction = false;
     }
 
     public Combinaison(bool clicked, params KeyCode[] k)
     {
-        reset();
+        keys = new KeyCode[2];
         keys = k;
         clickedAction = clicked;
     }
@@ -56,7 +56,6 @@ public class Combinaison
 
     public void reset()
     {
-        keys = new KeyCode[2];
         keys[0] = KeyCode.None;
         if(!clickedAction)
             keys[1] = KeyCode.None;
@@ -148,7 +147,6 @@ public class SettingsControls : SettingsAbstract
 
     public override void loadFromSave()
     {
-        PlayerPrefs.DeleteAll();
         if (PlayerPrefs.HasKey("controls"))
         {
             foreach (InputAction ia in Enum.GetValues(typeof(InputAction)))

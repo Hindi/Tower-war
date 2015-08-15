@@ -13,7 +13,7 @@ public class KeyCombinaisonCatcher : MonoBehaviour, IPointerUpHandler
     public Combinaison PressedKey
     { 
         set 
-        { 
+        {
             pressedKey = value;
         } 
     }
@@ -63,12 +63,16 @@ public class KeyCombinaisonCatcher : MonoBehaviour, IPointerUpHandler
                 if ((Input.GetKeyDown(k)) && pressedKey[0] != k && pressedKey[1] != k)
                 {
                     if(pressedKey[0] == KeyCode.None)
+                    {
                         pressedKey[0] = k;
+                        Debug.Log(pressedKey[0] + " " + pressedKey[1]);
+                    }
                     else
                         pressedKey[1] = k;
 
                     if (pressedKey[1] != KeyCode.None)
                     {
+                        Debug.Log(pressedKey[0] + " " + pressedKey[1]);
                         updateControlLine();
                         return;
                     }
