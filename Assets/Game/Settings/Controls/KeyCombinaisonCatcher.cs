@@ -10,11 +10,20 @@ public class KeyCombinaisonCatcher : MonoBehaviour, IPointerUpHandler
     private SettingsControlLine controlLine;
 
     private Combinaison pressedKey;
+    public Combinaison PressedKey
+    { 
+        set 
+        {
+            pressedKey = value;
+        } 
+    }
+
     bool editing = false;
+    bool clickedAction = false;
 
     void Start()
     {
-        pressedKey = new Combinaison();
+
     }
 
     public void onEditStart()
@@ -32,10 +41,12 @@ public class KeyCombinaisonCatcher : MonoBehaviour, IPointerUpHandler
     void IPointerUpHandler.OnPointerUp(PointerEventData e)
     {
         onEditStart();
+        pressedKey.reset();
     }
 
     public void updateControlLine()
     {
+        clickedAction = pressedKey.clickedAction;
         controlLine.tryAddCombinaison(pressedKey.clone());
         controlLine.startEditing(false);
         editing = false;
@@ -52,12 +63,16 @@ public class KeyCombinaisonCatcher : MonoBehaviour, IPointerUpHandler
                 if ((Input.GetKeyDown(k)) && pressedKey[0] != k && pressedKey[1] != k)
                 {
                     if(pressedKey[0] == KeyCode.None)
+                    {
                         pressedKey[0] = k;
+                        Debug.Log(pressedKey[0] + " " + pressedKey[1]);
+                    }
                     else
                         pressedKey[1] = k;
 
                     if (pressedKey[1] != KeyCode.None)
                     {
+                        Debug.Log(pressedKey[0] + " " + pressedKey[1]);
                         updateControlLine();
                         return;
                     }

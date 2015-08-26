@@ -39,12 +39,13 @@ public class InputChecker
 	// Update is called once per frame
 	public void update () 
     {
-        if (wasPressed && !isKeylistPressed())
+        bool pressed = isKeylistPressed();
+        if (wasPressed && !pressed)
             triggerAction(false);
 
-        if (isKeylistPressed() && !wasPressed)
+        if (pressed && !wasPressed)
             triggerAction(true);
-        else if (isKeylistPressed() && repeatable)
+        else if (pressed && repeatable)
             triggerAction(true);
 	}
 
