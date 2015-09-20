@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Collections.Generic;
 
 public class OccupentHolder : NetworkBehaviour
 {
-
-    int creepCounter = 0;
-
     private bool isOccupied = false;
     public bool IsOccupied
     {
@@ -17,6 +15,8 @@ public class OccupentHolder : NetworkBehaviour
     public GameObject occupent;
 
     Tile tile;
+
+    private List<GameObject> creepsOnTile;
 
     public void addOccupent(GameObject occ)
     {
@@ -44,11 +44,12 @@ public class OccupentHolder : NetworkBehaviour
     void Start()
     {
         tile = GetComponent<Tile>();
+        creepsOnTile = new List<GameObject>();
     }
 
     public bool hasCreepOnIt()
     {
-        return (creepCounter > 0);
+        return (creepsOnTile.Count > 0);
     }
 
     public void destroyOccupent()
@@ -71,18 +72,34 @@ public class OccupentHolder : NetworkBehaviour
         return (!hasCreepOnIt() && GetComponent<Tile>().Zone.canBuildHere(GetComponent<Tile>()) && !IsOccupied);
     }
 
-    public void notifyCreepEnter()
+    public void notifyCreepEnter(GameObject obj)
     {
-        creepCounter++;
+        if (findCreepOnTile(obj) == null)
+            return;
+        creepsOnTile.Add(obj);
     }
 
-    public void notifyCreepLeave()
+    public void notifyCreepLeave(GameObject obj)
     {
-        creepCounter--;
+        GameObject objInList = findCreepOnTile(obj);
+        if (objInList != null)
+            creepsOnTile.Remove(objInList);
     }
 
-    public void notifyCreepDestruction()
+    public void notifyCreepDestruction(GameObject obj)
     {
-        creepCounter--;
+        notifyCreepLeave(obj);
+    }
+
+    private GameObject findCreepOnTile(GameObject obj)
+    {
+        int id = obj.GetComponent<FactoryModel>().Id;
+        GameObject result = null;
+        creepsOnTile.ForEach(delegate(GameObject g)
+        {
+            if (g.GetComponent<FactoryModel>().Id == id)
+                result = g;
+        });
+        return result;
     }
 }

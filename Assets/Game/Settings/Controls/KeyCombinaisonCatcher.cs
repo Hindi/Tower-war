@@ -19,7 +19,6 @@ public class KeyCombinaisonCatcher : MonoBehaviour, IPointerUpHandler
     }
 
     bool editing = false;
-    bool clickedAction = false;
 
     void Start()
     {
@@ -46,7 +45,6 @@ public class KeyCombinaisonCatcher : MonoBehaviour, IPointerUpHandler
 
     public void updateControlLine()
     {
-        clickedAction = pressedKey.clickedAction;
         controlLine.tryAddCombinaison(pressedKey.clone());
         controlLine.startEditing(false);
         editing = false;

@@ -125,9 +125,4 @@ public class CreepMovement : NetworkBehaviour
             nextPosition = path[posId];
         goalRotation = Quaternion.LookRotation(Vector3.Normalize(transform.position - nextPosition));
     }
-
-    public void notifyDesactivation()
-    {
-        getCurrentTile().GetComponent<OccupentHolder>().notifyCreepDestruction();
-    }
 }

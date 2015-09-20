@@ -52,7 +52,6 @@ public class Zone : NetworkBehaviour {
     float height;
 
     float heightBetweenLines;
-    float widthBetweenColumn;
 
 	// Use this for initialization
 	void Awake () {
@@ -157,11 +156,9 @@ public class Zone : NetworkBehaviour {
         width = rect.width / 100 * tileReference.transform.localScale.x;
         height = rect.height / 84 * tileReference.transform.localScale.y;
         heightBetweenLines = height / 2.4f;
-        widthBetweenColumn = (width / 2.69f) + width;
 
         //Calculate the dimension that we'll use        
         StartTile = instantiateTile(new Vector3(position.x, position.y + 1, 0));
-        int startId = StartTile.GetComponent<Tile>().Id;
         StartTile.GetComponent<SpriteSwitcher>().setIdleSprite();
         GetComponent<CreepSpawner>().StartTile = StartTile;
 
@@ -170,7 +167,6 @@ public class Zone : NetworkBehaviour {
         position = spawnSquare(position, false);
 
         EndTile = instantiateTile(new Vector3(position.x, position.y, 0));
-        int endId = EndTile.GetComponent<Tile>().Id;
         GetComponent<CreepSpawner>().EndTile = EndTile;
         StartCoroutine(catchNeighbourCoroutine());
     }
@@ -215,7 +211,6 @@ public class Zone : NetworkBehaviour {
         {
             Tile tile = tileDict[id];
             OccupentHolder oh = tile.GetComponent<OccupentHolder>();
-
             return oh.canBuild();
         }
         else

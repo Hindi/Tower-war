@@ -33,7 +33,7 @@ public class Combinaison
         return ((keys[0] == k[0] && keys[1] == k[1]) || (keys[0] == k[1] && keys[1] == k[0]) );
     }
 
-    public string ToString()
+    public override string ToString()
     {
         string s = "";
         if (keys[0] != KeyCode.None) 

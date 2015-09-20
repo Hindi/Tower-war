@@ -34,6 +34,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &138906
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 407756}
+  m_Layer: 8
+  m_Name: Raycast (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &153630
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,6 +110,33 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &197800
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 433282}
+  m_Layer: 8
+  m_Name: Raycast (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &407756
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 138906}
+  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 3.33333325, y: 3.33333254, z: 3.33333254}
+  m_Children: []
+  m_Father: {fileID: 409804}
+  m_RootOrder: 0
 --- !u!4 &409804
 Transform:
   m_ObjectHideFlags: 1
@@ -104,7 +146,9 @@ Transform:
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: .300000012, y: .300000012, z: .300000012}
-  m_Children: []
+  m_Children:
+  - {fileID: 407756}
+  - {fileID: 433282}
   m_Father: {fileID: 476994}
   m_RootOrder: 0
 --- !u!4 &420220
@@ -131,6 +175,18 @@ Transform:
   m_Children:
   - {fileID: 458574}
   m_Father: {fileID: 476994}
+  m_RootOrder: 1
+--- !u!4 &433282
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197800}
+  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 3.33333325, y: 3.33333254, z: 3.33333254}
+  m_Children: []
+  m_Father: {fileID: 409804}
   m_RootOrder: 1
 --- !u!4 &458574
 Transform:
@@ -255,6 +311,9 @@ MonoBehaviour:
   inactivityTimeBeforeDestroy: 120
   model: {fileID: 118644}
   fxObject: {fileID: 101762}
+  raycastOrigins:
+  - {fileID: 407756}
+  - {fileID: 433282}
 --- !u!114 &11430848
 MonoBehaviour:
   m_ObjectHideFlags: 1
