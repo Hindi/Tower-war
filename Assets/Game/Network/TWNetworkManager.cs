@@ -44,6 +44,11 @@ public class TWNetworkManager : NetworkManager
         clientManager.addNewClient(conn);
     }
 
+    public override void OnStartHost()
+    {
+
+    }
+
     private IEnumerator waitClientsReady()
     {
         while(!clientManager.allClientReady())
@@ -63,10 +68,18 @@ public class TWNetworkManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
         TWClient client = clientManager.getClient(conn.connectionId);
-        Vector3 pos = new Vector3(client.id * 10, 0, 0);
+        Vector3 pos = new Vector3(0, 0, 0);
+
+        if(client != null)
+            pos = new Vector3(client.id * 10, 0, 0);
+
         var obj = (GameObject)GameObject.Instantiate(playerPrefab, pos, Quaternion.identity);
-        client.gameObject = obj;
-        clientManager.tryInitialyzeLifeCount();
+
+        if (client != null)
+        {
+            client.gameObject = obj;
+            clientManager.tryInitialyzeLifeCount();
+        }
         NetworkServer.AddPlayerForConnection(conn, obj, playerControllerId);
     }
 

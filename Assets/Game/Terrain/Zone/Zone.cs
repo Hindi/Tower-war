@@ -73,6 +73,7 @@ public class Zone : NetworkBehaviour {
         EventManager.AddListener(EnumEvent.START, onGameStart);
     }
 
+
     public void onGameStart()
     {
         if (isServer)

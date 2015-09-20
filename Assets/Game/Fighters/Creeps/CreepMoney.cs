@@ -3,6 +3,9 @@ using System.Collections;
 
 public class CreepMoney : MonoBehaviour {
 
+    [SerializeField]
+    private CreepStats statsHolder;
+
     private int price;
     public int Price
     {
@@ -13,8 +16,7 @@ public class CreepMoney : MonoBehaviour {
     private int incomeIncrease;
     public int IncomeIncrease
     {
-        get { return incomeIncrease; }
-        set { incomeIncrease = value; }
+        get { return statsHolder.IncomeIncrease; }
     }
 
     private int moneyDrop;

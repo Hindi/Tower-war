@@ -17,7 +17,6 @@ GameObject:
   - 114: {fileID: 11499016}
   - 114: {fileID: 11419512}
   - 114: {fileID: 11427552}
-  - 114: {fileID: 11492844}
   - 114: {fileID: 11482006}
   - 114: {fileID: 11486478}
   - 114: {fileID: 11469980}
@@ -380,17 +379,6 @@ MonoBehaviour:
   inactivityTimeBeforeDestroy: 120
   model: {fileID: 177870}
   fxObject: {fileID: 160846}
---- !u!114 &11492844
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 111484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6023b66e587ff74d9f1ec90de405b89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11499016
 MonoBehaviour:
   m_ObjectHideFlags: 1

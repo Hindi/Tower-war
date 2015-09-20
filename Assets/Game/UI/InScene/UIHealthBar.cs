@@ -27,8 +27,9 @@ public class UIHealthBar : NetworkBehaviour {
     
     public void setHealthPercentage(float percentage)
     {
-        if (isServer)
+        if (isServer && !isClient)
             RpcSetHealthPercentage(percentage);
+
         mask.rectTransform.sizeDelta = new Vector2(originalWidth * percentage, bar.rectTransform.sizeDelta.y);
         if (percentage < 0.7f)
             bar.color = Color.yellow;

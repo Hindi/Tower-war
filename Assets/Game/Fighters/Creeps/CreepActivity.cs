@@ -13,7 +13,8 @@ public class CreepActivity : Activity
         if (isServer)
         {
             base.activate(b);
-            RpcActivate(b, transform.position);
+            if(!isClient)
+                RpcActivate(b, transform.position);
         }
         if (b)
         {

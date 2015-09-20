@@ -68,15 +68,15 @@ public class CreepSpawner : NetworkBehaviour {
     {
         if (catalog.contains(index))
         {
-            int price = catalog.getPrefab(index).GetComponent<CreepMoney>().Price;
+            int price = catalog.getPrefab(index).GetComponent<CreepStats>().Price;
 
             if (purse.canAfford(price))
             {
                 purse.substract(price);
-                income.increaseIncome(catalog.getPrefab(index).GetComponent<CreepMoney>().IncomeIncrease);
+                income.increaseIncome(catalog.getPrefab(index).GetComponent<CreepStats>().IncomeIncrease);
                 if (TWNetworkManager.DEBUG)
                     spawn(index);
-                else 
+                else
                     Debug.LogWarning("Not implemented in non debug mode");
             }
         }

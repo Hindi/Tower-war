@@ -32,7 +32,8 @@ public class Purse : NetworkBehaviour {
     [ClientRpc]
     public void RpcAdd(int amount)
     {
-        currentAmount += amount;
+        if(!isClient)
+            currentAmount += amount;
         updateUI();
     }
 

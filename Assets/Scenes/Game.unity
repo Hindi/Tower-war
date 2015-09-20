@@ -1209,7 +1209,7 @@ MonoBehaviour:
   matchName: default
   matchSize: 4
   clientManager: {fileID: 1111367409}
-  zone: {fileID: 0}
+  zone: {fileID: 11419470, guid: 41affcc5d1a8a0f41bbd082d907f8fe6, type: 2}
 --- !u!4 &1111367408
 Transform:
   m_ObjectHideFlags: 0
@@ -1234,6 +1234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxClientCount: 2
+  Debugmode: 1
 --- !u!114 &1111367410
 MonoBehaviour:
   m_ObjectHideFlags: 0
