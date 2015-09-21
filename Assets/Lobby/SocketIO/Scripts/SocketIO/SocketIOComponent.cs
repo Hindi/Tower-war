@@ -307,12 +307,18 @@ namespace SocketIO
 			
 			try {
 				ws.Send(encoder.Encode(packet));
-			} catch(SocketIOException ex) {
-				#if SOCKET_IO_DEBUG
+			} 
+			#if SOCKET_IO_DEBUG
+            catch(SocketIOException ex) {
 				debugMethod.Invoke(ex.ToString());
-				#endif
 			}
-		}
+            #else
+            catch (SocketIOException)
+            {
+                
+            }
+            #endif
+        }
 
 		private void OnOpen(object sender, EventArgs e)
 		{
@@ -398,11 +404,17 @@ namespace SocketIO
 			foreach (Action<SocketIOEvent> handler in this.handlers[ev.name]) {
 				try{
 					handler(ev);
-				} catch(Exception ex){
-					#if SOCKET_IO_DEBUG
-					debugMethod.Invoke(ex.ToString());
-					#endif
-				}
+				} 
+                #if SOCKET_IO_DEBUG
+                catch(Exception ex) {
+				    debugMethod.Invoke(ex.ToString());
+			    }
+                #else
+                catch (Exception )
+                {
+                
+                }
+                #endif
 			}
 		}
 

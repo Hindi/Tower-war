@@ -5,7 +5,6 @@ public class CreepStats : MonoBehaviour
 {
     private CreepMovement creepMovement;
     private CreepMortality creepMortality;
-    private CreepMoney creepMoney;
 
     [SerializeField]
     private float speed;
@@ -13,22 +12,35 @@ public class CreepStats : MonoBehaviour
     private int maxHp;
     [SerializeField]
     private int price;
+    public int Price
+    {
+        get { return price; }
+        set { price = value; }
+    }
     [SerializeField]
     private int incomeIncrease;
+    public int IncomeIncrease
+    {
+        get { return incomeIncrease; }
+        set { incomeIncrease = value; }
+    }
+
     [SerializeField]
     private int moneyDrop;
+    public int MoneyDrop
+    {
+        get { return moneyDrop; }
+        set { moneyDrop = value; }
+    }
+
 
 	// Use this for initialization
 	void Awake () {
         creepMovement = GetComponent<CreepMovement>();
         creepMortality = GetComponent<CreepMortality>();
-        creepMoney = GetComponent<CreepMoney>();
 
         creepMovement.Speed = speed;
         creepMortality.MaxHp = maxHp;
-        creepMoney.Price = price;
-        creepMoney.IncomeIncrease = incomeIncrease;
-        creepMoney.MoneyDrop = moneyDrop;
 	}
 
 }

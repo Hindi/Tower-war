@@ -96,7 +96,8 @@ public class Tile : NetworkBehaviour
         //TODO CHANGE THIS
         id = (int)(transform.position.x * 10000 + transform.position.y * 10);
         RpcSetZone(zone.gameObject);
-        RpcSyncId(id);
+        if(!isClient)
+            RpcSyncId(id);
     }
 
     public static int CalcId(Vector3 position)
@@ -116,7 +117,11 @@ public class Tile : NetworkBehaviour
     public void RpcSyncId(int newId)
     {
         id = newId;
-        zone.TileDict.Add(id, this);
+
+        if (zone.TileDict.ContainsKey(newId))
+            Debug.LogWarning("The map already has a tile for id : " + newId);
+        else
+            zone.TileDict.Add(id, this);
     }
     
     public void catchNeighboursIds()

@@ -53,7 +53,6 @@ public class CreepMortality : NetworkBehaviour {
 
     private void die()
     {
-        GetComponent<CreepMovement>().notifyDesactivation();
         GetComponent<CreepActivity>().Active = false;
     }
 }

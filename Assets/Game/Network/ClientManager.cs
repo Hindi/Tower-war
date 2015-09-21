@@ -25,6 +25,8 @@ public class ClientManager : MonoBehaviour
     [SerializeField]
     private int maxClientCount;
 
+    public bool Debugmode;
+
     private Dictionary<int, TWClient> clients; 
 
     TWClient client1;
@@ -77,7 +79,10 @@ public class ClientManager : MonoBehaviour
 
     public TWClient getClient(int id)
     {
-        return clients[id];
+        if (clients.ContainsKey(id))
+            return clients[id];
+        else
+            return null;
     }
 
     public void sendStart()

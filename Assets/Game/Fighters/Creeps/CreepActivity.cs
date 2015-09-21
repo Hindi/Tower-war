@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(CreepMovement), typeof(CreepMortality))]
 public class CreepActivity : Activity
@@ -8,12 +9,16 @@ public class CreepActivity : Activity
     [SerializeField]
     private GameObject fxObject;
 
+    [SerializeField]
+    private List<Transform> raycastOrigins;
+
     protected override void activate(bool b)
     {
         if (isServer)
         {
             base.activate(b);
-            RpcActivate(b, transform.position);
+            if(!isClient)
+                RpcActivate(b, transform.position);
         }
         if (b)
         {
@@ -22,7 +27,7 @@ public class CreepActivity : Activity
         }
         else
         {
-            GetComponent<CreepMovement>().notifyDesactivation();
+            notifyDesactivation();
             GetComponent<CreepTargetKeeper>().notifyExit();
             showFxAndHide();
         }
@@ -50,5 +55,17 @@ public class CreepActivity : Activity
     {
         transform.position = position;
         activate(b);
+    }
+
+    private void notifyDesactivation()
+    {
+        foreach(Transform t in raycastOrigins)
+        {
+            RaycastHit2D[] hits;
+            hits = Physics2D.RaycastAll(t.position, -t.right, 1.0f);
+            foreach (RaycastHit2D hit in hits)
+                if (hit.collider.tag == "Tile")
+                    hit.collider.GetComponent<OccupentHolder>().notifyCreepDestruction(gameObject);
+        }
     }
 }

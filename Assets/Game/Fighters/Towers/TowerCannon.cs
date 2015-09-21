@@ -21,12 +21,6 @@ public class TowerCannon : NetworkBehaviour
     [SerializeField]
     private Transform headObject;
 
-    private int damage;
-    public int Damage
-    {
-        set { damage = value; }
-    }
-
     void Start()
     {
         lastShotTime = Time.time;
