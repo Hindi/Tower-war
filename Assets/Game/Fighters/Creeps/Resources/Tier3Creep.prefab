@@ -389,7 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  maxHp: 18
+  maxHp: 40
   price: 20
   incomeIncrease: 4
   moneyDrop: 4
@@ -2538,7 +2538,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxHp
-      value: 18
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: price
