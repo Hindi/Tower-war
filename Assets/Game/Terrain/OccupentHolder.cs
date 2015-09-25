@@ -24,7 +24,7 @@ public class OccupentHolder : NetworkBehaviour
         {
             IsOccupied = true;
             occupent = occ;
-            if(isServer)
+            if(isServer && !isClient)
             {
                 RpcAddOccupent(occ);
                 EventManager.Raise(EnumEvent.TILEMAPUPDATE);
@@ -54,7 +54,7 @@ public class OccupentHolder : NetworkBehaviour
 
     public void destroyOccupent()
     {
-        if (isServer)
+        if (isServer && !isClient)
             RpcDestroyOccupent();
         occupent.GetComponent<Activity>().Active = false;
         IsOccupied = false;

@@ -30,6 +30,11 @@ public class Machine : NetworkBehaviour
         {
             model = waiting[0];
             waiting.Remove(model);
+
+            //Recursive call in case this object is null
+            if(model == null)
+                return createModel(id, position);
+
             model.SetActive(true);
             model.transform.position = position;
             model.GetComponent<Activity>().Active = true;
@@ -45,6 +50,7 @@ public class Machine : NetworkBehaviour
             }
             model = (GameObject)Instantiate(prefab, position, Quaternion.identity);
             model.GetComponent<Activity>().Machine = this;
+            model.GetComponent<FactoryModel>().Id = id;
             NetworkServer.Spawn(model);
         }
         inUse.Add(model);
