@@ -546,7 +546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ea6ce69afebbc439061db8c354514e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextVersion: -1
+  nextVersion: 1
 --- !u!114 &11424126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -736,7 +736,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: nextVersion
-      value: Tower2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage

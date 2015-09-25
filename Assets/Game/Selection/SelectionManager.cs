@@ -75,6 +75,11 @@ public class SelectionManager : MonoBehaviour
         if (selections.Count == 0)
             return;
 
+        foreach (GameObject obj in selections)
+        {
+            Tile tile = obj.GetComponent<Tile>();
+            player.CmdRequestUpgrade(tile.Id);
+        }
     }
 
     public void selectNew(GameObject obj)
