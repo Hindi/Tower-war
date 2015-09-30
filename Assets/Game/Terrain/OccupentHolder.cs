@@ -27,8 +27,8 @@ public class OccupentHolder : NetworkBehaviour
             if(isServer && !isClient)
             {
                 RpcAddOccupent(occ);
-                EventManager.Raise(EnumEvent.TILEMAPUPDATE);
             }
+            EventManager.Raise(EnumEvent.TILEMAPUPDATE);
 
             occupent.GetComponent<OccupentTileInfos>().Tile = tile;
             occupent.GetComponent<OccupentTileInfos>().Zone = tile.Zone;
