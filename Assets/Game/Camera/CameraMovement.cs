@@ -6,6 +6,8 @@ public class CameraMovement : MonoBehaviour {
     private Vector3 goalPosition;
     private Vector3 startPosition;
 
+    private int goToYOffset = 2;
+
     [SerializeField]
     private float speed;
 
@@ -137,5 +139,11 @@ public class CameraMovement : MonoBehaviour {
         transform.position = Vector3.Lerp(transform.position, goalPosition, speed * Time.deltaTime);
         myCamera.fieldOfView = Mathf.Lerp(myCamera.fieldOfView, zoomGoal, 0.3f);
         nextMove = Vector3.zero;
+    }
+
+    public void goToPosition(Vector3 position)
+    {
+        goalPosition.x = position.x;
+        goalPosition.y = position.y - goToYOffset;
     }
 }

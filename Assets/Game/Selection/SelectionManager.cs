@@ -11,6 +11,8 @@ public class SelectionManager : MonoBehaviour
     [SerializeField]
     private Player player;
 
+    private CameraMovement cameraMovement;
+
     private List<GameObject> selections;
 
     private static SelectionManager instance;
@@ -26,10 +28,12 @@ public class SelectionManager : MonoBehaviour
 
     void Start()
     {
+        cameraMovement = Camera.main.GetComponent<CameraMovement>();
         selections = new List<GameObject>();
         ControlsManager.Instance.addKeyListener(InputAction.sell, onSell);
         ControlsManager.Instance.addKeyListener(InputAction.upgrade, onUpgrade);
         ControlsManager.Instance.addKeyListener(InputAction.clearSelection, onClear);
+        ControlsManager.Instance.addKeyListener(InputAction.focusOnTarget, onFocusOnTarget);
     }
 
     void OnDestroy()
@@ -37,6 +41,7 @@ public class SelectionManager : MonoBehaviour
         ControlsManager.Instance.removeKeyListener(InputAction.sell, onSell);
         ControlsManager.Instance.removeKeyListener(InputAction.upgrade, onUpgrade);
         ControlsManager.Instance.removeKeyListener(InputAction.clearSelection, onClear);
+        ControlsManager.Instance.removeKeyListener(InputAction.focusOnTarget, onFocusOnTarget);
     }
 
     private void clearLlist()
@@ -48,6 +53,16 @@ public class SelectionManager : MonoBehaviour
                 tmi.resetToIdle();
         }
         selections.Clear();
+    }
+
+    public void onFocusOnTarget()
+    {
+        if (selections.Count == 0)
+            return;
+
+        if(cameraMovement != null)
+            cameraMovement.goToPosition(selections[0].transform.position);
+
     }
 
     public void onSell()
