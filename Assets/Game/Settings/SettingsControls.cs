@@ -192,6 +192,7 @@ public class SettingsControls : SettingsAbstract
         inputs.Add(InputAction.escape, new Combinaison(false, KeyCode.Escape, KeyCode.None));
         inputs.Add(InputAction.focusOnTarget, new Combinaison(false, KeyCode.Space, KeyCode.None));
         inputs.Add(InputAction.multipleSelection, new Combinaison(true, KeyCode.LeftControl, KeyCode.Mouse0));
+        inputs.Add(InputAction.clearSelection, new Combinaison(false, KeyCode.Escape, KeyCode.None));
         inputs.Add(InputAction.build, new Combinaison(true, KeyCode.LeftShift, KeyCode.Mouse0));
 
         inputs.Add(InputAction.selectionGroup1, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha1));

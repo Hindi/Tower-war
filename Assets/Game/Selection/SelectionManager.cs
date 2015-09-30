@@ -29,12 +29,14 @@ public class SelectionManager : MonoBehaviour
         selections = new List<GameObject>();
         ControlsManager.Instance.addKeyListener(InputAction.sell, onSell);
         ControlsManager.Instance.addKeyListener(InputAction.upgrade, onUpgrade);
+        ControlsManager.Instance.addKeyListener(InputAction.clearSelection, onClear);
     }
 
     void OnDestroy()
     {
         ControlsManager.Instance.removeKeyListener(InputAction.sell, onSell);
         ControlsManager.Instance.removeKeyListener(InputAction.upgrade, onUpgrade);
+        ControlsManager.Instance.removeKeyListener(InputAction.clearSelection, onClear);
     }
 
     private void clearLlist()
@@ -80,6 +82,14 @@ public class SelectionManager : MonoBehaviour
             Tile tile = obj.GetComponent<Tile>();
             player.CmdRequestUpgrade(tile.Id);
         }
+    }
+
+    public void onClear()
+    {
+        if (selections.Count == 0)
+            return;
+
+        clearLlist();
     }
 
     public void selectNew(GameObject obj)

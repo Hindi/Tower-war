@@ -51,7 +51,8 @@ public class Purse : NetworkBehaviour {
     [ClientRpc]
     public void RpcSubstract(int amount)
     {
-        currentAmount -= amount;
+        if (!isClient)
+            currentAmount -= amount;
         updateUI();
     }
 }

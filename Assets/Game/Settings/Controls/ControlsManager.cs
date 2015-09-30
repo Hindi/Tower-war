@@ -13,6 +13,7 @@ public enum InputAction
     scrollDown,
     build,
     multipleSelection,
+    clearSelection,
     selectionGroup1,
     selectionGroup2,
     selectionGroup3,
