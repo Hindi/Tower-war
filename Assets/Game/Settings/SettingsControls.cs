@@ -90,6 +90,14 @@ public class SettingsControls : SettingsAbstract
 		PlayerPrefs.DeleteAll();
     }
 
+    public Combinaison getInputCombinaison(InputAction input)
+    {
+        if (inputs.ContainsKey(input))
+            return inputs[input];
+
+        return null;
+    }
+
     public void tryAddCombinaison(Combinaison keys, InputAction action, Action<Combinaison> callback)
     {
         bool hasDouble = false;
@@ -195,13 +203,21 @@ public class SettingsControls : SettingsAbstract
         inputs.Add(InputAction.clearSelection, new Combinaison(false, KeyCode.Escape, KeyCode.None));
         inputs.Add(InputAction.build, new Combinaison(true, KeyCode.LeftShift, KeyCode.Mouse0));
 
-        inputs.Add(InputAction.selectionGroup1, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha1));
-        inputs.Add(InputAction.selectionGroup2, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha2)); 
-        inputs.Add(InputAction.selectionGroup3, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha3));
-        inputs.Add(InputAction.selectionGroup4, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha4));
-        inputs.Add(InputAction.selectionGroup5, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha5));
-        inputs.Add(InputAction.selectionGroup6, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha6));
-        inputs.Add(InputAction.selectionGroup7, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha7));
+        inputs.Add(InputAction.addSelectionGroup1, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha1));
+        inputs.Add(InputAction.addSelectionGroup2, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha2));
+        inputs.Add(InputAction.addSelectionGroup3, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha3));
+        inputs.Add(InputAction.addSelectionGroup4, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha4));
+        inputs.Add(InputAction.addSelectionGroup5, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha5));
+        inputs.Add(InputAction.addSelectionGroup6, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha6));
+        inputs.Add(InputAction.addSelectionGroup7, new Combinaison(false, KeyCode.LeftShift, KeyCode.Alpha7));
+
+        inputs.Add(InputAction.selectGroup1, new Combinaison(false, KeyCode.Alpha1, KeyCode.None));
+        inputs.Add(InputAction.selectGroup2, new Combinaison(false, KeyCode.Alpha2, KeyCode.None));
+        inputs.Add(InputAction.selectGroup3, new Combinaison(false, KeyCode.Alpha3, KeyCode.None));
+        inputs.Add(InputAction.selectGroup4, new Combinaison(false, KeyCode.Alpha4, KeyCode.None));
+        inputs.Add(InputAction.selectGroup5, new Combinaison(false, KeyCode.Alpha5, KeyCode.None));
+        inputs.Add(InputAction.selectGroup6, new Combinaison(false, KeyCode.Alpha6, KeyCode.None));
+        inputs.Add(InputAction.selectGroup7, new Combinaison(false, KeyCode.Alpha7, KeyCode.None));
 
         inputs.Add(InputAction.selectTower1, new Combinaison(false, KeyCode.F1, KeyCode.None));
         inputs.Add(InputAction.selectTower2, new Combinaison(false, KeyCode.F2, KeyCode.None));

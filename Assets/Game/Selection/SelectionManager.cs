@@ -5,15 +5,37 @@ using System.Collections.Generic;
 
 public class SelectionManager : MonoBehaviour 
 {
+    class SelectionGroup
+    {
+        public List<GameObject> selections;
+
+        public SelectionGroup()
+        {
+            selections = new List<GameObject>();
+        }
+
+        public void tryAddElement(GameObject obj)
+        {
+            if (selections.Contains(obj))
+                selections.Remove(obj);
+            else
+                selections.Add(obj);
+        }
+    }
+
     [SerializeField]
     private UIConfirm uiconfirm;
 
     [SerializeField]
     private Player player;
 
+    [SerializeField]
+    private SettingsControls settingsControls;
+
     private CameraMovement cameraMovement;
 
     private List<GameObject> selections;
+    private SelectionGroup[] selectionGroups;
 
     private static SelectionManager instance;
     public static SelectionManager Instance
@@ -26,6 +48,8 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
+    private const int SELECTION_GROUP_COUNT = 7;
+
     void Start()
     {
         cameraMovement = Camera.main.GetComponent<CameraMovement>();
@@ -34,6 +58,21 @@ public class SelectionManager : MonoBehaviour
         ControlsManager.Instance.addKeyListener(InputAction.upgrade, onUpgrade);
         ControlsManager.Instance.addKeyListener(InputAction.clearSelection, onClear);
         ControlsManager.Instance.addKeyListener(InputAction.focusOnTarget, onFocusOnTarget);
+
+        selectionGroups = new SelectionGroup[SELECTION_GROUP_COUNT];
+        for(int i = 0; i < SELECTION_GROUP_COUNT; ++i)
+        {
+            selectionGroups[i] = new SelectionGroup();
+            int id = i;
+            ControlsManager.Instance.addKeyListener(InputAction.selectGroup1 + i, delegate()
+            {
+                onSelectGroup(id);
+            });
+            ControlsManager.Instance.addKeyListener(InputAction.addSelectionGroup1 + i, delegate()
+            {
+                onAddToSelectGroup(id);
+            });
+        }
     }
 
     void OnDestroy()
@@ -62,7 +101,46 @@ public class SelectionManager : MonoBehaviour
 
         if(cameraMovement != null)
             cameraMovement.goToPosition(selections[0].transform.position);
+    }
 
+    public void onSelectGroup(int i)
+    {
+        Combinaison addToGroupKey = settingsControls.getInputCombinaison(InputAction.addSelectionGroup1);
+
+        //Don't select the group if the player wanted to add a tower in this group (add : shift + 0, select : 0)
+        if (Input.GetKey(addToGroupKey[0]))
+            return;
+
+        //Don't clear the list if the selection group is empty
+        if (selectionGroups[i].selections.Count == 0)
+            return;
+
+        clearLlist();
+
+        for (int j = 0; j < selectionGroups[i].selections.Count; ++j)
+        {
+            GameObject obj = selectionGroups[i].selections[j];
+            OccupentHolder oh = obj.GetComponent<OccupentHolder>();
+            if(oh != null)
+            {
+                if (oh.IsOccupied)
+                {
+                    selections.Add(obj);
+                    obj.GetComponent<SpriteSwitcher>().setSelected();
+                }
+                else
+                    selectionGroups[i].selections.Remove(obj);
+            }
+
+        }
+    }
+
+    public void onAddToSelectGroup(int i)
+    {
+        selections.ForEach(s =>
+        {
+            selectionGroups[i].tryAddElement(s);
+        });
     }
 
     public void onSell()
