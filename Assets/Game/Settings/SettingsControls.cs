@@ -145,7 +145,7 @@ public class SettingsControls : SettingsAbstract
             GameObject obj = (GameObject)Instantiate(controlLinePrefab);
             SettingsControlLine scl = obj.GetComponent<SettingsControlLine>();
             obj.GetComponent<KeyCombinaisonCatcher>().PressedKey = p.Value;
-            scl.Title = p.Key.ToString();
+            scl.Title = TextDB.Instance().getText(p.Key.ToString());
             scl.Action = p.Key;
             scl.KeyTextPlaceHolder = p.Value.ToString();
             scl.SettingControl = this;
@@ -197,7 +197,6 @@ public class SettingsControls : SettingsAbstract
         inputs.Clear();
         inputs.Add(InputAction.sell, new Combinaison(false, KeyCode.S, KeyCode.None));
         inputs.Add(InputAction.upgrade, new Combinaison(false, KeyCode.U, KeyCode.None));
-        inputs.Add(InputAction.escape, new Combinaison(false, KeyCode.Escape, KeyCode.None));
         inputs.Add(InputAction.focusOnTarget, new Combinaison(false, KeyCode.Space, KeyCode.None));
         inputs.Add(InputAction.multipleSelection, new Combinaison(true, KeyCode.LeftControl, KeyCode.Mouse0));
         inputs.Add(InputAction.clearSelection, new Combinaison(false, KeyCode.Escape, KeyCode.None));

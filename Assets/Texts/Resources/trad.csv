@@ -1,6 +1,35 @@
-confirmApplySettings;Voulez-vous conserver ces paramètres ?;TODO
-confirmAlreadyUsedKeys;Ce raccourci est déjà utilisé pour %0, voulez-vous l'écraser ?;TODO
-confirm;Confirmer;Confirm
-cancel;Annuler;Cancel
-sellOneTower;Etes-vous sur de vouloir vendre cette tour ?;TODO
-sellSeveralTower;Êtes-vous sur de vouloir vendre ces tours ?;TODO
+confirmApplySettings;Voulez-vous conserver ces paramètres ?;TODO;
+confirmAlreadyUsedKeys;Ce raccourci est déjà utilisé pour %0, voulez-vous l'écraser ?;TODO;
+confirm;Confirmer;Confirm;
+cancel;Annuler;Cancel;
+sellOneTower;Etes-vous sur de vouloir vendre cette tour ?;TODO;
+sellSeveralTower;Êtes-vous sur de vouloir vendre ces tours ?;TODO;
+sell;Vendre;Sell;
+upgrade;Améliorer;Upgrade;
+focusOnTarget;Se déplacer vers la sélection;Move to selection;
+zoomIn;Zoomer;Zoom in;
+zoomOut;Dézoomer;Zoom out;
+build;Construire;Build;
+multipleSelection;Toggle de élection multiple;Multiple selection toggle;
+clearSelection;Déselectionner;Clear selection;
+addSelectionGroup1;Ajouter l'élément au groupe 1;Add selection to group 1;
+addSelectionGroup2;Ajouter l'élément au groupe 2;Add selection to group 2;
+addSelectionGroup3;Ajouter l'élément au groupe 3;Add selection to group 3;
+addSelectionGroup4;Ajouter l'élément au groupe 4;Add selection to group 4;
+addSelectionGroup5;Ajouter l'élément au groupe 5;Add selection to group 5;
+addSelectionGroup6;Ajouter l'élément au groupe 6;Add selection to group 6;
+addSelectionGroup7;Ajouter l'élément au groupe 7;Add selection to group 7;
+selectGroup1;Sélectionner le groupe 1;Select group 1;
+selectGroup2;Sélectionner le groupe 2;Select group 2;
+selectGroup3;Sélectionner le groupe 3;Select group 3;
+selectGroup4;Sélectionner le groupe 4;Select group 4;
+selectGroup5;Sélectionner le groupe 5;Select group 5;
+selectGroup6;Sélectionner le groupe 6;Select group 6;
+selectGroup7;Sélectionner le groupe 7;Select group 7;
+selectTower1;Séléctionner la tour 1 à construire;TODO;Select tower to build ? :c
+selectTower2;Séléctionner la tour 2 à construire;TODO;
+selectTower3;Séléctionner la tour 3 à construire;TODO;
+selectTower4;Séléctionner la tour 4 à construire;TODO;
+selectTower5;Séléctionner la tour 5 à construire;TODO;
+selectTower6;Séléctionner la tour 6 à construire;TODO;
+selectTower7;Séléctionner la tour 7 à construire;TODO;

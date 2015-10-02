@@ -7,10 +7,9 @@ public enum InputAction
 {
     sell,
     upgrade,
-    escape,
     focusOnTarget,
-    scrollUp,
-    scrollDown,
+    zoomIn,
+    zoomOut,
     build,
     multipleSelection,
     clearSelection,

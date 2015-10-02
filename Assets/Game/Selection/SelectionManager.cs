@@ -37,6 +37,8 @@ public class SelectionManager : MonoBehaviour
     private List<GameObject> selections;
     private SelectionGroup[] selectionGroups;
 
+    private int currentlySelectedGroup = -1;
+
     private static SelectionManager instance;
     public static SelectionManager Instance
     {
@@ -92,6 +94,7 @@ public class SelectionManager : MonoBehaviour
                 tmi.resetToIdle();
         }
         selections.Clear();
+        currentlySelectedGroup = -1;
     }
 
     public void onFocusOnTarget()
@@ -103,6 +106,15 @@ public class SelectionManager : MonoBehaviour
             cameraMovement.goToPosition(selections[0].transform.position);
     }
 
+    private void cleanSelectionList(List<GameObject> list)
+    {
+        list.ForEach(obj =>
+        {
+            if (!obj.GetComponent<OccupentHolder>().IsOccupied)
+                list.Remove(obj);
+        });
+    }
+
     public void onSelectGroup(int i)
     {
         Combinaison addToGroupKey = settingsControls.getInputCombinaison(InputAction.addSelectionGroup1);
@@ -111,11 +123,14 @@ public class SelectionManager : MonoBehaviour
         if (Input.GetKey(addToGroupKey[0]))
             return;
 
+        cleanSelectionList(selectionGroups[i].selections);
+
         //Don't clear the list if the selection group is empty
         if (selectionGroups[i].selections.Count == 0)
             return;
 
         clearLlist();
+        currentlySelectedGroup = i;
 
         for (int j = 0; j < selectionGroups[i].selections.Count; ++j)
         {
@@ -123,13 +138,8 @@ public class SelectionManager : MonoBehaviour
             OccupentHolder oh = obj.GetComponent<OccupentHolder>();
             if(oh != null)
             {
-                if (oh.IsOccupied)
-                {
-                    selections.Add(obj);
-                    obj.GetComponent<SpriteSwitcher>().setSelected();
-                }
-                else
-                    selectionGroups[i].selections.Remove(obj);
+                selections.Add(obj);
+                obj.GetComponent<SpriteSwitcher>().setSelected();
             }
 
         }
@@ -162,6 +172,7 @@ public class SelectionManager : MonoBehaviour
                 }
             }
             selections.Clear();
+            cleanSelectionList(selectionGroups[currentlySelectedGroup].selections);
         });
     }
 
@@ -194,5 +205,6 @@ public class SelectionManager : MonoBehaviour
     public void selectAnother(GameObject obj)
     {
         selections.Add(obj);
+        obj.GetComponent<SpriteSwitcher>().setSelected();
     }
 }
