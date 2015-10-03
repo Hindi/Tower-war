@@ -3,6 +3,8 @@ using System.Collections;
 
 public class TowerBuilder : MonoBehaviour {
 
+    private const int SELECTION_TOWER_COUNT = 7;
+
     private static TowerBuilder instance;
 
     public static TowerBuilder Instance
@@ -38,6 +40,21 @@ public class TowerBuilder : MonoBehaviour {
     {
         selectedTower = -1;
         UIBuild.upgrade(catalog);
+
+
+        for (int i = 0; i < SELECTION_TOWER_COUNT; ++i)
+        {
+            int id = i;
+            ControlsManager.Instance.addKeyListener(InputAction.selectTower1 + i, delegate()
+            {
+                onSelectTower(id);
+            });
+        }
+    }
+
+    public void onSelectTower(int id)
+    {
+        selectedTower = id;
     }
 
     public bool build(int index, Tile tile)
