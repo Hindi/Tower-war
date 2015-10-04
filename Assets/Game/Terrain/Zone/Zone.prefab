@@ -5092,7 +5092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: addbec438c43dc94f97fe2154661a260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startAmount: 100
+  startAmount: 10000
   incomeCanvas: {fileID: 11482448}
 --- !u!114 &11452090
 MonoBehaviour:
@@ -10741,6 +10741,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: incomeCooldown
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: startAmount
+      value: 10000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

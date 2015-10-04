@@ -47,8 +47,11 @@ public class TowerStats : MonoBehaviour
 
         money.Price = price;
         money.UpgradePrice = upgradePrice;
-        focus.Radius = radius;
-        cannon.FireCooldown = fireCooldown;
-        head.Speed = speed;
+        if(focus != null)
+            focus.Radius = radius;
+        if(cannon != null)
+            cannon.FireCooldown = fireCooldown;
+        if(head != null)
+            head.Speed = speed;
     }
 }
