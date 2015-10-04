@@ -172,7 +172,8 @@ public class SelectionManager : MonoBehaviour
                 }
             }
             selections.Clear();
-            cleanSelectionList(selectionGroups[currentlySelectedGroup].selections);
+            if(currentlySelectedGroup != -1)
+                cleanSelectionList(selectionGroups[currentlySelectedGroup].selections);
         });
     }
 
