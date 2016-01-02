@@ -50,7 +50,6 @@ public class UIHealthBar : NetworkBehaviour {
     {
         initialize(obj);
         RpcInit(obj);
-        reset();
     }
 
     [ClientRpc]
@@ -63,7 +62,6 @@ public class UIHealthBar : NetworkBehaviour {
     public void RpcInit(GameObject obj)
     {
         initialize(obj);
-        reset();
     }
 
     [ClientRpc]

@@ -208,4 +208,10 @@ public class SelectionManager : MonoBehaviour
         selections.Add(obj);
         obj.GetComponent<SpriteSwitcher>().setSelected();
     }
+
+    public void selectByType(GameObject obj)
+    {
+        clearLlist();
+        Debug.Log("pouet");
+    }
 }

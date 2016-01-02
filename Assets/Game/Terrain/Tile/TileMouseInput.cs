@@ -9,10 +9,12 @@ public class TileMouseInput : InterractableTerrainElement
 
     Tile tile;
     Player player;
+    float lastClickedTime;
 
     void Start()
     {
         tile = GetComponent<Tile>();
+        lastClickedTime = 0;
     }
 
     public void setPlayer(Player p)
@@ -67,8 +69,13 @@ public class TileMouseInput : InterractableTerrainElement
                 }
                 else
                 {
-                    SelectionManager.Instance.selectNew(gameObject);
+                    if (Time.time - lastClickedTime < 0.3f)
+                        SelectionManager.Instance.selectByType(gameObject);
+                    else
+                        SelectionManager.Instance.selectNew(gameObject);
                 }
+
+                lastClickedTime = Time.time;
             }
         }
     }
